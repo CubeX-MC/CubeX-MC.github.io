@@ -14,10 +14,8 @@ body::before {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: url('../imgs/commune.png') no-repeat center center fixed;
-    background-size: cover;
-    background: url('../imgs/background.png') no-repeat center center fixed; /* Retaining a background image, but will change it if needed */
-    background-size: cover;
+    background: url('../imgs/commune.png') no-repeat center center fixed !important; /* Ensure commune.png is used */
+    background-size: cover !important;
     /* filter: blur(5px) opacity(0.5); */ /* Removed blur and opacity */
     z-index: -2;
 }
@@ -34,32 +32,64 @@ body::after { /* Gradient overlay - changed to a dark theme */
     z-index: -1;
 }
 
-/* Pixel Font base for specific elements */
-.pixel-font,
-h1.text-shadow,
+/* Base font for specific elements that previously used pixel font */
+.pixel-font, /* keeping class selector if used elsewhere, but changing font */
 .card h2,
 .btn,
 #server-ip,
 .status-online,
 .status-offline,
 footer {
-    font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
-    font-weight: normal !important; /* Pixel fonts usually have one weight */
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif !important;
+    font-weight: normal !important; /* Or adjust as needed, e.g. 400 or 700 for bold */
+    text-transform: none; /* Remove uppercase styling */
+    letter-spacing: normal; /* Reset letter spacing */
 }
 
-h1.text-shadow { /* Main page title */
-    font-size: 1.7rem; /* Adjusted for pixel font */
-    line-height: 1.3;
-    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.7); /* Darker shadow for better contrast on light text */
-    color: #ff4444; /* Brighter Red for dark background */
-    transition: color 0.2s ease-in-out, text-shadow 0.2s ease-in-out;
+/* Ensure h1.text-shadow (if it still exists or is a fallback) uses non-pixel font.
+   It was already changed to h1.main-title which is handled below.
+   If h1.text-shadow is still used by other elements, this will catch it. */
+h1.text-shadow {
+    font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif !important;
+    text-transform: none;
+    letter-spacing: normal;
 }
 
-h1.text-shadow:hover {
-    color: #ff6666; /* Even brighter red on hover */
-    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.7), 0 0 8px rgba(255, 102, 102, 0.5); /* Add a subtle glow */
+
+/* Main Title Styling */
+h1.main-title {
+    font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif; /* Non-pixel font */
+    font-size: 2.8rem; /* Larger base size */
+    line-height: 1.4;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Softer shadow */
+    display: flex; /* For alignment */
+    flex-direction: column; /* Stack CubeX and subtitle */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically if wrapped */
+    color: #e0e0e0; /* Default light color for subtitle */
+}
+
+.title-cubex {
+    display: inline-block; /* Allows margin/padding if needed */
+}
+
+.title-cube {
+    color: #CC0000; /* Red */
+}
+
+.title-x {
+    color: #FFFFFF; /* White */
+}
+
+.title-subtitle {
+    font-size: 1.5rem; /* Smaller size for subtitle */
+    color: #c0c0c0; /* Slightly dimmer white/gray */
+    margin-top: 5px; /* Space between CubeX and subtitle */
+    font-weight: normal; /* Not bold, to contrast with CubeX */
+}
+
+h1.main-title b { /* Ensure bolding applies if needed, but font-weight is preferred on spans */
+    font-weight: 700; /* Bold for CubeX part */
 }
 
 
@@ -78,7 +108,7 @@ header {
     /* border: none; */ /* Will be overridden by the specific border style below */
     box-shadow: 0px 0px 15px rgba(0,0,0,0.3); /* Subtle shadow for depth */
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background 0.2s ease-out; /* Smoother transitions */
-    image-rendering: pixelated; /* Helps if images were used */
+    /* image-rendering: pixelated; */ /* Removed for smoother look */
     position: relative; /* Needed for pseudo-elements */
     border: 2px solid #770000; /* Dark red solid border */
 }
@@ -113,23 +143,24 @@ header {
 
 #server-ip {
     color: #39e65f; /* Bright green */
-    font-size: 0.9rem;
+    font-size: 1rem; /* Slightly larger */
     text-shadow: 1px 1px 0px rgba(0,0,0,0.9); /* Stronger black shadow for green text for better separation */
 }
 
 .btn-custom-size { /* This class is on <a> tags acting as buttons */
-    padding: 12px 18px !important;
-    font-size: 0.75rem !important; /* Adjusted for pixel font */
+    padding: 12px 20px !important; /* Slightly more padding */
+    font-size: 0.9rem !important; /* Adjusted for standard font */
 }
 
 .btn { /* Style for actual <button> or .btn elements */
-    border-radius: 0px !important;
-    transition: transform 0.05s linear, background-color 0.1s linear, box-shadow 0.05s linear !important;
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.3) !important;
-    border-width: 3px !important;
+    border-radius: 4px !important; /* Slightly rounded corners */
+    transition: transform 0.1s ease-out, background-color 0.15s ease-out, box-shadow 0.1s ease-out !important; /* Smoother transitions */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2) !important; /* Softer shadow */
+    border-width: 2px !important; /* Slightly thinner border */
     border-style: solid !important;
     color: #fff !important;
-    image-rendering: pixelated;
+    /* image-rendering: pixelated; */ /* Removed for smoother look */
+    font-weight: bold !important;
 }
 
 .btn:hover {
@@ -194,31 +225,47 @@ header {
     margin-right: 5px;
     width: 28px; /* Slightly smaller icon */
     height: 28px;
-    image-rendering: pixelated;
+    /* image-rendering: pixelated; */ /* Removed for a smoother icon */
 }
 .navbar-brand span.hidden b { /* "方块叉 CubeX" part */
-    font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
-    font-size: 1rem !important;
-    color: #ffffff; /* White text */
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.3); /* Softer shadow */
+    font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif; /* Non-pixel font */
+    font-size: 1.1rem !important; /* Adjusted size */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4); /* Softer shadow */
+}
+
+.navbar-brand .brand-red {
+    color: #CC0000; /* Red */
+}
+.navbar-brand .brand-white {
+    color: #FFFFFF; /* White */
 }
 
 .navbar-nav .nav-link {
     margin-right: 0.5rem;
-    font-size: 0.75rem !important; /* Adjusted for pixel font */
-    transition: color 0.2s ease;
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.2); /* Softer shadow */
+    font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif; /* Non-pixel font for nav links */
+    font-size: 0.9rem !important; /* Adjusted size */
+    transition: color 0.2s ease, background-color 0.2s ease;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1); /* Softer shadow */
     color: #f0f0f0 !important; /* Lighter default link color */
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 4px; /* Slightly rounded corners for hover effect */
 }
-.navbar-nav .nav-link b {
-    font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
-    color: #ffffff; /* Ensure bold parts are white */
+.navbar-nav .nav-link b { /* For bold text within nav links, like "主页" */
+    font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif; /* Ensure consistency */
+    font-weight: bold; /* Explicitly bold */
+    color: #FFFFFF;
 }
 
 .navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:focus {
+    color: #FFFFFF !important;
+    background-color: rgba(204, 0, 0, 0.7); /* Darker red, or a shade of gray like rgba(255,255,255,0.1) */
+    text-shadow: none; /* Remove shadow on hover for a flatter, cleaner look */
+}
 .navbar-brand:hover span.hidden b {
-    color: #FFD700 !important; /* Gold hover - kept as it contrasts well with red */
+    /* Optional: if you want the brand text to also change color on hover */
+    /* color: #FF6666 !important; */
 }
 
 
@@ -243,16 +290,17 @@ header {
     font-size: 0.95rem;
     color: #b0b0b0; /* Light grey for details on dark background */
 }
-.hanggao p .pixel-font { /* Specifically for status text like Online/Offline */
-     font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
+.hanggao p .pixel-font { /* Specifically for status text like Online/Offline - now uses standard font */
+     font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif !important;
      font-size: 0.9rem !important;
-     text-transform: uppercase;
-     letter-spacing: 1px;
+     text-transform: none; /* Reset */
+     letter-spacing: normal; /* Reset */
 }
 
 .hanggao h3 { /* Server names like "主服务器" */
-     font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
-     font-size: 1rem;
+     font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif !important;
+     font-size: 1.1rem; /* Slightly larger */
+     font-weight: bold; /* Make it bold */
      margin-bottom: 1rem;
      color: #ff6666; /* Brighter Red for server names on dark background */
      text-shadow: 2px 2px 0px rgba(0,0,0,0.3); /* Slightly stronger shadow */
@@ -328,13 +376,16 @@ footer a:hover {
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
     }
-    h1.text-shadow {
-        font-size: 2rem;
+    h1.main-title { /* Updated selector */
+        font-size: 3.2rem; /* Adjusted size for larger screens */
     }
-    .card h2 { font-size: 1.3rem; }
-    .btn-custom-size { font-size: 0.8rem !important; }
-    .navbar-nav .nav-link { font-size: 0.8rem !important; }
-    .navbar-brand span.hidden b { font-size: 1.1rem !important; }
+    .title-subtitle {
+        font-size: 1.8rem; /* Adjusted size for larger screens */
+    }
+    .card h2 { font-size: 1.4rem; } /* Slightly larger card titles */
+    .btn-custom-size { font-size: 1rem !important; } /* Larger buttons */
+    .navbar-nav .nav-link { font-size: 1rem !important; } /* Larger nav links */
+    .navbar-brand span.hidden b { font-size: 1.2rem !important; } /* Larger brand text */
 }
 
 
