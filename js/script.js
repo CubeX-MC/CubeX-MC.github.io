@@ -58,8 +58,7 @@ async function fetchServerStatus(server) {
 document.addEventListener('DOMContentLoaded', () => {
     const servers = [
         { id: 'main', ip: 'play.cubexmc.top', name: '主服务器' },
-        { id: 'nostalgia', ip: 'old.cubexmc.org', name: '怀旧服' },
-        { id: 'HXLS', ip: 's2.Wemc.cc:13445', name: 'HXLS服务器' }
+        { id: 'nostalgia', ip: 'old.cubexmc.org', name: '怀旧服' }
     ];
 
     servers.forEach(server => {
