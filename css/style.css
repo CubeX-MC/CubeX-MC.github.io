@@ -173,6 +173,7 @@ header {
 .navbar-nav .nav-link:focus,
 .navbar-brand:hover span.hidden b {
     color: #ffd700 !important; /* Gold hover */
+
 }
 
 
@@ -313,3 +314,4 @@ footer a:hover {
 .row > .col-md-6:nth-child(2) > .card:nth-child(1) { animation-delay: 0.1s; }
 .row > .col-md-6:nth-child(2) > .card:nth-child(2) { animation-delay: 0.15s; }
 .row > .col-md-6:nth-child(2) > .card:nth-child(3) { animation-delay: 0.2s; }
+
