@@ -2,7 +2,7 @@
 body {
     font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif;
     margin: 0;
-    color: #333333; /* Darker text for better readability on light background */
+    color: #e0e0e0; /* Lighter text for better readability on dark background */
     overflow-x: hidden;
     position: relative;
 }
@@ -16,18 +16,21 @@ body::before {
     height: 100vh;
     background: url('../imgs/commune.png') no-repeat center center fixed;
     background-size: cover;
-    filter: blur(5px) opacity(0.5); /* Reduced opacity */
+    background: url('../imgs/background.png') no-repeat center center fixed; /* Retaining a background image, but will change it if needed */
+    background-size: cover;
+    /* filter: blur(5px) opacity(0.5); */ /* Removed blur and opacity */
     z-index: -2;
 }
 
-body::after { /* Gradient overlay */
+body::after { /* Gradient overlay - changed to a dark theme */
     content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, rgba(255, 235, 235, 0.7) 0%, rgba(255, 255, 255, 0.85) 100%); /* Light red to white gradient */
+    /* background: linear-gradient(135deg, rgba(255, 235, 235, 0.7) 0%, rgba(255, 255, 255, 0.85) 100%); */
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.85) 0%, rgba(10, 10, 10, 0.95) 100%); /* Dark gradient */
     z-index: -1;
 }
 
@@ -49,8 +52,14 @@ footer {
 h1.text-shadow { /* Main page title */
     font-size: 1.7rem; /* Adjusted for pixel font */
     line-height: 1.3;
-    text-shadow: 3px 3px 0px rgba(180, 0, 0, 0.5); /* Red shadow for pixel font */
-    color: #cc0000; /* Main title color - Red */
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.7); /* Darker shadow for better contrast on light text */
+    color: #ff4444; /* Brighter Red for dark background */
+    transition: color 0.2s ease-in-out, text-shadow 0.2s ease-in-out;
+}
+
+h1.text-shadow:hover {
+    color: #ff6666; /* Even brighter red on hover */
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.7), 0 0 8px rgba(255, 102, 102, 0.5); /* Add a subtle glow */
 }
 
 
@@ -61,49 +70,51 @@ header {
 
 /* 组件样式 */
 .card {
-    background: rgba(255, 255, 255, 0.85); /* Whiter card background */
-    backdrop-filter: blur(2px); /* Minimal blur */
+    background: rgba(20, 20, 20, 0.75); /* Dark, slightly transparent background for cards */
+    backdrop-filter: blur(5px); /* Increased blur for a smoother look */
     border-radius: 0px; /* Sharp corners */
     padding: 20px;
     margin-bottom: 25px;
-    border: none; /* Removed existing border */
-    box-shadow: none; /* Removed existing box-shadow */
-    transition: transform 0.1s linear;
+    /* border: none; */ /* Will be overridden by the specific border style below */
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.3); /* Subtle shadow for depth */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background 0.2s ease-out; /* Smoother transitions */
     image-rendering: pixelated; /* Helps if images were used */
     position: relative; /* Needed for pseudo-elements */
+    border: 2px solid #770000; /* Dark red solid border */
 }
 
+/* Remove the ::before and ::after pseudo-elements if they were for the old border style */
 .card::before,
 .card::after {
-    content: '';
-    position: absolute;
-    background-color: #6a6a92; /* Pixel color, will be changed later */
-    image-rendering: pixelated;
+    content: none; /* Disable if not needed for new design */
 }
 
-/* Dotted border effect using repeating linear gradient */
+/* Commenting out the old border-image styling */
+/*
 .card {
-    /* ... existing styles ... */
-    border: 3px dashed #D32F2F; /* Red border color */
-    padding: 20px; /* Ensure padding is consistent */
-    background-clip: padding-box; /* Important for border-image to work as expected */
+    border: 3px dashed #D32F2F;
+    padding: 20px;
+    background-clip: padding-box;
     border-image-source: url("data:image/svg+xml,%3Csvg width='9' height='9' viewBox='0 0 9 9' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3Erect%7Bfill:%23D32F2F%7D%3C/style%3E%3Crect width='3' height='3' x='0' y='0'/%3E%3Crect width='3' height='3' x='6' y='0'/%3E%3Crect width='3' height='3' x='0' y='6'/%3E%3Crect width='3' height='3' x='6' y='6'/%3E%3C/svg%3E");
     border-image-slice: 3;
     border-image-width: 3px;
-    border-image-repeat: round; /* Changed from 'repeat' to 'round' for better corner fitting */
-    border-image-outset: 0px; /* Controls distance of border image from the box edge */
-    box-shadow: none; /* Ensure no other shadows interfere */
+    border-image-repeat: round;
+    border-image-outset: 0px;
+    box-shadow: none;
 }
+*/
 
 .card:hover {
-    transform: translate(1px, 1px); /* Subtle hover effect for flat design */
-    /* No shadow change on hover for flat style */
+    transform: translate(0px, -2px) scale(1.01); /* Lift and slightly scale on hover */
+    box-shadow: 0px 4px 25px rgba(255, 50, 50, 0.3); /* Reddish glow/shadow on hover */
+    background: rgba(30, 30, 30, 0.85); /* Slightly lighter background on hover */
+    border-color: #ff4444; /* Brighter red border on hover */
 }
 
 #server-ip {
     color: #39e65f; /* Bright green */
     font-size: 0.9rem;
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.9); /* Stronger black shadow for green text for better separation */
 }
 
 .btn-custom-size { /* This class is on <a> tags acting as buttons */
@@ -136,18 +147,28 @@ header {
     border-color: #7b241c !important;
 }
 .btn-danger:hover {
-    background-color: #a93226 !important;
-    border-color: #641e16 !important;
+    background-color: #d64538 !important; /* Brighter red on hover */
+    border-color: #a53026 !important; /* Corresponding brighter border */
+    /* Keep the existing transform and box-shadow for pixel effect */
+}
+.btn-danger:active {
+    background-color: #a93226 !important; /* Darker red on active */
+    border-color: #641e16 !important; /* Darker border on active */
 }
 
-.btn-light {
-    background-color: #bdc3c7 !important;
-    border-color: #7f8c8d !important;
-    color: #2c3e50 !important;
+.btn-light { /* Changed to a dark-theme secondary button */
+    background-color: #4a4a4a !important; /* Dark grey background */
+    border-color: #2a2a2a !important; /* Darker grey border */
+    color: #f0f0f0 !important; /* Light text */
 }
 .btn-light:hover {
-    background-color: #a6acaf !important;
-    border-color: #707b7c !important;
+    background-color: #5a5a5a !important; /* Slightly lighter grey on hover */
+    border-color: #3a3a3a !important;
+    color: #ffffff !important;
+}
+.btn-light:active {
+    background-color: #383838 !important; /* Darker grey on active */
+    border-color: #181818 !important; /* Even darker border on active */
 }
 
 .text-shadow { /* General text shadow for non-pixel text if any */
@@ -160,9 +181,9 @@ header {
 }
 
 .navbar {
-    background-color: rgba(204, 0, 0, 0.8); /* Red navbar background */
-    backdrop-filter: blur(5px);
-    border-bottom: 3px solid #b70000; /* Darker red border for navbar */
+    background-color: rgba(139, 0, 0, 0.85); /* Darker Red navbar background for dark theme */
+    backdrop-filter: blur(5px); /* Keep blur for a modern touch */
+    border-bottom: 3px solid #8B0000; /* Even Darker red border for navbar */
 }
 
 .navbar-brand {
@@ -208,6 +229,7 @@ header {
     font-family: 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', 'Roboto', 'Arial', sans-serif !important; /* Revert to normal font for readability */
     text-transform: none; /* Revert */
     letter-spacing: normal; /* Revert */
+    color: #c0c0c0; /* Lighter grey for dark theme */
 }
 
 .hanggao { /* For server status lines */
@@ -219,7 +241,7 @@ header {
     text-transform: none;
     letter-spacing: normal;
     font-size: 0.95rem;
-    color: #555; /* Darker grey for details on light background */
+    color: #b0b0b0; /* Light grey for details on dark background */
 }
 .hanggao p .pixel-font { /* Specifically for status text like Online/Offline */
      font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
@@ -232,8 +254,8 @@ header {
      font-family: 'Press Start 2P', 'Source Han Sans', 'Noto Sans SC', 'WenQuanYi Micro Hei', cursive !important;
      font-size: 1rem;
      margin-bottom: 1rem;
-     color: #D32F2F; /* Red color for server names */
-     text-shadow: 2px 2px 0px rgba(0,0,0,0.2); /* Softer shadow */
+     color: #ff6666; /* Brighter Red for server names on dark background */
+     text-shadow: 2px 2px 0px rgba(0,0,0,0.3); /* Slightly stronger shadow */
 }
 
 
@@ -243,27 +265,27 @@ header {
 
 .card h2 { /* Card Titles like "实时状态" */
     margin-bottom: 1.2rem;
-    color: #c00000; /* Darker Red for card titles */
+    color: #ff5555; /* Brighter Red for card titles on dark background */
     font-size: 1.2rem;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.2); /* Softer shadow */
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.3); /* Slightly stronger shadow */
 }
 
 footer {
     margin-top: 4rem;
     padding-bottom: 2rem;
-    color: #555555; /* Darker grey for footer text */
-    font-size: 0.65rem;
+    color: #aaaaaa; /* Light grey for footer text on dark background */
+    font-size: 0.7rem; /* Slightly increased font size for better readability with pixel font */
     text-align: center;
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.1); /* Very subtle shadow */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.2); /* Subtle shadow */
 }
 
 footer a {
-    color: #c00000; /* Red for links in footer */
+    color: #ff6666; /* Brighter Red for links in footer on dark background */
     text-decoration: none;
 }
 
 footer a:hover {
-    color: #ff3333; /* Lighter Red for hover */
+    color: #ff8888; /* Even Lighter Red for hover */
 }
 
 /* 状态样式 */
@@ -273,26 +295,28 @@ footer a:hover {
 }
 
 .status-online {
-    color: #D32F2F !important; /* Red for online status, as per main color */
-    animation: pulse-pixel-red 1.5s infinite; /* Changed animation name */
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+    color: #ff4444 !important; /* Brighter Red for online status on dark theme */
+    animation: pulse-pixel-red 1.5s infinite;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.5); /* Slightly stronger shadow */
 }
 
 .status-offline {
-    color: #757575 !important; /* Grey for offline status */
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+    color: #aaaaaa !important; /* Light Grey for offline status on dark theme */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.5); /* Slightly stronger shadow */
 }
 
-@keyframes pulse-pixel-red { /* Renamed and color changed */
+@keyframes pulse-pixel-red {
     0% {
-        filter: brightness(90%);
+        filter: brightness(85%);
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.5), 0 0 3px #ff4444;
     }
     50% {
-        filter: brightness(120%);
-        text-shadow: 0 0 4px #D32F2F, 1px 1px 0px rgba(0,0,0,0.3);
+        filter: brightness(125%);
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.5), 0 0 10px #ff6666, 0 0 15px #ff8888;
     }
     100% {
-        filter: brightness(90%);
+        filter: brightness(85%);
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.5), 0 0 3px #ff4444;
     }
 }
 
