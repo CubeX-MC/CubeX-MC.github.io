@@ -1,10 +1,12 @@
 /* 基础样式 */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', 'Arial', sans-serif; /* Updated font */
     margin: 0;
-    background: url('../imgs/commune.png') no-repeat center center fixed;
+    /* background: url('../imgs/commune.png') no-repeat center center fixed; */
+    background: linear-gradient(135deg, #2b2b4e 0%, #1f1f3a 100%); /* New gradient background */
     background-size: cover;
-    color: #fff;
+    color: #e0e0e0; /* Slightly off-white for better readability */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 header {
@@ -14,79 +16,160 @@ header {
 
 /* 组件样式 */
 .card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05); /* Reduced opacity for stronger frost */
+    backdrop-filter: blur(15px); /* Increased blur */
+    border-radius: 15px; /* Slightly more rounded corners */
+    padding: 25px; /* Increased padding */
+    margin-bottom: 25px; /* Increased margin */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Softer, more modern shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45); /* Enhanced shadow on hover */
 }
 
 #server-ip {
-    color: #00ff88;
+    color: #00dd99; /* Brighter IP color */
     font-family: 'Courier New', monospace;
 }
 
 .btn-custom-size {
-    padding: 8px 16px;
-    font-size: 0.9rem;
+    padding: 10px 20px; /* Increased padding for buttons */
+    font-size: 1rem; /* Slightly larger font for buttons */
 }
 
 .btn {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 8px; /* More rounded corners for buttons */
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition */
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2); /* Default shadow */
 }
 
+.btn:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.btn-danger {
+    background-color: #d9534f; /* Standard Bootstrap danger */
+    border-color: #d43f3a;
+}
+.btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.btn-light {
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+    color: #212529;
+}
+.btn-light:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+
 .text-shadow {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Enhanced text shadow for readability */
 }
 
 .container {
-    margin-top: 1rem;
+    margin-top: 1.5rem; /* Slightly more top margin */
+}
+
+.navbar {
+    background-color: rgba(0,0,0,0.3); /* Semi-transparent navbar */
+    backdrop-filter: blur(10px);
 }
 
 .navbar-nav .nav-link {
     margin-right: 0.5rem;
     font-size: 1rem;
+    font-weight: 500; /* Slightly bolder nav links */
+    transition: color 0.2s ease;
 }
 
+.navbar-nav .nav-link:hover, .navbar-brand:hover {
+    color: #ffc107; /* Highlight color on hover for nav items */
+}
+
+
 #management_team, #trial_team, #retired_team {
-    font-size: 18px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 18px; /* Keeping original size, can be adjusted */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Adjusted shadow */
 }
 
 .hanggao {
-    line-height: 0.8
+    line-height: 1; /* Adjusted line-height for better spacing */
 }
 .navbar-brand {
-    font-size: 1.2rem;
+    font-size: 1.3rem; /* Slightly larger brand */
+    font-weight: 700;
 }
 
 .row.text-center {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem; /* Increased margin */
 }
 
 .card h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem; /* Increased margin */
+    font-weight: 700;
+    color: #f0f0f0; /* Lighter card headers */
 }
 
 footer {
-    margin-top: 4rem;
+    margin-top: 5rem; /* Increased margin */
+    padding-bottom: 2rem;
+    color: #aaa; /* Lighter footer text */
+}
+
+footer a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #fff;
 }
 
 /* 状态样式 */
+.status-online, .status-offline {
+    font-weight: bold;
+    font-size: 1.1em; /* Slightly larger status text */
+}
+
 .status-online {
-    color: rgba(0, 128, 0, 0.858);
+    color: #28a745; /* Bootstrap success green */
+    /* Animation for online status - subtle pulse */
+    animation: pulse-green 2s infinite;
 }
 
 .status-offline {
-    color: rgba(255, 0, 0, 0.858);
+    color: #dc3545; /* Bootstrap danger red */
 }
+
+@keyframes pulse-green {
+    0% {
+        text-shadow: 0 0 4px #28a745;
+    }
+    50% {
+        text-shadow: 0 0 10px #28a745, 0 0 15px #28a745;
+    }
+    100% {
+        text-shadow: 0 0 4px #28a745;
+    }
+}
+
 
 /* 响应式设计 */
 @media (min-width: 768px) {
     main {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 25px; /* Increased gap */
     }
 }
 
@@ -99,3 +182,32 @@ footer {
     margin-right: 0.5rem;
     font-size: 1rem;
 }
+
+/* Entrance Animation for cards - simple fade in */
+.card {
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Delay animations for cards to appear sequentially if desired, needs JS or nth-child selectors */
+/* Example for up to 5 cards, can be expanded */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+/* Add more if needed for more cards */
+/* Note: This applies to direct children of a container. If cards are nested differently, this needs adjustment. */
+/* Specifically for the server status and team cards in the current layout: */
+.row > .col-md-6 > .card { /* Targeting cards directly within the columns */
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+}
+.row > .col-md-6:nth-child(1) > .card { animation-delay: 0.1s; } /* First column's card(s) */
+.row > .col-md-6:nth-child(2) > .card:nth-child(1) { animation-delay: 0.2s; } /* Second column, first card */
+.row > .col-md-6:nth-child(2) > .card:nth-child(2) { animation-delay: 0.3s; } /* Second column, second card */
+.row > .col-md-6:nth-child(2) > .card:nth-child(3) { animation-delay: 0.4s; } /* Second column, third card */
