@@ -1,13 +1,58 @@
 /* 基础样式 */
 body {
-    font-family: 'Roboto', 'Arial', sans-serif; /* Updated font */
+    font-family: 'Roboto', 'Arial', sans-serif;
     margin: 0;
-    /* background: url('../imgs/commune.png') no-repeat center center fixed; */
-    background: linear-gradient(135deg, #2b2b4e 0%, #1f1f3a 100%); /* New gradient background */
-    background-size: cover;
-    color: #e0e0e0; /* Slightly off-white for better readability */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    color: #e0e0e0;
+    overflow-x: hidden;
+    position: relative;
 }
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('../imgs/commune.png') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(5px);
+    z-index: -2;
+}
+
+body::after { /* Gradient overlay */
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(43, 43, 78, 0.7) 0%, rgba(31, 31, 58, 0.85) 100%);
+    z-index: -1;
+}
+
+/* Pixel Font base for specific elements */
+.pixel-font,
+h1.text-shadow,
+.card h2,
+.btn,
+#server-ip,
+.status-online,
+.status-offline,
+footer {
+    font-family: 'Press Start 2P', cursive !important;
+    font-weight: normal !important; /* Pixel fonts usually have one weight */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h1.text-shadow { /* Main page title */
+    font-size: 1.7rem; /* Adjusted for pixel font */
+    line-height: 1.3;
+    text-shadow: 3px 3px 0px rgba(0,0,0,0.5); /* Crisper shadow for pixel font */
+    color: #fff;
+}
+
 
 header {
     text-align: center;
@@ -16,114 +61,176 @@ header {
 
 /* 组件样式 */
 .card {
-    background: rgba(255, 255, 255, 0.05); /* Reduced opacity for stronger frost */
-    backdrop-filter: blur(15px); /* Increased blur */
-    border-radius: 15px; /* Slightly more rounded corners */
-    padding: 25px; /* Increased padding */
-    margin-bottom: 25px; /* Increased margin */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); /* Softer, more modern shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+    background: rgba(40, 40, 70, 0.80); /* Darker, more solid for pixel style */
+    backdrop-filter: blur(2px); /* Minimal blur */
+    border-radius: 0px; /* Sharp corners */
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 3px solid #6a6a92; /* Pixel-style border */
+    box-shadow: 5px 5px 0px 0px rgba(0,0,0,0.35); /* Pixelated shadow */
+    transition: transform 0.1s linear, box-shadow 0.1s linear;
+    image-rendering: pixelated; /* Helps if images were used */
 }
 
 .card:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45); /* Enhanced shadow on hover */
+    transform: translate(2px, 2px);
+    box-shadow: 3px 3px 0px 0px rgba(0,0,0,0.35);
 }
 
 #server-ip {
-    color: #00dd99; /* Brighter IP color */
-    font-family: 'Courier New', monospace;
+    color: #39e65f; /* Bright green */
+    font-size: 0.9rem;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.7);
 }
 
-.btn-custom-size {
-    padding: 10px 20px; /* Increased padding for buttons */
-    font-size: 1rem; /* Slightly larger font for buttons */
+.btn-custom-size { /* This class is on <a> tags acting as buttons */
+    padding: 12px 18px !important;
+    font-size: 0.75rem !important; /* Adjusted for pixel font */
 }
 
-.btn {
-    border-radius: 8px; /* More rounded corners for buttons */
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition */
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2); /* Default shadow */
+.btn { /* Style for actual <button> or .btn elements */
+    border-radius: 0px !important;
+    transition: transform 0.05s linear, background-color 0.1s linear, box-shadow 0.05s linear !important;
+    box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.3) !important;
+    border-width: 3px !important;
+    border-style: solid !important;
+    color: #fff !important;
+    image-rendering: pixelated;
 }
 
 .btn:hover {
-    transform: translateY(-2px); /* Slight lift on hover */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    transform: translate(2px, 2px) !important;
+    box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.3) !important;
+}
+
+.btn:active {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 1px 1px 0px 0px rgba(0,0,0,0.3) !important;
 }
 
 .btn-danger {
-    background-color: #d9534f; /* Standard Bootstrap danger */
-    border-color: #d43f3a;
+    background-color: #c0392b !important;
+    border-color: #7b241c !important;
 }
 .btn-danger:hover {
-    background-color: #c9302c;
-    border-color: #ac2925;
+    background-color: #a93226 !important;
+    border-color: #641e16 !important;
 }
 
 .btn-light {
-    background-color: #f8f9fa;
-    border-color: #f8f9fa;
-    color: #212529;
+    background-color: #bdc3c7 !important;
+    border-color: #7f8c8d !important;
+    color: #2c3e50 !important;
 }
 .btn-light:hover {
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
+    background-color: #a6acaf !important;
+    border-color: #707b7c !important;
 }
 
-
-.text-shadow {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Enhanced text shadow for readability */
+.text-shadow { /* General text shadow for non-pixel text if any */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
+
 
 .container {
-    margin-top: 1.5rem; /* Slightly more top margin */
+    margin-top: 1.5rem;
 }
 
 .navbar {
-    background-color: rgba(0,0,0,0.3); /* Semi-transparent navbar */
-    backdrop-filter: blur(10px);
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    border-bottom: 3px solid #6a6a92; /* Pixel border for navbar */
+}
+
+.navbar-brand {
+    font-size: 1rem !important; /* Adjusted for pixel font */
+}
+.navbar-brand img {
+    vertical-align: -3px; /* Adjust icon alignment */
+    margin-right: 5px;
+    width: 28px; /* Slightly smaller icon */
+    height: 28px;
+    image-rendering: pixelated;
+}
+.navbar-brand span.hidden b { /* "方块叉 CubeX" part */
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 1rem !important;
+    color: #fff;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
 .navbar-nav .nav-link {
     margin-right: 0.5rem;
-    font-size: 1rem;
-    font-weight: 500; /* Slightly bolder nav links */
+    font-size: 0.75rem !important; /* Adjusted for pixel font */
     transition: color 0.2s ease;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.4);
+}
+.navbar-nav .nav-link b {
+    font-family: 'Press Start 2P', cursive !important;
 }
 
-.navbar-nav .nav-link:hover, .navbar-brand:hover {
-    color: #ffc107; /* Highlight color on hover for nav items */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-brand:hover span.hidden b {
+    color: #ffd700 !important; /* Gold hover */
+
 }
 
 
 #management_team, #trial_team, #retired_team {
-    font-size: 18px; /* Keeping original size, can be adjusted */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Adjusted shadow */
+    font-size: 15px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+    line-height: 1.7;
+    font-family: 'Roboto', 'Arial', sans-serif !important; /* Revert to normal font for readability */
+    text-transform: none; /* Revert */
+    letter-spacing: normal; /* Revert */
 }
 
-.hanggao {
-    line-height: 1; /* Adjusted line-height for better spacing */
+.hanggao { /* For server status lines */
+    line-height: 1.4;
 }
-.navbar-brand {
-    font-size: 1.3rem; /* Slightly larger brand */
-    font-weight: 700;
+.hanggao p {
+    margin-bottom: 0.8rem;
+    font-family: 'Roboto', 'Arial', sans-serif !important; /* Normal font for details */
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.95rem;
+    color: #ccc; /* Lighter color for details */
 }
+.hanggao p .pixel-font { /* Specifically for status text like Online/Offline */
+     font-family: 'Press Start 2P', cursive !important;
+     font-size: 0.9rem !important;
+     text-transform: uppercase;
+     letter-spacing: 1px;
+}
+
+.hanggao h3 { /* Server names like "主服务器" */
+     font-family: 'Press Start 2P', cursive !important;
+     font-size: 1rem;
+     margin-bottom: 1rem;
+     color: #f0f0f0;
+     text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+
 
 .row.text-center {
-    margin-bottom: 2.5rem; /* Increased margin */
+    margin-bottom: 2.5rem;
 }
 
-.card h2 {
-    margin-bottom: 1.5rem; /* Increased margin */
-    font-weight: 700;
-    color: #f0f0f0; /* Lighter card headers */
+.card h2 { /* Card Titles like "实时状态" */
+    margin-bottom: 1.2rem;
+    color: #f5f5f5;
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
 }
 
 footer {
-    margin-top: 5rem; /* Increased margin */
+    margin-top: 4rem;
     padding-bottom: 2rem;
-    color: #aaa; /* Lighter footer text */
+    color: #aaa;
+    font-size: 0.65rem;
+    text-align: center;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.6);
 }
 
 footer a {
@@ -132,34 +239,36 @@ footer a {
 }
 
 footer a:hover {
-    color: #fff;
+    color: #ffd700;
 }
 
 /* 状态样式 */
 .status-online, .status-offline {
-    font-weight: bold;
-    font-size: 1.1em; /* Slightly larger status text */
+    font-size: 0.9rem !important;
+    letter-spacing: 0.5px;
 }
 
 .status-online {
-    color: #28a745; /* Bootstrap success green */
-    /* Animation for online status - subtle pulse */
-    animation: pulse-green 2s infinite;
+    color: #39e65f !important; /* Brighter green */
+    animation: pulse-pixel-green 1.5s infinite;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.7);
 }
 
 .status-offline {
-    color: #dc3545; /* Bootstrap danger red */
+    color: #ff5252 !important; /* Brighter red */
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.7);
 }
 
-@keyframes pulse-green {
+@keyframes pulse-pixel-green {
     0% {
-        text-shadow: 0 0 4px #28a745;
+        filter: brightness(90%);
     }
     50% {
-        text-shadow: 0 0 10px #28a745, 0 0 15px #28a745;
+        filter: brightness(120%);
+        text-shadow: 0 0 4px #39e65f, 1px 1px 0px rgba(0,0,0,0.7);
     }
     100% {
-        text-shadow: 0 0 4px #28a745;
+        filter: brightness(90%);
     }
 }
 
@@ -169,45 +278,40 @@ footer a:hover {
     main {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 25px; /* Increased gap */
+        gap: 30px;
     }
+    h1.text-shadow {
+        font-size: 2rem;
+    }
+    .card h2 { font-size: 1.3rem; }
+    .btn-custom-size { font-size: 0.8rem !important; }
+    .navbar-nav .nav-link { font-size: 0.8rem !important; }
+    .navbar-brand span.hidden b { font-size: 1.1rem !important; }
 }
 
-/* 导航栏样式 */
-.navbar-nav {
-    margin-right: 0;
-}
 
-.navbar-nav .nav-link {
-    margin-right: 0.5rem;
-    font-size: 1rem;
-}
-
-/* Entrance Animation for cards - simple fade in */
+/* Entrance Animation for cards - make it snappier for pixel style */
 .card {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: popIn 0.25s ease-out forwards;
     opacity: 0;
+    transform: scale(0.92);
 }
 
-@keyframes fadeIn {
+@keyframes popIn {
     to {
         opacity: 1;
+        transform: scale(1);
     }
 }
 
-/* Delay animations for cards to appear sequentially if desired, needs JS or nth-child selectors */
-/* Example for up to 5 cards, can be expanded */
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-/* Add more if needed for more cards */
-/* Note: This applies to direct children of a container. If cards are nested differently, this needs adjustment. */
-/* Specifically for the server status and team cards in the current layout: */
-.row > .col-md-6 > .card { /* Targeting cards directly within the columns */
-    animation: fadeIn 0.5s ease-out forwards;
+/* Staggered Delay animations for cards */
+.row > .col-md-6 > .card {
+    animation: popIn 0.25s ease-out forwards; /* Ensure this rule is specific enough */
     opacity: 0;
+    transform: scale(0.92);
 }
-.row > .col-md-6:nth-child(1) > .card { animation-delay: 0.1s; } /* First column's card(s) */
-.row > .col-md-6:nth-child(2) > .card:nth-child(1) { animation-delay: 0.2s; } /* Second column, first card */
-.row > .col-md-6:nth-child(2) > .card:nth-child(2) { animation-delay: 0.3s; } /* Second column, second card */
-.row > .col-md-6:nth-child(2) > .card:nth-child(3) { animation-delay: 0.4s; } /* Second column, third card */
+.row > .col-md-6:nth-child(1) > .card { animation-delay: 0.05s; }
+.row > .col-md-6:nth-child(2) > .card:nth-child(1) { animation-delay: 0.1s; }
+.row > .col-md-6:nth-child(2) > .card:nth-child(2) { animation-delay: 0.15s; }
+.row > .col-md-6:nth-child(2) > .card:nth-child(3) { animation-delay: 0.2s; }
+
