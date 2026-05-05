@@ -1,0 +1,69 @@
+---
+---
+
+<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+  <!-- Commune background image with blur = fading memory -->
+  <div class="absolute inset-0">
+    <img
+      src="/imgs/commune.png"
+      alt="WolfX Commune — 一切的起点"
+      class="w-full h-full object-cover blur-sm scale-105"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-cubex-dark/85 via-cubex-dark/75 to-cubex-dark"></div>
+  </div>
+
+  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+    <div class="animate-fade-in-up">
+      <!-- Logo: rotating cube -->
+      <div class="mb-10 inline-flex items-center justify-center" style="perspective: 600px;">
+        <div class="cube-spin" style="width:80px; height:80px; position:relative; transform-style:preserve-3d;">
+          <div style="position:absolute; inset:0; transform:rotateY(0deg) translateZ(40px);">
+            <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
+          </div>
+          <div style="position:absolute; inset:0; transform:rotateY(90deg) translateZ(40px);">
+            <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
+          </div>
+          <div style="position:absolute; inset:0; transform:rotateY(180deg) translateZ(40px);">
+            <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
+          </div>
+          <div style="position:absolute; inset:0; transform:rotateY(270deg) translateZ(40px);">
+            <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Title with pixel font -->
+      <h1 class="text-5xl md:text-7xl font-bold tracking-wider mb-4" style="font-family: 'Silkscreen', monospace;">
+        <span class="text-cubex-red">Cube</span><span class="text-white">X</span>
+      </h1>
+      <p class="text-lg md:text-xl text-white/40 tracking-widest mb-8" style="font-family: 'Silkscreen', monospace;">
+        HyperCube
+      </p>
+
+      <!-- Tagline -->
+      <p class="text-lg md:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed mb-8">
+        一个持续探索的 <span class="text-white/90 font-medium">Minecraft</span> 服务器组织
+      </p>
+      <p class="text-sm text-white/35 max-w-xl mx-auto leading-relaxed mb-10">
+        有好多方块的服务器。起源于 WolfX Commune 社区，我们探索养老服、RPG 商业服、玩家自治实验服等不同模式，
+        开发维护着自己的插件生态，始终在寻找 Minecraft 服务器的更多可能性。
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="#about" class="group px-5 py-2.5 bg-cubex-red hover:bg-cubex-accent text-white font-medium transition-colors flex items-center gap-2 text-sm">
+          了解我们的故事
+          <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="#servers" class="px-5 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 font-medium transition-colors border border-white/10 hover:border-white/15 text-sm">
+          浏览服务器
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="w-4 h-4 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+  </div>
+</section>

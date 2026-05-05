@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cubex-red: #a0522d;
+  --color-cubex-dark: #0c0b09;
+  --color-cubex-darker: #080704;
+  --color-cubex-card: rgba(255, 255, 255, 0.035);
+  --color-cubex-card-hover: rgba(255, 255, 255, 0.065);
+  --color-cubex-border: rgba(255, 255, 255, 0.07);
+  --color-cubex-accent: #c4713a;
+  --color-cubex-gold: #c9a84c;
+  --color-cubex-green: #5a9e6f;
+  --color-cubex-blue: #6b8fb0;
+  --color-cubex-purple: #8b7ba5;
+
+  --font-sans: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-display: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-pixel: 'Silkscreen', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cubex-dark);
+  color: #d4cdc4;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(160, 82, 45, 0.3);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cubex-darker);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Background grid */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Card */
+.glass-card {
+  background: var(--color-cubex-card);
+  border: 1px solid var(--color-cubex-border);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.glass-card:hover {
+  background: var(--color-cubex-card-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient line */
+.gradient-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-cubex-red), transparent);
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Timeline */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--color-cubex-red), transparent);
+  transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+  .timeline-line {
+    left: 20px;
+  }
+}
+
+/* Tag */
+.tag-pill {
+  display: inline-block;
+  padding: 1px 8px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Rotating cube animation */
+@keyframes cubeSpin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.cube-spin {
+  animation: cubeSpin 12s linear infinite;
+}

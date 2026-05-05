@@ -1,0 +1,129 @@
+/* Giscus Custom Theme — CubeX / HyperCube (Flat) */
+
+:root {
+  --color-background: #0c0b09;
+  --color-canvas-subtle: #100f0c;
+  --color-canvas: #0c0b09;
+  --color-text: #c4bdb3;
+  --color-text-muted: #706a60;
+  --color-text-link: #c4713a;
+  --color-border-default: rgba(255, 255, 255, 0.06);
+  --color-border-muted: rgba(255, 255, 255, 0.03);
+
+  --color-btn-background: rgba(255, 255, 255, 0.04);
+  --color-btn-text: #9a9388;
+  --color-btn-border: rgba(255, 255, 255, 0.06);
+  --color-btn-hover-background: rgba(255, 255, 255, 0.07);
+  --color-btn-hover-text: #c4bdb3;
+
+  --color-reaction-bg: rgba(160, 82, 45, 0.06);
+  --color-reaction-hover-bg: rgba(160, 82, 45, 0.12);
+  --color-reaction-text: #a0522d;
+  --color-reaction-border: rgba(160, 82, 45, 0.12);
+
+  --color-header-bg: transparent;
+  --color-footer-bg: transparent;
+  --color-time-text: #504b44;
+  --color-box-border: rgba(255, 255, 255, 0.06);
+  --color-box-bg: rgba(255, 255, 255, 0.015);
+  --color-input-bg: rgba(255, 255, 255, 0.03);
+  --color-input-border: rgba(255, 255, 255, 0.06);
+  --color-input-focus-border: #a0522d;
+  --color-input-text: #c4bdb3;
+  --color-shadow: none;
+  --color-tag-bg: rgba(160, 82, 45, 0.08);
+  --color-tag-text: #c4713a;
+  --color-tag-border: rgba(160, 82, 45, 0.1);
+  --color-auth-tip-bg: rgba(160, 82, 45, 0.04);
+}
+
+/* Font override */
+.gsc-main,
+.gsc-comment,
+.gsc-comment-box,
+.gsc-reply-box,
+.gsc-timeline {
+  font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif !important;
+  border-radius: 0 !important;
+}
+
+/* Remove all border-radius */
+.gsc-comment,
+.gsc-comment-box,
+.gsc-reply-box,
+.gsc-textarea,
+.gsc-input,
+.gsc-button,
+.gsc-reactions-button,
+.gsc-reactions,
+.gsc-tl-line,
+.gsc-author-association-badge,
+.gsc-social-summary {
+  border-radius: 0 !important;
+}
+
+/* Remove shadows */
+.gsc-comment,
+.gsc-comment-box,
+.gsc-button,
+.gsc-reactions-button {
+  box-shadow: none !important;
+}
+
+/* Comment box */
+.gsc-comment-box {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.015) !important;
+}
+
+/* Textarea */
+.gsc-textarea {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #c4bdb3 !important;
+}
+
+.gsc-textarea:focus {
+  border-color: #a0522d !important;
+}
+
+/* Buttons — flat style */
+.gsc-button {
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+}
+
+.gsc-button--primary {
+  background: #a0522d !important;
+  border-color: #a0522d !important;
+  color: #fff !important;
+}
+
+.gsc-button--primary:hover {
+  background: #c4713a !important;
+}
+
+/* Reaction buttons */
+.gsc-reactions-button {
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  box-shadow: none !important;
+}
+
+/* Links */
+a {
+  color: #c4713a !important;
+}
+
+a:hover {
+  color: #a0522d !important;
+}
+
+/* Time / metadata */
+.gsc-comment-header .gsc-comment-author a {
+  color: #c4bdb3 !important;
+}
+
+/* Timeline line */
+.gsc-tl-line {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
