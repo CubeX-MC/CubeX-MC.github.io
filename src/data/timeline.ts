@@ -11,9 +11,9 @@ export const timeline: TimelineEvent[] = [
     description: '在 CubeX 诞生之前，WolfX 的 Commune 社区已经聚集了一群热爱 Minecraft 的玩家。建筑佬、红石玩家、冒险家、养老玩家，Commune 为所有人敞开大门。这里的友谊和社区文化，成为 CubeX 诞生的土壤。',
   },
   {
-    year: '2023.11',
+    year: '2021.11',
     title: 'CubeX 服务器诞生',
-    description: '2023 年 11 月 6 日，CubeX（方块叉）开始内测。以"有好多方块的服务器"为名，以养老生存为核心，服务器在 cubexmc.top 上线运营。一群来自 Commune 的玩家开启了属于方块叉的旅程。',
+    description: '2021 年 11 月，CubeX（方块叉）开始内测。以"有好多方块的服务器"为名，以养老生存为核心，服务器在 cubexmc.top 上线运营。一群来自 Commune 的玩家开启了属于方块叉的旅程。',
   },
   {
     year: '2024.09',
