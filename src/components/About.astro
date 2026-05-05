@@ -1,5 +1,6 @@
 ---
 import { timeline } from '../data/timeline';
+import { adminTimeline } from '../data/members';
 ---
 
 <section id="about" class="py-24 px-6">
@@ -21,7 +22,7 @@ import { timeline } from '../data/timeline';
         {timeline.map((event, i) => (
           <div class={`relative flex flex-col md:flex-row items-center gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
             <!-- Content card -->
-            <div class={`flex-1 ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
+            <div class={`flex-1 pl-10 md:pl-0 ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
               <div class="glass-card p-6 md:p-8">
                 <div class={`tag-pill bg-cubex-red/15 text-cubex-red mb-3 ${i % 2 === 0 ? 'md:ml-auto' : ''}`}>
                   {event.year}
@@ -31,8 +32,11 @@ import { timeline } from '../data/timeline';
               </div>
             </div>
 
-            <!-- Center dot -->
+            <!-- Center dot (desktop) -->
             <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-3 h-3 bg-cubex-red border-3 border-cubex-dark z-10"></div>
+
+            <!-- Mobile dot -->
+            <div class="md:hidden absolute left-[20px] -translate-x-1/2 w-2.5 h-2.5 bg-cubex-red border-2 border-cubex-dark z-10"></div>
 
             <!-- Spacer for the other side -->
             <div class="flex-1 hidden md:block"></div>
@@ -40,5 +44,63 @@ import { timeline } from '../data/timeline';
         ))}
       </div>
     </div>
+
+    <!-- Easter egg trigger -->
+    <div class="flex justify-center mt-20">
+      <button
+        id="admin-timeline-toggle"
+        class="text-white/8 hover:text-white/25 transition-colors duration-500 text-[0.6rem] tracking-[0.3em] uppercase cursor-pointer select-none"
+        style="font-family: var(--font-mono);"
+      >
+        &middot;&middot;&middot;
+      </button>
+    </div>
+
+    <!-- Dark admin timeline panel -->
+    <div id="admin-timeline-panel" class="hidden mt-12 max-w-2xl mx-auto">
+      <div class="text-center mb-8">
+        <p class="text-white/20 text-xs tracking-widest uppercase mb-2" style="font-family: var(--font-mono);">Classified</p>
+        <h3 class="text-white/30 text-lg font-bold">铁打的服务器，流水的管理</h3>
+        <p class="text-white/15 text-xs mt-2">CubeX 管理核心更替记录</p>
+      </div>
+
+      <div class="relative border-l border-white/5 ml-4">
+        {adminTimeline.map((event) => (
+          <div class="relative pl-8 pb-6 last:pb-0 group">
+            <!-- Phase dot -->
+            <div class="absolute left-0 -translate-x-1/2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-cubex-red/40 transition-colors"></div>
+            <!-- Phase description -->
+            <p class="text-white/20 text-xs leading-relaxed group-hover:text-white/35 transition-colors">{event.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-6">
+        <button
+          id="admin-timeline-close"
+          class="text-white/10 hover:text-white/25 transition-colors text-[0.6rem] tracking-[0.3em] uppercase cursor-pointer select-none"
+          style="font-family: var(--font-mono);"
+        >
+          &mdash; close &mdash;
+        </button>
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  const toggle = document.getElementById('admin-timeline-toggle');
+  const panel = document.getElementById('admin-timeline-panel');
+  const close = document.getElementById('admin-timeline-close');
+
+  toggle?.addEventListener('click', () => {
+    panel?.classList.remove('hidden');
+    toggle.classList.add('hidden');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  close?.addEventListener('click', () => {
+    panel?.classList.add('hidden');
+    toggle.classList.remove('hidden');
+  });
+</script>

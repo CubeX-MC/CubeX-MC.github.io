@@ -17,8 +17,8 @@ export const timeline: TimelineEvent[] = [
   },
   {
     year: '2024.09',
-    title: '二周目 CubeX Lite',
-    description: '大约 2024 年 9 月，二周目主服 CubeX Lite 开启，延续养老生存的核心理念。管理团队持续壮大，社区文化逐渐形成。随后又开启了一周目怀旧服，让老玩家重温最初的记忆。',
+    title: '二周目',
+    description: '大约 2024 年 9 月，二周目主服开启，延续养老生存的核心理念。管理团队持续壮大，社区文化逐渐形成。随后又开启了一周目怀旧服，让老玩家重温最初的记忆。',
   },
   {
     year: '2024–25',
@@ -28,6 +28,6 @@ export const timeline: TimelineEvent[] = [
   {
     year: '2026.05',
     title: '泛 CubeX 概念',
-    description: '原 CubeX 服务器逐渐衰落，HyperCube 提出"泛 CubeX"概念——以 HyperCube 为核心，任何为 CubeX 做出过贡献的人都是泛 CubeX 社区的一部分。围绕这个核心，CubeX ELite、Gemocracy、StarMC、玩家服等多个服务器继续运转，CubeX 的探索精神延续。',
+    description: '原 CubeX 服务器逐渐衰落，被改称为 CubeX Lite。HyperCube 提出"泛 CubeX"概念——以 HyperCube 为核心，任何为 CubeX 做出过贡献的人都是泛 CubeX 社区的一部分。围绕这个核心，CubeX ELite、Gemocracy、StarMC、玩家服等多个服务器继续运转，CubeX 的探索精神延续。',
   },
 ];

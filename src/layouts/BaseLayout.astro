@@ -28,10 +28,23 @@ const {
   <body class="bg-grid min-h-screen">
     <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-cubex-darker/80 backdrop-blur-xl">
       <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 group">
-          <span class="text-base font-bold tracking-wider" style="font-family: 'Silkscreen', monospace;">
-            <span class="text-cubex-red">Cube</span><span class="text-white">X</span>
-          </span>
+        <a href="/" class="flex items-center group" aria-label="CubeX">
+          <div class="inline-flex items-center justify-center" style="perspective: 200px;">
+            <div class="nav-cube-spin" style="width:22px; height:22px; position:relative; transform-style:preserve-3d;">
+              <div style="position:absolute; inset:0; transform:rotateY(0deg) translateZ(11px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:22px; height:22px; display:block;" />
+              </div>
+              <div style="position:absolute; inset:0; transform:rotateY(90deg) translateZ(11px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:22px; height:22px; display:block;" />
+              </div>
+              <div style="position:absolute; inset:0; transform:rotateY(180deg) translateZ(11px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:22px; height:22px; display:block;" />
+              </div>
+              <div style="position:absolute; inset:0; transform:rotateY(270deg) translateZ(11px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:22px; height:22px; display:block;" />
+              </div>
+            </div>
+          </div>
         </a>
         <div class="hidden md:flex items-center gap-6 text-sm">
           <a href="#about" class="text-white/50 hover:text-white transition-colors">关于</a>

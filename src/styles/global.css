@@ -135,3 +135,7 @@ body {
 .cube-spin {
   animation: cubeSpin 12s linear infinite;
 }
+
+.nav-cube-spin {
+  animation: cubeSpin 60s linear infinite;
+}
