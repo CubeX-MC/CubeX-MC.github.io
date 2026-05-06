@@ -1,22 +1,18 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { randomUUID } from 'node:crypto';
+import { cert, initializeApp } from 'firebase-admin/app';
+import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 
-const MESSAGES_PATH = new URL('../public/data/chat-messages.json', import.meta.url);
-const MAX_MESSAGES = 200;
-const MAX_USER_MESSAGES_PER_RUN = 5;
+// ---- Firebase init ----
+
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+initializeApp({ credential: cert(serviceAccount) });
+const db = getFirestore();
+
+// ---- config ----
+
+const AI_POST_COOLDOWN_MS = 90 * 60 * 1000; // 90 minutes between AI spontaneous posts
+const MAX_RECENT_MESSAGES = 30;
 
 // ---- helpers ----
-
-const readJson = async (path) => {
-  try {
-    return JSON.parse(await readFile(path, 'utf8'));
-  } catch {
-    return { messages: [], updatedAt: null };
-  }
-};
-const writeJson = async (path, value) => {
-  await writeFile(path, `${JSON.stringify(value, null, 2)}\n`);
-};
 
 const systemPrompt = `你是 CubeX 社区 AI 助手，一个 Minecraft 服务器组织的常驻 AI。你生活在 CubeX / HyperCube 社区中。
 
@@ -27,62 +23,28 @@ const systemPrompt = `你是 CubeX 社区 AI 助手，一个 Minecraft 服务器
 - 你会分享 Minecraft 小知识、建筑灵感、游戏新闻
 - 消息长度控制在 1-3 句，像聊天一样自然
 
-你可以聊的话题：
-- Minecraft 建筑、红石、生存、PVP 技巧
-- 游戏更新和新特性讨论
-- 社区服务器动态
-- 邀请大家一起来玩
-- 分享有趣的 Minecraft 冷知识
-- 偶尔聊聊其他沙盒游戏
-
 重要：用中文回复。消息简短自然，像真实聊天。不要用英文。不要加前缀如"AI："。`;
 
-// ---- OpenRouter ----
-
-let cachedFreeModels = null;
-let cacheExpiry = 0;
-
 async function fetchFreeModels() {
-  // Cache for 3 hours to avoid hitting rate limits
-  if (cachedFreeModels && Date.now() < cacheExpiry) {
-    return cachedFreeModels;
-  }
-
   const res = await fetch('https://openrouter.ai/api/v1/models');
-  if (!res.ok) {
-    console.warn(`Failed to fetch models list: ${res.status}`);
-    return null;
-  }
-
+  if (!res.ok) return null;
   const data = await res.json();
   const free = (data.data || []).filter(
     m => parseFloat(m.pricing?.prompt || '0') === 0 &&
          parseFloat(m.pricing?.completion || '0') === 0
   );
-
-  cachedFreeModels = free;
-  cacheExpiry = Date.now() + 3 * 60 * 60 * 1000;
-  console.log(`Found ${free.length} free models on OpenRouter`);
+  console.log(`Found ${free.length} free models`);
   return free;
 }
 
 function pickModel(freeModels) {
-  if (!freeModels || freeModels.length === 0) {
-    return 'google/gemini-2.5-flash-lite'; // fallback
-  }
-
-  // Prefer chat models, sorted by context length (decent quality)
+  if (!freeModels?.length) return 'google/gemini-2.5-flash-lite';
   const preferred = freeModels.filter(m => {
     const id = m.id || '';
     return id.includes('gemini') || id.includes('llama') || id.includes('deepseek');
   });
-
-  if (preferred.length > 0) {
-    const model = preferred[Math.floor(Math.random() * preferred.length)];
-    return model.id;
-  }
-
-  return freeModels[Math.floor(Math.random() * freeModels.length)].id;
+  const pool = preferred.length > 0 ? preferred : freeModels;
+  return pool[Math.floor(Math.random() * pool.length)].id;
 }
 
 async function callOpenRouter(messages, apiKey) {
@@ -116,100 +78,50 @@ async function callOpenRouter(messages, apiKey) {
   return data.choices?.[0]?.message?.content?.trim() || null;
 }
 
-// ---- message helpers ----
+// ---- Firestore helpers ----
 
-function createMessage(author, name, content) {
-  return {
-    id: randomUUID(),
-    author,
-    name,
+async function getRecentMessages(limit = MAX_RECENT_MESSAGES) {
+  const snap = await db.collection('chat-messages')
+    .orderBy('timestamp', 'desc')
+    .limit(limit)
+    .get();
+
+  return snap.docs.map(doc => ({ id: doc.id, ...doc.data() })).reverse();
+}
+
+async function getLastAiMessageTime() {
+  const snap = await db.collection('chat-messages')
+    .where('author', '==', 'ai')
+    .orderBy('timestamp', 'desc')
+    .limit(1)
+    .get();
+
+  if (snap.empty) return null;
+  const data = snap.docs[0].data();
+  return data.timestamp?.toDate?.() || new Date(data.timestamp);
+}
+
+async function hasUnrepliedUserMessages() {
+  const lastAiTime = await getLastAiMessageTime();
+  if (!lastAiTime) return true;
+
+  const snap = await db.collection('chat-messages')
+    .where('author', '==', 'user')
+    .where('timestamp', '>', Timestamp.fromDate(lastAiTime))
+    .limit(1)
+    .get();
+
+  return !snap.empty;
+}
+
+async function saveAiMessage(content) {
+  await db.collection('chat-messages').add({
+    author: 'ai',
+    name: 'CubeX AI',
     content,
-    timestamp: new Date().toISOString(),
-  };
-}
-
-function buildContextMessages(recentMessages) {
-  const context = [{ role: 'system', content: systemPrompt }];
-
-  for (const msg of recentMessages) {
-    if (msg.author === 'user') {
-      context.push({ role: 'user', content: `${msg.name}: ${msg.content}` });
-    } else {
-      context.push({ role: 'assistant', content: msg.content });
-    }
-  }
-
-  // If no recent user messages, add a prompt for the AI to initiate conversation
-  const hasRecentUser = recentMessages.slice(-10).some(m => m.author === 'user');
-  if (!hasRecentUser) {
-    context.push({
-      role: 'user',
-      content: '（社区里现在没人说话，你可以主动发起一个话题聊聊。聊 Minecraft 相关的内容。）',
-    });
-  }
-
-  return context;
-}
-
-// ---- GitHub Issues ----
-
-async function fetchChatIssues() {
-  const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || [];
-  if (!owner || !repo) {
-    console.log('Not running in GitHub Actions, skipping issue fetch.');
-    return [];
-  }
-
-  const url = `https://api.github.com/repos/${owner}/${repo}/issues?labels=chat-message&state=open&per_page=${MAX_USER_MESSAGES_PER_RUN}&sort=created&direction=asc`;
-
-  const res = await fetch(url, {
-    headers: {
-      'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'CubeX-AI-Chat',
-    },
+    timestamp: Timestamp.now(),
   });
-
-  if (!res.ok) {
-    console.warn(`GitHub Issues API returned ${res.status}`);
-    return [];
-  }
-
-  return res.json();
-}
-
-async function closeIssue(issueNumber) {
-  const [owner, repo] = process.env.GITHUB_REPOSITORY?.split('/') || [];
-  if (!owner || !repo) return;
-
-  const url = `https://api.github.com/repos/${owner}/${repo}/issues/${issueNumber}`;
-
-  await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      'User-Agent': 'CubeX-AI-Chat',
-    },
-    body: JSON.stringify({
-      state: 'closed',
-    }),
-  });
-
-  // Post a thank-you comment
-  await fetch(`https://api.github.com/repos/${owner}/${repo}/issues/${issueNumber}/comments`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      'User-Agent': 'CubeX-AI-Chat',
-    },
-    body: JSON.stringify({
-      body: '消息已发送到聊天室！请刷新页面查看。:speech_balloon:',
-    }),
-  });
+  console.log(`AI message saved: ${content.slice(0, 80)}...`);
 }
 
 // ---- main ----
@@ -221,82 +133,49 @@ async function main() {
     process.exit(1);
   }
 
-  const data = await readJson(MESSAGES_PATH);
-  data.messages ??= [];
-  let changed = false;
+  // Decide if AI should post
+  const unreplied = await hasUnrepliedUserMessages();
+  const lastAiTime = await getLastAiMessageTime();
+  const cooldownOver = !lastAiTime || (Date.now() - lastAiTime.getTime()) > AI_POST_COOLDOWN_MS;
 
-  // 1. Process user-submitted issues
-  const issues = await fetchChatIssues();
-  for (const issue of issues) {
-    // Extract message from issue body: skip the template header, take the user's text
-    const body = (issue.body || '').trim();
-    // Remove template boilerplate between ### 消息 and the actual content
-    const cleaned = body
-      .replace(/^.*?###\s*消息\s*\n*/s, '')
-      .replace(/\n*---\n.*$/s, '')
-      .trim();
+  if (!unreplied && !cooldownOver) {
+    const nextPost = new Date(lastAiTime.getTime() + AI_POST_COOLDOWN_MS);
+    console.log(`No need for AI post. Next eligible after: ${nextPost.toISOString()}`);
+    return;
+  }
 
-    if (cleaned && cleaned.length <= 500) {
-      const name = issue.user?.login || '匿名玩家';
-      data.messages.push(createMessage('user', name, cleaned));
-      console.log(`Added user message from @${name}`);
-      changed = true;
+  // Build context
+  const recentMessages = await getRecentMessages();
+  const context = [{ role: 'system', content: systemPrompt }];
+
+  for (const msg of recentMessages) {
+    if (msg.author === 'user') {
+      context.push({ role: 'user', content: `${msg.name}: ${msg.content}` });
+    } else {
+      context.push({ role: 'assistant', content: msg.content });
     }
-
-    await closeIssue(issue.number);
   }
 
-  // 2. Decide whether to post an AI message
-  const now = new Date();
-  const lastAi = data.lastAiPost ? new Date(data.lastAiPost) : null;
-  const hasNewUserMessages = data.messages.some(
-    m => m.author === 'user' && !m.replied
-  );
+  const hasRecentUser = recentMessages.slice(-10).some(m => m.author === 'user');
+  if (!hasRecentUser) {
+    context.push({
+      role: 'user',
+      content: '（社区里现在没人说话，你可以主动发起一个话题聊聊。聊 Minecraft 相关的内容。）',
+    });
+  }
 
-  const shouldPost =
-    hasNewUserMessages ||
-    !lastAi ||
-    (now - lastAi) > 90 * 60 * 1000; // 90 minutes
-
-  if (shouldPost) {
-    const recentMessages = data.messages.slice(-30);
-    const contextMessages = buildContextMessages(recentMessages);
-
-    try {
-      const content = await callOpenRouter(contextMessages, apiKey);
-      if (content && content.length > 0 && content.length <= 500) {
-        data.messages.push(createMessage('ai', 'CubeX AI', content));
-        data.lastAiPost = now.toISOString();
-        console.log(`AI posted: ${content.slice(0, 80)}...`);
-        changed = true;
-
-        // Mark user messages as replied
-        for (const m of data.messages) {
-          if (m.author === 'user' && !m.replied) {
-            m.replied = true;
-          }
-        }
-      }
-    } catch (err) {
-      console.error('OpenRouter call failed:', err.message);
+  // Call AI
+  try {
+    const content = await callOpenRouter(context, apiKey);
+    if (content && content.length > 0 && content.length <= 500) {
+      await saveAiMessage(content);
+      console.log('Done.');
+    } else {
+      console.log('AI returned empty or too long response.');
     }
-  } else {
-    const nextPost = lastAi ? new Date(lastAi.getTime() + 90 * 60 * 1000) : now;
-    console.log(`Next AI post due after ${nextPost.toISOString()}`);
-  }
-
-  // 3. Trim old messages
-  if (data.messages.length > MAX_MESSAGES) {
-    data.messages = data.messages.slice(-MAX_MESSAGES);
-    changed = true;
-  }
-
-  if (changed) {
-    data.updatedAt = now.toISOString();
-    await writeJson(MESSAGES_PATH, data);
-    console.log(`Chat messages updated. Total: ${data.messages.length}`);
-  } else {
-    console.log('No chat changes needed.');
+  } catch (err) {
+    console.error('OpenRouter call failed:', err.message);
+    process.exit(1);
   }
 }
 

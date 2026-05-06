@@ -4,26 +4,14 @@ on:
   schedule:
     # Every 30 minutes during waking hours (08:00–01:00 Beijing = 00:00–17:00 UTC)
     - cron: '7,37 * * * *'
-  issues:
-    types: [opened, labeled]
   workflow_dispatch:
 
 permissions:
-  contents: write
-  issues: write
-
-concurrency:
-  group: ai-chat
-  cancel-in-progress: false
+  contents: read
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    # Run for cron, manual, or when a 'chat-message' labeled issue is opened/labeled
-    if: |
-      github.event_name != 'issues' ||
-      (github.event.action == 'labeled' && github.event.label.name == 'chat-message') ||
-      (github.event.action == 'opened' && contains(github.event.issue.labels.*.name, 'chat-message'))
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,22 +20,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: AI Chat
         run: node scripts/ai-chat.mjs
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit changes
-        run: |
-          if git diff --quiet -- public/data/chat-messages.json; then
-            echo "No chat changes to commit."
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data/chat-messages.json
-          git commit -m "Update AI chat messages"
-          git push
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
