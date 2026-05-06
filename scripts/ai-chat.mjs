@@ -90,28 +90,39 @@ async function getRecentMessages(limit = MAX_RECENT_MESSAGES) {
 }
 
 async function getLastAiMessageTime() {
+  // Fetch recent messages and find the last AI one in JS to avoid composite index requirement
   const snap = await db.collection('chat-messages')
-    .where('author', '==', 'ai')
     .orderBy('timestamp', 'desc')
-    .limit(1)
+    .limit(50)
     .get();
 
-  if (snap.empty) return null;
-  const data = snap.docs[0].data();
-  return data.timestamp?.toDate?.() || new Date(data.timestamp);
+  for (const doc of snap.docs) {
+    const data = doc.data();
+    if (data.author === 'ai') {
+      return data.timestamp?.toDate?.() || new Date(data.timestamp);
+    }
+  }
+  return null;
 }
 
 async function hasUnrepliedUserMessages() {
   const lastAiTime = await getLastAiMessageTime();
   if (!lastAiTime) return true;
 
+  // Fetch recent messages and check in JS to avoid composite index
   const snap = await db.collection('chat-messages')
-    .where('author', '==', 'user')
-    .where('timestamp', '>', Timestamp.fromDate(lastAiTime))
-    .limit(1)
+    .orderBy('timestamp', 'desc')
+    .limit(50)
     .get();
 
-  return !snap.empty;
+  for (const doc of snap.docs) {
+    const data = doc.data();
+    if (data.author === 'user') {
+      const ts = data.timestamp?.toDate?.() || new Date(data.timestamp);
+      if (ts > lastAiTime) return true;
+    }
+  }
+  return false;
 }
 
 async function saveAiMessage(content) {
