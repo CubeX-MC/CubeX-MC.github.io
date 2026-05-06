@@ -1,24 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ServerLookup from '../components/ServerLookup.astro';
-import ServerRecords from '../components/ServerRecords.astro';
-import Servers from '../components/Servers.astro';
-import AIChat from '../components/AIChat.astro';
+import Hero from '../components/Hero.astro';
 import Guestbook from '../components/Guestbook.astro';
-import About from '../components/About.astro';
-import Plugins from '../components/Plugins.astro';
-import Members from '../components/Members.astro';
-import Community from '../components/Community.astro';
+
+const sections = [
+  { href: '/lookup', title: '服务器查询', desc: '快速查看任意 Minecraft 服务器状态。' },
+  { href: '/records', title: '人数纪录', desc: '历史曲线与最高在线人数。' },
+  { href: '/servers', title: '服务器', desc: 'CubeX / HyperCube 服务器列表。' },
+  { href: '/chat', title: '聊天', desc: '和站点 AI 聊聊服务器与社区。' },
+  { href: '/community', title: '社区', desc: 'Discord、QQ、Telegram 与更多入口。' },
+  { href: '/plugins', title: '插件', desc: '我们维护和发布的插件。' },
+  { href: '/members', title: '成员', desc: '社区成员与贡献者。' },
+  { href: '/about', title: '故事', desc: '从 WolfX Commune 到 HyperCube。' },
+];
 ---
 
 <BaseLayout>
-  <ServerLookup />
-  <ServerRecords />
-  <Servers />
+  <Hero />
+  <section class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-8">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Explore</p>
+        <h2 class="text-3xl font-bold md:text-4xl">选择一个页面</h2>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {sections.map((section) => (
+          <a href={section.href} class="glass-card block p-5 hover:border-cubex-red/25">
+            <h3 class="font-semibold text-white">{section.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-white/40">{section.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
   <Guestbook />
-  <AIChat />
-  <Community />
-  <About />
-  <Plugins />
-  <Members />
 </BaseLayout>
