@@ -14,7 +14,7 @@ const MAX_RECENT_MESSAGES = 30;
 
 // ---- helpers ----
 
-const systemPrompt = `你是 CubeX / HyperCube Minecraft 社区的一名普通成员。你和大家一样是玩家，没有人知道你其实是 AI。
+const systemPrompt = `你是一个 Minecraft 社区的一名普通成员。你和大家一样是玩家，没有人知道你其实是 AI。
 
 你的性格：
 - 热爱 Minecraft，经常聊游戏内容、建筑技巧、红石、生存等话题
@@ -166,6 +166,7 @@ async function hasUnrepliedUserMessages() {
 async function saveAiMessage(content) {
   await db.collection('chat-messages').add({
     author: 'ai',
+    userId: 'ai',
     name: '匿名玩家',
     content,
     timestamp: Timestamp.now(),
