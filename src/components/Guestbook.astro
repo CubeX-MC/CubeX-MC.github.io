@@ -1,0 +1,40 @@
+---
+---
+
+<section id="guestbook" class="py-24 px-6">
+  <div class="mx-auto max-w-3xl">
+    <!-- Section header -->
+    <div class="text-center mb-10">
+      <p class="text-cubex-red text-sm font-semibold tracking-widest uppercase mb-3">Guestbook</p>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">留言板</h2>
+      <p class="text-white/45 max-w-2xl mx-auto">
+        有什么想说的？留下你的足迹。
+      </p>
+    </div>
+
+    <div class="glass-card p-4 md:p-6 overflow-hidden">
+      <div class="giscus"></div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function() {
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.setAttribute('data-repo', 'CubeX-MC/CubeX-MC.github.io');
+    s.setAttribute('data-repo-id', 'R_kgDOH6qWXg');
+    s.setAttribute('data-category', 'Announcements');
+    s.setAttribute('data-category-id', 'DIC_kwDOH6qWXs4C8WOW');
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'bottom');
+    s.setAttribute('data-theme', 'https://cubexmc.org/giscus-theme.css');
+    s.setAttribute('data-lang', 'zh-CN');
+    s.setAttribute('crossorigin', 'anonymous');
+    s.async = true;
+    document.querySelector('.giscus')?.parentNode?.appendChild(s);
+  })();
+</script>

@@ -8,94 +8,134 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
 };
 ---
 
-<section id="servers" class="py-24 px-6">
-  <div class="mx-auto max-w-6xl">
-    <!-- Section header -->
-    <div class="text-center mb-16">
-      <p class="text-cubex-red text-sm font-semibold tracking-widest uppercase mb-3">Servers</p>
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">我们的服务器</h2>
-      <p class="text-white/45 max-w-2xl mx-auto">
-        HyperCube 成员运营着多个风格各异的服务器，从养老到 RPG，从自治到群组，探索 Minecraft 的每一种可能。
-      </p>
-    </div>
+<section id="servers" class="relative min-h-screen flex items-center overflow-hidden">
+  <!-- Commune background image with blur -->
+  <div class="absolute inset-0">
+    <img
+      src="/imgs/commune.png"
+      alt=""
+      class="w-full h-full object-cover blur-sm scale-105"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-cubex-dark/90 via-cubex-dark/80 to-cubex-dark"></div>
+  </div>
 
-    <!-- Server cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {servers.map((server, i) => {
-        const status = server.status ? statusConfig[server.status] : null;
-        return (
-          <div class="glass-card p-5 flex flex-col" data-server-card={server.ip || ''}>
-            <div class="flex items-start justify-between mb-3">
-              <div>
-                <h3 class="text-lg font-bold">{server.name}</h3>
-                <p class="text-white/35 text-sm">{server.subtitle}</p>
-              </div>
-              {status && (
-                <span class={`tag-pill ${status.bg} ${status.color}`} data-status-tag>
-                  {status.label}
-                </span>
-              )}
+  <div class="relative z-10 w-full py-20 px-6">
+    <div class="mx-auto max-w-6xl">
+      <!-- Hero header -->
+      <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-12 animate-fade-in-up">
+        <!-- Rotating cube -->
+        <div class="flex-shrink-0" style="perspective: 600px;">
+          <div class="cube-spin" style="width:80px; height:80px; position:relative; transform-style:preserve-3d;">
+            <div style="position:absolute; inset:0; transform:rotateY(0deg) translateZ(40px);">
+              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
             </div>
-
-            <p class="text-white/50 text-sm leading-relaxed mb-3 flex-1">
-              {server.description}
-            </p>
-
-            <!-- Dynamic MOTD -->
-            {server.ip && (
-              <div class="bg-white/[0.03] px-4 py-2 mb-3" data-motd style="display:none;">
-                <p class="text-white/60 text-xs leading-relaxed" data-motd-text></p>
-              </div>
-            )}
-
-            {server.ip && (
-              <div class="bg-white/[0.03] px-4 py-2 mb-3 flex items-center justify-between">
-                <code class="text-cubex-green text-sm font-mono">{server.ip}</code>
-                <div class="flex items-center gap-2">
-                  <span class="text-white/20 text-xs" data-players style="display:none;"></span>
-                  <button
-                    class="text-white/35 hover:text-white transition-colors text-xs"
-                    data-copy={server.ip}
-                    title="复制 IP"
-                  >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                  </button>
-                </div>
-              </div>
-            )}
-
-            <!-- Tags -->
-            <div class="flex flex-wrap gap-1.5 mb-3">
-              {server.tags.map((tag) => (
-                <span class="tag-pill bg-white/[0.04] text-white/45">{tag}</span>
-              ))}
+            <div style="position:absolute; inset:0; transform:rotateY(90deg) translateZ(40px);">
+              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
             </div>
-
-            <!-- Links -->
-            {server.links && server.links.length > 0 && (
-              <div class="flex flex-wrap gap-2 pt-2 border-t border-white/5">
-                {server.links.map((link) => (
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener"
-                    class="text-xs text-cubex-red hover:text-cubex-accent transition-colors flex items-center gap-1"
-                  >
-                    {link.label}
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                  </a>
-                ))}
-              </div>
-            )}
-
-            <!-- Operators -->
-            <div class="text-xs text-white/25 mt-3">
-              现任服主: {server.operators.join(', ')}
+            <div style="position:absolute; inset:0; transform:rotateY(180deg) translateZ(40px);">
+              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
+            </div>
+            <div style="position:absolute; inset:0; transform:rotateY(270deg) translateZ(40px);">
+              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
             </div>
           </div>
-        );
-      })}
+        </div>
+
+        <!-- Title + tagline -->
+        <div class="text-center md:text-left">
+          <h1 class="text-4xl md:text-6xl font-bold tracking-wider mb-2" style="font-family: 'Silkscreen', monospace;">
+            <span class="text-cubex-red">Cube</span><span class="text-white">X</span>
+            <span class="text-lg md:text-xl text-white/40 tracking-widest ml-3" style="font-family: 'Silkscreen', monospace;">HyperCube</span>
+          </h1>
+          <p class="text-base md:text-lg text-white/55 max-w-xl leading-relaxed">
+            有好多方块的服务器。养老服、RPG、玩家自治实验服——探索 Minecraft 的每一种可能。
+          </p>
+        </div>
+      </div>
+
+      <!-- Server cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {servers.map((server) => {
+          const status = server.status ? statusConfig[server.status] : null;
+          return (
+            <div class="glass-card p-5 flex flex-col" data-server-card={server.ip || ''}>
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="text-lg font-bold">{server.name}</h3>
+                  <p class="text-white/35 text-sm">{server.subtitle}</p>
+                </div>
+                {status && (
+                  <span class={`tag-pill ${status.bg} ${status.color}`} data-status-tag>
+                    {status.label}
+                  </span>
+                )}
+              </div>
+
+              <p class="text-white/50 text-sm leading-relaxed mb-3 flex-1">
+                {server.description}
+              </p>
+
+              <!-- Dynamic MOTD -->
+              {server.ip && (
+                <div class="bg-white/[0.03] px-4 py-2 mb-3" data-motd style="display:none;">
+                  <p class="text-white/60 text-xs leading-relaxed" data-motd-text></p>
+                </div>
+              )}
+
+              {server.ip && (
+                <div class="bg-white/[0.03] px-4 py-2 mb-3 flex items-center justify-between">
+                  <code class="text-cubex-green text-sm font-mono">{server.ip}</code>
+                  <div class="flex items-center gap-2">
+                    <span class="text-white/20 text-xs" data-players style="display:none;"></span>
+                    <button
+                      class="text-white/35 hover:text-white transition-colors text-xs"
+                      data-copy={server.ip}
+                      title="复制 IP"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                {server.tags.map((tag) => (
+                  <span class="tag-pill bg-white/[0.04] text-white/45">{tag}</span>
+                ))}
+              </div>
+
+              <!-- Links -->
+              {server.links && server.links.length > 0 && (
+                <div class="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+                  {server.links.map((link) => (
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener"
+                      class="text-xs text-cubex-red hover:text-cubex-accent transition-colors flex items-center gap-1"
+                    >
+                      {link.label}
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              <!-- Operators -->
+              <div class="text-xs text-white/25 mt-3">
+                现任服主: {server.operators.join(', ')}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="w-4 h-4 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
   </div>
 </section>
 
@@ -129,13 +169,11 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
       const data = await res.json();
 
       if (data.online) {
-        // Update status tag
         if (statusTag) {
           statusTag.textContent = '在线';
           statusTag.className = 'tag-pill bg-cubex-green/15 text-cubex-green';
         }
 
-        // Show MOTD
         if (motdContainer && motdText) {
           const motd = data.motd?.clean?.join(' ') || data.motd?.clean?.[0] || '';
           if (motd) {
@@ -144,7 +182,6 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
           }
         }
 
-        // Show player count
         if (playersEl && data.players) {
           const online = data.players.online || 0;
           const max = data.players.max || 0;
@@ -152,7 +189,6 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
           playersEl.style.display = 'inline';
         }
       } else {
-        // Server offline
         if (statusTag) {
           statusTag.textContent = '离线';
           statusTag.className = 'tag-pill bg-white/5 text-white/35';

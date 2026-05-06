@@ -1,6 +1,6 @@
 ---
 import { timeline } from '../data/timeline';
-import { adminTimeline } from '../data/members';
+import { adminTimeline, adminTimelineSecret } from '../data/members';
 ---
 
 <section id="about" class="py-24 px-6">
@@ -45,7 +45,7 @@ import { adminTimeline } from '../data/members';
       </div>
     </div>
 
-    <!-- Easter egg trigger -->
+    <!-- Easter egg layer 1: trigger -->
     <div class="flex justify-center mt-20">
       <button
         id="admin-timeline-toggle"
@@ -56,7 +56,7 @@ import { adminTimeline } from '../data/members';
       </button>
     </div>
 
-    <!-- Dark admin timeline panel -->
+    <!-- Easter egg layer 1: sober admin timeline -->
     <div id="admin-timeline-panel" class="hidden mt-12 max-w-2xl mx-auto">
       <div class="text-center mb-8">
         <p class="text-white/20 text-xs tracking-widest uppercase mb-2" style="font-family: var(--font-mono);">Classified</p>
@@ -65,14 +65,51 @@ import { adminTimeline } from '../data/members';
       </div>
 
       <div class="relative border-l border-white/5 ml-4">
-        {adminTimeline.map((event) => (
-          <div class="relative pl-8 pb-6 last:pb-0 group">
-            <!-- Phase dot -->
+        {adminTimeline.map((entry) => (
+          <div class="relative pl-8 pb-5 last:pb-0 group">
             <div class="absolute left-0 -translate-x-1/2 w-2 h-2 rounded-full bg-white/10 group-hover:bg-cubex-red/40 transition-colors"></div>
-            <!-- Phase description -->
-            <p class="text-white/20 text-xs leading-relaxed group-hover:text-white/35 transition-colors">{event.description}</p>
+            <p class="text-white/25 text-xs leading-relaxed font-mono group-hover:text-white/40 transition-colors">{entry}</p>
           </div>
         ))}
+      </div>
+
+      <!-- Easter egg layer 2: trigger (even more subtle) -->
+      <div class="flex justify-center mt-10">
+        <button
+          id="secret-toggle"
+          class="text-white/5 hover:text-white/20 transition-colors duration-500 text-[0.5rem] tracking-[0.4em] cursor-pointer select-none"
+          style="font-family: var(--font-mono);"
+        >
+          ???
+        </button>
+      </div>
+
+      <!-- Easter egg layer 2: secret truth -->
+      <div id="secret-panel" class="hidden mt-10 max-w-2xl mx-auto">
+        <div class="text-center mb-8">
+          <p class="text-cubex-red/40 text-xs tracking-widest uppercase mb-2" style="font-family: var(--font-mono);">Uncensored</p>
+          <h3 class="text-white/20 text-lg font-bold">真相永远不止一个版本</h3>
+          <p class="text-white/10 text-xs mt-2">以下内容不代表本站立场。也许。</p>
+        </div>
+
+        <div class="relative border-l border-cubex-red/15 ml-4">
+          {adminTimelineSecret.map((entry) => (
+            <div class="relative pl-8 pb-5 last:pb-0 group">
+              <div class="absolute left-0 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-cubex-red/20 group-hover:bg-cubex-red/50 transition-colors"></div>
+              <p class="text-white/15 text-xs leading-relaxed group-hover:text-white/30 transition-colors">{entry}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="text-center mt-6">
+          <button
+            id="secret-close"
+            class="text-white/8 hover:text-white/20 transition-colors text-[0.5rem] tracking-[0.3em] cursor-pointer select-none"
+            style="font-family: var(--font-mono);"
+          >
+            &mdash; 烧掉 &mdash;
+          </button>
+        </div>
       </div>
 
       <div class="text-center mt-6">
@@ -89,6 +126,7 @@ import { adminTimeline } from '../data/members';
 </section>
 
 <script>
+  // Layer 1: sober timeline
   const toggle = document.getElementById('admin-timeline-toggle');
   const panel = document.getElementById('admin-timeline-panel');
   const close = document.getElementById('admin-timeline-close');
@@ -102,5 +140,23 @@ import { adminTimeline } from '../data/members';
   close?.addEventListener('click', () => {
     panel?.classList.add('hidden');
     toggle.classList.remove('hidden');
+    // Also hide layer 2
+    document.getElementById('secret-panel')?.classList.add('hidden');
+  });
+
+  // Layer 2: secret truth
+  const secretToggle = document.getElementById('secret-toggle');
+  const secretPanel = document.getElementById('secret-panel');
+  const secretClose = document.getElementById('secret-close');
+
+  secretToggle?.addEventListener('click', () => {
+    secretPanel?.classList.remove('hidden');
+    secretToggle.classList.add('hidden');
+    secretPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  secretClose?.addEventListener('click', () => {
+    secretPanel?.classList.add('hidden');
+    secretToggle.classList.remove('hidden');
   });
 </script>
