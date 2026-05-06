@@ -9,7 +9,9 @@ const db = getFirestore();
 
 // ---- config ----
 
-const AI_POST_COOLDOWN_MS = 90 * 60 * 1000; // 90 minutes between AI spontaneous posts
+const AI_POST_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes between AI conversation rounds
+const AI_MAX_ROUNDS = 3;                    // max AI messages per invocation
+const AI_MAX_ROUNDS_REACTIVE = 1;           // max AI messages when responding to users
 const MAX_RECENT_MESSAGES = 30;
 
 // ---- helpers ----
@@ -53,7 +55,6 @@ function shuffleModels(freeModels) {
       rest.push(id);
     }
   }
-  // Shuffle each group, preferred first
   for (let i = preferred.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [preferred[i], preferred[j]] = [preferred[j], preferred[i]];
@@ -69,13 +70,21 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function callOpenRouter(messages, apiKey) {
+// Returns { content, model } on success. Skips models already in usedModels.
+async function callOpenRouter(messages, apiKey, usedModels = new Set()) {
   const freeModels = await fetchFreeModels();
-  const models = shuffleModels(freeModels);
+  const allModels = shuffleModels(freeModels);
+  const candidates = allModels.filter(m => !usedModels.has(m));
 
-  for (let i = 0; i < models.length; i++) {
-    const model = models[i];
-    console.log(`Trying model ${i + 1}/${models.length}: ${model}`);
+  if (!candidates.length) {
+    // All models already used in this invocation — re-shuffle and allow repeats
+    console.warn('All free models used, allowing repeats');
+    candidates.push(...shuffleModels(freeModels));
+  }
+
+  for (let i = 0; i < candidates.length; i++) {
+    const model = candidates[i];
+    console.log(`  Trying model ${i + 1}/${candidates.length}: ${model}`);
 
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -97,23 +106,22 @@ async function callOpenRouter(messages, apiKey) {
     if (res.ok) {
       const data = await res.json();
       const content = data.choices?.[0]?.message?.content?.trim();
-      if (content) return content;
+      if (content) return { content, model };
       console.warn(`  Empty response, trying next...`);
       continue;
     }
 
     if (res.status === 429) {
       console.warn(`  Rate limited, trying next model...`);
-      await sleep(2000); // Brief pause before retry
+      await sleep(2000);
       continue;
     }
 
-    // Non-retryable error
     const text = await res.text();
     throw new Error(`OpenRouter ${res.status}: ${text.slice(0, 300)}`);
   }
 
-  throw new Error(`All ${models.length} free models exhausted`);
+  throw new Error(`No model succeeded (${candidates.length} tried)`);
 }
 
 // ---- Firestore helpers ----
@@ -128,7 +136,6 @@ async function getRecentMessages(limit = MAX_RECENT_MESSAGES) {
 }
 
 async function getLastAiMessageTime() {
-  // Fetch recent messages and find the last AI one in JS to avoid composite index requirement
   const snap = await db.collection('chat-messages')
     .orderBy('timestamp', 'desc')
     .limit(50)
@@ -147,7 +154,6 @@ async function hasUnrepliedUserMessages() {
   const lastAiTime = await getLastAiMessageTime();
   if (!lastAiTime) return true;
 
-  // Fetch recent messages and check in JS to avoid composite index
   const snap = await db.collection('chat-messages')
     .orderBy('timestamp', 'desc')
     .limit(50)
@@ -171,7 +177,7 @@ async function saveAiMessage(content) {
     content,
     timestamp: Timestamp.now(),
   });
-  console.log(`AI message saved: ${content.slice(0, 80)}...`);
+  console.log(`  AI saved: ${content.slice(0, 80)}...`);
 }
 
 // ---- main ----
@@ -190,11 +196,11 @@ async function main() {
 
   if (!unreplied && !cooldownOver) {
     const nextPost = new Date(lastAiTime.getTime() + AI_POST_COOLDOWN_MS);
-    console.log(`No need for AI post. Next eligible after: ${nextPost.toISOString()}`);
+    console.log(`Cooldown active. Next eligible after: ${nextPost.toISOString()}`);
     return;
   }
 
-  // Build context
+  // Build context from recent messages
   const recentMessages = await getRecentMessages();
   const context = [{ role: 'system', content: systemPrompt }];
 
@@ -207,6 +213,9 @@ async function main() {
   }
 
   const hasRecentUser = recentMessages.slice(-10).some(m => m.author === 'user');
+  const maxRounds = hasRecentUser ? AI_MAX_ROUNDS_REACTIVE : AI_MAX_ROUNDS;
+  const reason = hasRecentUser ? 'responding to users' : 'proactive conversation';
+
   if (!hasRecentUser) {
     context.push({
       role: 'user',
@@ -214,19 +223,43 @@ async function main() {
     });
   }
 
-  // Call AI
-  try {
-    const content = await callOpenRouter(context, apiKey);
-    if (content && content.length > 0 && content.length <= 500) {
+  console.log(`Starting AI chat round (${reason}, max ${maxRounds} messages)...`);
+
+  const usedModels = new Set();
+
+  for (let round = 0; round < maxRounds; round++) {
+    console.log(`Round ${round + 1}/${maxRounds}`);
+
+    try {
+      const { content, model } = await callOpenRouter(context, apiKey, usedModels);
+      usedModels.add(model);
+      console.log(`  Model used: ${model}`);
+
+      if (!content || content.length > 500) {
+        console.log(`  Skipping — empty or too long (${content?.length || 0} chars)`);
+        break;
+      }
+
       await saveAiMessage(content);
-      console.log('Done.');
-    } else {
-      console.log('AI returned empty or too long response.');
+      context.push({ role: 'assistant', content });
+
+      // Prepare context to prompt the next model
+      if (round < maxRounds - 1) {
+        context.push({
+          role: 'user',
+          content: '（另一个玩家接着聊：）',
+        });
+        // Small sleep between calls to avoid rate limits
+        await sleep(3000);
+      }
+    } catch (err) {
+      console.error(`  Round ${round + 1} failed:`, err.message);
+      if (round === 0) process.exit(1);
+      break;
     }
-  } catch (err) {
-    console.error('OpenRouter call failed:', err.message);
-    process.exit(1);
   }
+
+  console.log(`Done. ${usedModels.size} messages generated.`);
 }
 
 main().catch((err) => {
