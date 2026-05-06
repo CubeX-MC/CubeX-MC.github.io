@@ -8,57 +8,24 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
 };
 ---
 
-<section id="servers" class="relative min-h-screen flex items-center overflow-hidden">
-  <!-- Commune background image with blur -->
-  <div class="absolute inset-0">
-    <img
-      src="/imgs/commune.png"
-      alt=""
-      class="w-full h-full object-cover blur-sm scale-105"
-    />
-    <div class="absolute inset-0 bg-gradient-to-b from-cubex-dark/90 via-cubex-dark/80 to-cubex-dark"></div>
-  </div>
-
-  <div class="relative z-10 w-full py-20 px-6">
-    <div class="mx-auto max-w-6xl">
-      <!-- Hero header -->
-      <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-12 animate-fade-in-up">
-        <!-- Rotating cube -->
-        <div class="flex-shrink-0" style="perspective: 600px;">
-          <div class="cube-spin" style="width:80px; height:80px; position:relative; transform-style:preserve-3d;">
-            <div style="position:absolute; inset:0; transform:rotateY(0deg) translateZ(40px);">
-              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
-            </div>
-            <div style="position:absolute; inset:0; transform:rotateY(90deg) translateZ(40px);">
-              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
-            </div>
-            <div style="position:absolute; inset:0; transform:rotateY(180deg) translateZ(40px);">
-              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
-            </div>
-            <div style="position:absolute; inset:0; transform:rotateY(270deg) translateZ(40px);">
-              <img src="/imgs/server-icon.png" alt="" style="width:80px; height:80px; display:block;" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Title + tagline -->
-        <div class="text-center md:text-left">
-          <h1 class="text-4xl md:text-6xl font-bold tracking-wider mb-2" style="font-family: 'Silkscreen', monospace;">
-            <span class="text-cubex-red">Cube</span><span class="text-white">X</span>
-            <span class="text-lg md:text-xl text-white/40 tracking-widest ml-3" style="font-family: 'Silkscreen', monospace;">HyperCube</span>
-          </h1>
-          <p class="text-base md:text-lg text-white/55 max-w-xl leading-relaxed">
-            有好多方块的服务器。养老服、RPG、玩家自治实验服——探索 Minecraft 的每一种可能。
-          </p>
-        </div>
+<section id="servers" class="py-24 px-6">
+  <div class="mx-auto max-w-6xl">
+    <div class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Servers</p>
+        <h2 class="text-3xl font-bold md:text-4xl">服务器列表</h2>
       </div>
+      <p class="max-w-xl text-sm leading-relaxed text-white/45 md:text-right">
+        养老服、RPG、玩家自治实验服和社区成员独立开设的服务器。状态会在页面加载后自动刷新。
+      </p>
+    </div>
 
-      <!-- Server cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {servers.map((server) => {
-          const status = server.status ? statusConfig[server.status] : null;
-          return (
-            <div class="glass-card p-5 flex flex-col" data-server-card={server.ip || ''}>
+    <!-- Server cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {servers.map((server) => {
+        const status = server.status ? statusConfig[server.status] : null;
+        return (
+          <div class="glass-card p-5 flex flex-col" data-server-card={server.ip || ''}>
               <div class="flex items-start justify-between mb-3">
                 <div>
                   <h3 class="text-lg font-bold">{server.name}</h3>
@@ -126,16 +93,10 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
               <div class="text-xs text-white/25 mt-3">
                 现任服主: {server.operators.join(', ')}
               </div>
-            </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-    <svg class="w-4 h-4 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
   </div>
 </section>
 

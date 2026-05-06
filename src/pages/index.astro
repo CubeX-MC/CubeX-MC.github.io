@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ServerLookup from '../components/ServerLookup.astro';
+import ServerRecords from '../components/ServerRecords.astro';
 import Servers from '../components/Servers.astro';
 import Guestbook from '../components/Guestbook.astro';
 import About from '../components/About.astro';
@@ -9,10 +11,12 @@ import Community from '../components/Community.astro';
 ---
 
 <BaseLayout>
+  <ServerLookup />
+  <ServerRecords />
   <Servers />
   <Guestbook />
+  <Community />
   <About />
   <Plugins />
   <Members />
-  <Community />
 </BaseLayout>

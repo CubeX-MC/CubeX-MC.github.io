@@ -1,0 +1,41 @@
+name: Update server records
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: server-records
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Update records
+        run: node scripts/update-server-records.mjs
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet -- src/data/serverRecords.json public/data/server-history.json; then
+            echo "No record changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/serverRecords.json public/data/server-history.json
+          git commit -m "Update server player records"
+          git push

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "cubex-lite",
+    "name": "CubeX Lite",
+    "ip": "play.cubexmc.top",
+    "edition": "java",
+    "mcmodServerId": "20185897",
+    "historyStartDate": "2021-12-05"
+  },
+  {
+    "id": "gemocracy",
+    "name": "Gemocracy",
+    "ip": "mc.gemocracy.org",
+    "edition": "java"
+  },
+  {
+    "id": "starmc",
+    "name": "StarMC",
+    "ip": "mc.star-mc.top",
+    "edition": "java",
+    "mcmodServerId": "20188607",
+    "historyStartDate": "2025-11-15"
+  }
+]

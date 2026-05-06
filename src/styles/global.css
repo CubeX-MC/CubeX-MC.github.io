@@ -139,3 +139,7 @@ body {
 .nav-cube-spin {
   animation: cubeSpin 60s linear infinite;
 }
+
+.image-render-pixelated {
+  image-rendering: pixelated;
+}

@@ -1,0 +1,69 @@
+{
+  "updatedAt": "2026-05-06T03:00:00.354Z",
+  "source": "mcmod.cn + mcsrvstat.us",
+  "servers": {
+    "cubex-lite": {
+      "name": "CubeX Lite",
+      "ip": "play.cubexmc.top",
+      "edition": "java",
+      "record": {
+        "players": 68,
+        "max": 2025,
+        "at": "2025-07-10T12:01:00.000Z",
+        "version": null,
+        "motd": null
+      },
+      "daily": [
+        {
+          "date": "2026-05-06",
+          "peak": 0,
+          "at": "2026-05-06T02:25:04.354Z",
+          "max": 2025,
+          "version": "1.7.2-1.21.11"
+        }
+      ]
+    },
+    "gemocracy": {
+      "name": "Gemocracy",
+      "ip": "mc.gemocracy.org",
+      "edition": "java",
+      "record": {
+        "players": 0,
+        "max": 50,
+        "at": "2026-05-06T02:25:04.354Z",
+        "version": "1.21.10",
+        "motd": "Gemocracy SMP discord.gg/twSjTsKtpU"
+      },
+      "daily": [
+        {
+          "date": "2026-05-06",
+          "peak": 0,
+          "at": "2026-05-06T02:25:04.354Z",
+          "max": 50,
+          "version": "1.21.10"
+        }
+      ]
+    },
+    "starmc": {
+      "name": "StarMC",
+      "ip": "mc.star-mc.top",
+      "edition": "java",
+      "record": {
+        "players": 30,
+        "max": 44,
+        "at": "2025-11-26T11:41:00.000Z",
+        "version": null,
+        "motd": null
+      },
+      "daily": [
+        {
+          "date": "2026-05-06",
+          "peak": 8,
+          "at": "2026-05-06T02:25:04.354Z",
+          "max": 44,
+          "version": "1.7.2-1.21.11"
+        }
+      ]
+    }
+  }
+}

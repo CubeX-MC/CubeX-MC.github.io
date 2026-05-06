@@ -1,0 +1,311 @@
+---
+import { servers } from '../data/servers';
+
+const knownServers = servers.filter((server) => server.ip);
+---
+
+<section id="lookup" class="relative min-h-[calc(100vh-4rem)] overflow-hidden">
+  <div class="absolute inset-0">
+    <img
+      src="/imgs/commune.png"
+      alt=""
+      class="h-full w-full scale-105 object-cover blur-sm"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-cubex-dark/90 via-cubex-dark/82 to-cubex-dark"></div>
+  </div>
+
+  <div class="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center px-6 py-16">
+    <div class="grid w-full grid-cols-1 gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+      <div class="animate-fade-in-up min-w-0 w-full max-w-[calc(100vw-3rem)] lg:max-w-none">
+        <div class="mb-7 flex flex-col items-start gap-4 sm:inline-flex sm:flex-row sm:items-center">
+          <div class="flex-shrink-0" style="perspective: 600px;">
+            <div class="cube-spin" style="width:64px; height:64px; position:relative; transform-style:preserve-3d;">
+              <div style="position:absolute; inset:0; transform:rotateY(0deg) translateZ(32px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:64px; height:64px; display:block;" />
+              </div>
+              <div style="position:absolute; inset:0; transform:rotateY(90deg) translateZ(32px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:64px; height:64px; display:block;" />
+              </div>
+              <div style="position:absolute; inset:0; transform:rotateY(180deg) translateZ(32px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:64px; height:64px; display:block;" />
+              </div>
+              <div style="position:absolute; inset:0; transform:rotateY(270deg) translateZ(32px);">
+                <img src="/imgs/server-icon.png" alt="" style="width:64px; height:64px; display:block;" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-widest text-cubex-red">CubeX Console</p>
+            <h1 class="mt-1 text-3xl font-bold tracking-wider sm:text-4xl md:text-6xl" style="font-family: 'Silkscreen', monospace;">
+              <span class="text-cubex-red">Cube</span><span class="text-white">X</span>
+            </h1>
+          </div>
+        </div>
+
+        <p class="max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
+          回来看看哪台服务器醒着，顺手查一个 Minecraft 服务器状态。
+        </p>
+
+        <div class="mt-8 grid w-full max-w-[calc(100vw-3rem)] grid-cols-1 gap-3 min-[460px]:grid-cols-2 sm:max-w-xl sm:grid-cols-4">
+          <a href="#servers" class="glass-card flex min-h-20 flex-col justify-between p-4 hover:border-cubex-red/25">
+            <span class="text-xs uppercase tracking-wider text-white/30">Servers</span>
+            <span class="text-2xl font-bold text-white">{servers.length}</span>
+          </a>
+          <a href="#community" class="glass-card flex min-h-20 flex-col justify-between p-4 hover:border-cubex-red/25">
+            <span class="text-xs uppercase tracking-wider text-white/30">Network</span>
+            <span class="text-2xl font-bold text-white">8+</span>
+          </a>
+          <a href="#guestbook" class="glass-card flex min-h-20 flex-col justify-between p-4 hover:border-cubex-red/25">
+            <span class="text-xs uppercase tracking-wider text-white/30">Guestbook</span>
+            <span class="text-2xl font-bold text-white">Giscus</span>
+          </a>
+          <a href="#plugins" class="glass-card flex min-h-20 flex-col justify-between p-4 hover:border-cubex-red/25">
+            <span class="text-xs uppercase tracking-wider text-white/30">Plugins</span>
+            <span class="text-2xl font-bold text-white">Open</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="glass-card animate-fade-in-up min-w-0 w-full max-w-[calc(100vw-3rem)] p-5 md:p-6 lg:max-w-none" data-lookup-panel>
+        <div class="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-widest text-cubex-red">Status Lookup</p>
+            <h2 class="mt-1 text-2xl font-bold text-white">服务器查询</h2>
+          </div>
+          <span class="tag-pill bg-white/[0.04] text-white/35" data-lookup-state>待查询</span>
+        </div>
+
+        <form class="flex flex-col gap-3 sm:flex-row" data-lookup-form>
+          <label class="sr-only" for="server-lookup-input">服务器 IP</label>
+          <input
+            id="server-lookup-input"
+            name="server"
+            type="text"
+            inputmode="url"
+            autocomplete="off"
+            spellcheck="false"
+            value={knownServers[0]?.ip}
+            class="min-h-11 min-w-0 flex-1 border border-white/10 bg-white/[0.04] px-4 font-mono text-sm text-white outline-none transition-colors placeholder:text-white/20 focus:border-cubex-red/50"
+            placeholder="play.cubexmc.top"
+            data-lookup-input
+          />
+          <button
+            type="submit"
+            class="inline-flex min-h-11 items-center justify-center gap-2 bg-cubex-red px-5 text-sm font-semibold text-white transition-colors hover:bg-cubex-accent"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+            查询
+          </button>
+        </form>
+
+        <div class="mt-4 flex flex-wrap gap-2">
+          {knownServers.map((server) => (
+            <button
+              type="button"
+              class="tag-pill bg-white/[0.04] text-white/45 transition-colors hover:bg-cubex-red/15 hover:text-cubex-red"
+              data-known-server={server.ip}
+            >
+              {server.name}
+            </button>
+          ))}
+        </div>
+
+        <div class="mt-6 min-h-[220px] border border-white/5 bg-white/[0.025] p-4" data-lookup-result>
+          <div class="flex h-full min-h-[188px] items-center justify-center text-center">
+            <div>
+              <p class="text-sm text-white/35">Java 版服务器状态</p>
+              <p class="mt-2 font-mono text-xs text-white/20">MOTD · Version · Players</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <a href="https://discord.gg/7tJeSZPZgv" target="_blank" rel="noopener" class="glass-card flex items-center gap-3 p-3">
+            <span class="flex h-8 w-8 items-center justify-center bg-[#5865F2]/12 text-[#5865F2]">
+              <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/></svg>
+            </span>
+            <span>
+              <span class="block text-sm font-medium text-white/75">Discord</span>
+              <span class="block text-xs text-white/30">HyperCube</span>
+            </span>
+          </a>
+          <a href="https://jq.qq.com/?_wv=1027&k=g38XNewm" target="_blank" rel="noopener" class="glass-card flex items-center gap-3 p-3">
+            <span class="flex h-8 w-8 items-center justify-center bg-[#12B7F5]/12 text-[#12B7F5]">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-5.13a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </span>
+            <span>
+              <span class="block text-sm font-medium text-white/75">QQ 群</span>
+              <span class="block text-xs text-white/30">470579814</span>
+            </span>
+          </a>
+          <a href="https://github.com/CubeX-MC/CubeX-MC.github.io/discussions" target="_blank" rel="noopener" class="glass-card flex items-center gap-3 p-3">
+            <span class="flex h-8 w-8 items-center justify-center bg-white/8 text-white/65">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </span>
+            <span>
+              <span class="block text-sm font-medium text-white/75">讨论区</span>
+              <span class="block text-xs text-white/30">GitHub</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const panel = document.querySelector('[data-lookup-panel]');
+  const form = document.querySelector('[data-lookup-form]');
+  const input = document.querySelector('[data-lookup-input]');
+  const result = document.querySelector('[data-lookup-result]');
+  const state = document.querySelector('[data-lookup-state]');
+
+  const escapeHtml = (value) => String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+  const setState = (label, className) => {
+    if (!state) return;
+    state.textContent = label;
+    state.className = `tag-pill ${className}`;
+  };
+
+  const renderLoading = (ip) => {
+    if (!result) return;
+    result.innerHTML = `
+      <div class="flex min-h-[188px] items-center justify-center text-center">
+        <div>
+          <div class="mx-auto mb-4 h-8 w-8 animate-spin border-2 border-white/10 border-t-cubex-red"></div>
+          <p class="font-mono text-sm text-white/45">${escapeHtml(ip)}</p>
+        </div>
+      </div>
+    `;
+  };
+
+  const renderError = (message) => {
+    if (!result) return;
+    result.innerHTML = `
+      <div class="flex min-h-[188px] items-center justify-center text-center">
+        <div>
+          <p class="text-sm font-semibold text-white/70">查询失败</p>
+          <p class="mt-2 text-sm text-white/35">${escapeHtml(message)}</p>
+        </div>
+      </div>
+    `;
+  };
+
+  const renderStatus = (ip, data) => {
+    if (!result) return;
+
+    if (!data.online) {
+      setState('离线', 'bg-white/5 text-white/35');
+      result.innerHTML = `
+        <div class="flex min-h-[188px] flex-col justify-between gap-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="font-mono text-sm text-white/65">${escapeHtml(ip)}</p>
+              <p class="mt-2 text-2xl font-bold text-white/70">离线</p>
+            </div>
+            <span class="tag-pill bg-white/5 text-white/35">Offline</span>
+          </div>
+          <button type="button" class="inline-flex min-h-10 items-center justify-center gap-2 border border-white/10 px-4 text-sm text-white/55 transition-colors hover:border-white/20 hover:text-white" data-copy-lookup="${escapeHtml(ip)}">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            复制 IP
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    const motd = data.motd?.clean?.filter(Boolean).join(' ') || '在线服务器';
+    const version = data.version || data.protocol?.name || 'Unknown';
+    const online = data.players?.online ?? 0;
+    const max = data.players?.max ?? 0;
+    const icon = data.icon ? `<img src="${escapeHtml(data.icon)}" alt="" class="h-12 w-12 flex-shrink-0 image-render-pixelated" />` : '<div class="h-12 w-12 flex-shrink-0 bg-cubex-red/15"></div>';
+
+    setState('在线', 'bg-cubex-green/15 text-cubex-green');
+    result.innerHTML = `
+      <div class="flex min-h-[188px] flex-col justify-between gap-5">
+        <div class="flex items-start gap-4">
+          ${icon}
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <p class="break-all font-mono text-sm text-white/65">${escapeHtml(ip)}</p>
+              <span class="tag-pill bg-cubex-green/15 text-cubex-green">Online</span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-white/55">${escapeHtml(motd)}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div class="bg-white/[0.035] p-3">
+            <p class="text-xs uppercase tracking-wider text-white/25">Players</p>
+            <p class="mt-1 text-xl font-bold text-white">${online}/${max}</p>
+          </div>
+          <div class="bg-white/[0.035] p-3">
+            <p class="text-xs uppercase tracking-wider text-white/25">Version</p>
+            <p class="mt-1 truncate text-sm font-semibold text-white/70">${escapeHtml(version)}</p>
+          </div>
+          <button type="button" class="bg-white/[0.035] p-3 text-left transition-colors hover:bg-white/[0.06]" data-copy-lookup="${escapeHtml(ip)}">
+            <p class="text-xs uppercase tracking-wider text-white/25">IP</p>
+            <p class="mt-1 text-sm font-semibold text-cubex-green">复制</p>
+          </button>
+        </div>
+      </div>
+    `;
+  };
+
+  const lookup = async (rawIp) => {
+    const ip = rawIp.trim();
+    if (!ip) {
+      renderError('请输入服务器地址。');
+      setState('待查询', 'bg-white/[0.04] text-white/35');
+      return;
+    }
+
+    setState('查询中', 'bg-cubex-blue/15 text-cubex-blue');
+    renderLoading(ip);
+
+    try {
+      const res = await fetch(`https://api.mcsrvstat.us/3/${encodeURIComponent(ip)}`);
+      if (!res.ok) throw new Error('API returned an error');
+      const data = await res.json();
+      renderStatus(ip, data);
+    } catch {
+      setState('失败', 'bg-cubex-red/15 text-cubex-red');
+      renderError('暂时无法连接到状态接口。');
+    }
+  };
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (input instanceof HTMLInputElement) lookup(input.value);
+  });
+
+  panel?.querySelectorAll('[data-known-server]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const ip = button.getAttribute('data-known-server') || '';
+      if (input instanceof HTMLInputElement) input.value = ip;
+      lookup(ip);
+    });
+  });
+
+  result?.addEventListener('click', async (event) => {
+    const target = event.target instanceof Element ? event.target.closest('[data-copy-lookup]') : null;
+    const ip = target?.getAttribute('data-copy-lookup');
+    if (!ip) return;
+
+    try {
+      await navigator.clipboard.writeText(ip);
+      target.setAttribute('title', '已复制');
+      setTimeout(() => target.removeAttribute('title'), 1600);
+    } catch {}
+  });
+
+  if (input instanceof HTMLInputElement && input.value) {
+    lookup(input.value);
+  }
+</script>
