@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "updatedAt": "2026-05-06T15:06:40.670Z",
+=======
+  "updatedAt": "2026-05-06T12:28:24.612Z",
+>>>>>>> 1e360347ff18bcc2d7bc98070575c71901699758
   "source": "mcmod.cn + mcsrvstat.us",
   "servers": {
     "cubex-lite": {
