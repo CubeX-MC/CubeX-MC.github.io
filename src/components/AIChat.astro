@@ -135,14 +135,27 @@ const firebaseConfig = {
 
   // Real-time listener
   const q = query(collection(db, 'chat-messages'), orderBy('timestamp', 'asc'), limit(200));
+
+  let connected = false;
+  const timeout = setTimeout(() => {
+    if (!connected) {
+      status.textContent = '连接超时 — 请确认 Firestore 数据库已在 Firebase 控制台中创建';
+      status.style.color = '#f87171';
+    }
+  }, 10_000);
+
   onSnapshot(q, (snap) => {
+    connected = true;
+    clearTimeout(timeout);
     const msgs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     renderMessages(msgs);
     status.textContent = '实时连接中';
     status.style.color = '';
   }, (err) => {
+    connected = true;
+    clearTimeout(timeout);
     console.error('Firestore error:', err);
-    status.textContent = '连接失败，请刷新页面';
+    status.textContent = '连接失败 — ' + (err.code || err.message || '未知错误');
     status.style.color = '#f87171';
   });
 
