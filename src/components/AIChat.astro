@@ -61,7 +61,7 @@ const firebaseConfig = {
   </div>
 </section>
 
-<script type="module">
+<script type="module" define:vars={{ firebaseConfigJson: JSON.stringify(firebaseConfig) }}>
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
   import {
     getFirestore,
@@ -74,7 +74,7 @@ const firebaseConfig = {
     serverTimestamp,
   } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
 
-  const cfg = {JSON.stringify(firebaseConfig)};
+  const cfg = JSON.parse(firebaseConfigJson);
 
   const app = initializeApp(cfg);
   const db = getFirestore(app);
