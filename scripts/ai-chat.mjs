@@ -37,45 +37,79 @@ async function fetchFreeModels() {
   return free;
 }
 
-function pickModel(freeModels) {
-  if (!freeModels?.length) return 'google/gemini-2.5-flash-lite';
-  const preferred = freeModels.filter(m => {
+function shuffleModels(freeModels) {
+  if (!freeModels?.length) return ['google/gemini-2.5-flash-lite'];
+  const preferred = [];
+  const rest = [];
+  for (const m of freeModels) {
     const id = m.id || '';
-    return id.includes('gemini') || id.includes('llama') || id.includes('deepseek');
-  });
-  const pool = preferred.length > 0 ? preferred : freeModels;
-  return pool[Math.floor(Math.random() * pool.length)].id;
+    if (id.includes('gemini') || id.includes('llama') || id.includes('deepseek')) {
+      preferred.push(id);
+    } else {
+      rest.push(id);
+    }
+  }
+  // Shuffle each group, preferred first
+  for (let i = preferred.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [preferred[i], preferred[j]] = [preferred[j], preferred[i]];
+  }
+  for (let i = rest.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
+  }
+  return [...preferred, ...rest];
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function callOpenRouter(messages, apiKey) {
   const freeModels = await fetchFreeModels();
-  const model = pickModel(freeModels);
-  console.log(`Using model: ${model}`);
+  const models = shuffleModels(freeModels);
 
-  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://cubexmc.org',
-      'X-Title': 'CubeX Community AI Chat',
-    },
-    body: JSON.stringify({
-      model,
-      messages,
-      temperature: 0.9,
-      max_tokens: 256,
-      top_p: 0.95,
-    }),
-  });
+  for (let i = 0; i < models.length; i++) {
+    const model = models[i];
+    console.log(`Trying model ${i + 1}/${models.length}: ${model}`);
 
-  if (!res.ok) {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://cubexmc.org',
+        'X-Title': 'CubeX Community AI Chat',
+      },
+      body: JSON.stringify({
+        model,
+        messages,
+        temperature: 0.9,
+        max_tokens: 256,
+        top_p: 0.95,
+      }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const content = data.choices?.[0]?.message?.content?.trim();
+      if (content) return content;
+      console.warn(`  Empty response, trying next...`);
+      continue;
+    }
+
+    if (res.status === 429) {
+      console.warn(`  Rate limited, trying next model...`);
+      await sleep(2000); // Brief pause before retry
+      continue;
+    }
+
+    // Non-retryable error
     const text = await res.text();
     throw new Error(`OpenRouter ${res.status}: ${text.slice(0, 300)}`);
   }
 
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim() || null;
+  throw new Error(`All ${models.length} free models exhausted`);
 }
 
 // ---- Firestore helpers ----
