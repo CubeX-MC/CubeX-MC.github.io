@@ -1,15 +1,11 @@
 import {
   endpointFor,
   ensureHistoryEntry,
-  fetchMcmodHistory,
   historyPath,
   mergePoints,
   normalizeDate,
   recordsPath,
-  pruneNonMcmodPoints,
   targetsPath,
-  toShanghaiDate,
-  updateRecordSummaryFromHistory,
   writeJson,
   writeCompactJson,
   readJson,
@@ -21,7 +17,6 @@ const history = await readJson(historyPath);
 
 const now = new Date();
 const nowIso = now.toISOString();
-const today = toShanghaiDate(now);
 let changed = false;
 
 const cleanMotd = (data) => {
@@ -100,34 +95,6 @@ for (const target of targets) {
   const recordEntry = ensureRecordEntry(target);
   const historyEntry = ensureHistoryEntry(history, target);
 
-  if (target.mcmodServerId) {
-    try {
-      if (pruneNonMcmodPoints(historyEntry)) {
-        changed = true;
-      }
-
-      const lastPoint = historyEntry.points.at(-1);
-      const start = lastPoint ? toShanghaiDate(new Date(lastPoint[0])) : target.historyStartDate || today;
-      const points = await fetchMcmodHistory(target.mcmodServerId, start, today);
-
-      if (mergePoints(historyEntry, points)) {
-        changed = true;
-        console.log(`${target.name}: merged ${points.length} MCMod points`);
-      } else {
-        console.log(`${target.name}: no new MCMod points`);
-      }
-
-      if (updateRecordSummaryFromHistory(records, target, historyEntry)) {
-        changed = true;
-      }
-
-      continue;
-    } catch (error) {
-      console.warn(`${target.name}: MCMod sync failed, falling back to direct status`);
-      console.warn(error instanceof Error ? error.message : String(error));
-    }
-  }
-
   try {
     const res = await fetch(endpointFor(target), {
       headers: {
@@ -141,14 +108,9 @@ for (const target of targets) {
     }
 
     const data = await res.json();
-    if (!data.online) {
-      console.log(`${target.name}: offline`);
-      continue;
-    }
-
     const sample = {
       at: nowIso,
-      players: Number(data.players?.online ?? 0),
+      players: data.online ? Number(data.players?.online ?? 0) : 0,
       max: data.players?.max == null ? null : Number(data.players.max),
       version: data.version || data.protocol?.name || null,
       motd: cleanMotd(data),
@@ -158,7 +120,11 @@ for (const target of targets) {
       changed = true;
     }
     recordCurrentSample(recordEntry, sample);
-    console.log(`${target.name}: ${sample.players}/${sample.max ?? '?'} online`);
+    if (data.online) {
+      console.log(`${target.name}: ${sample.players}/${sample.max ?? '?'} online`);
+    } else {
+      console.log(`${target.name}: offline, recorded 0 players`);
+    }
   } catch (error) {
     console.warn(`${target.name}: ${error instanceof Error ? error.message : String(error)}`);
   }

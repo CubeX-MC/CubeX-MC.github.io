@@ -1,0 +1,53 @@
+{
+  "total_count": 4,
+  "workflows": [
+    {
+      "id": 271784888,
+      "node_id": "W_kwDOH6qWXs4QMxu4",
+      "name": "AI Chat",
+      "path": ".github/workflows/ai-chat.yml",
+      "state": "active",
+      "created_at": "2026-05-06T05:12:52.000Z",
+      "updated_at": "2026-05-06T05:12:52.000Z",
+      "url": "https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/271784888",
+      "html_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/blob/main/.github/workflows/ai-chat.yml",
+      "badge_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/workflows/AI%20Chat/badge.svg"
+    },
+    {
+      "id": 271125408,
+      "node_id": "W_kwDOH6qWXs4QKQug",
+      "name": "Deploy to GitHub Pages",
+      "path": ".github/workflows/deploy.yml",
+      "state": "active",
+      "created_at": "2026-05-05T04:19:26.000Z",
+      "updated_at": "2026-05-05T04:19:26.000Z",
+      "url": "https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/271125408",
+      "html_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/blob/main/.github/workflows/deploy.yml",
+      "badge_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/workflows/Deploy%20to%20GitHub%20Pages/badge.svg"
+    },
+    {
+      "id": 271755693,
+      "node_id": "W_kwDOH6qWXs4QMqmt",
+      "name": "Update server records",
+      "path": ".github/workflows/update-server-records.yml",
+      "state": "active",
+      "created_at": "2026-05-06T03:42:14.000Z",
+      "updated_at": "2026-05-06T03:42:14.000Z",
+      "url": "https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/271755693",
+      "html_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/blob/main/.github/workflows/update-server-records.yml",
+      "badge_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/workflows/Update%20server%20records/badge.svg"
+    },
+    {
+      "id": 34962754,
+      "node_id": "W_kwDOH6qWXs4CFX1C",
+      "name": "pages-build-deployment",
+      "path": "dynamic/pages/pages-build-deployment",
+      "state": "active",
+      "created_at": "2022-09-15T14:30:22.000Z",
+      "updated_at": "2022-09-15T14:30:22.000Z",
+      "url": "https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/34962754",
+      "html_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/actions/workflows/pages/pages-build-deployment",
+      "badge_url": "https://github.com/CubeX-MC/CubeX-MC.github.io/actions/workflows/pages/pages-build-deployment/badge.svg"
+    }
+  ]
+}

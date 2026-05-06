@@ -3,7 +3,6 @@ import {
   fetchMcmodHistory,
   historyPath,
   mergePoints,
-  pruneNonMcmodPoints,
   recordsPath,
   targetsPath,
   toShanghaiDate,
@@ -16,19 +15,35 @@ import {
 const targets = await readJson(targetsPath);
 const history = await readJson(historyPath);
 const records = await readJson(recordsPath);
+
+const args = new Map(
+  process.argv
+    .slice(2)
+    .filter((arg) => arg.startsWith('--'))
+    .map((arg) => {
+      const [key, ...valueParts] = arg.slice(2).split('=');
+      return [key, valueParts.join('=') || 'true'];
+    }),
+);
+
 const today = toShanghaiDate(new Date());
+const startOverride = args.get('start') || null;
+const end = args.get('end') || today;
+const serverIds = (args.get('server') || '')
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
 let changed = false;
 
-for (const target of targets.filter((item) => item.mcmodServerId)) {
-  const start = target.historyStartDate || '2019-05-01';
-  console.log(`${target.name}: importing MCMod history ${start} to ${today}`);
+for (const target of targets.filter((item) => (
+  item.mcmodServerId &&
+  (serverIds.length === 0 || serverIds.includes(item.id) || serverIds.includes(item.mcmodServerId))
+))) {
+  const start = startOverride || target.historyStartDate || '2019-05-01';
+  console.log(`${target.name}: importing MCMod history ${start} to ${end}`);
 
-  const points = await fetchMcmodHistory(target.mcmodServerId, start, today);
+  const points = await fetchMcmodHistory(target.mcmodServerId, start, end);
   const entry = ensureHistoryEntry(history, target);
-
-  if (pruneNonMcmodPoints(entry)) {
-    changed = true;
-  }
 
   if (mergePoints(entry, points)) {
     changed = true;

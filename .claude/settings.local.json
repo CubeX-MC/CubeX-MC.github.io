@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(gh secret *)",
+      "Bash(winget list *)",
+      "Bash(scoop list *)",
+      "Read(//c/Program Files/**)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(gh api *)",
+      "Bash(npm install *)",
+      "Bash(curl -sI \"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js\")",
+      "Bash(curl -sI \"https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js\")",
+      "Bash(xxd \"src/components/AIChat.astro\")",
+      "Bash(git log *)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s \"https://api.mcsrvstat.us/3/mc.gemocracy.org\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\);const j=JSON.parse\\(d\\);console.log\\('online:',j.online\\);console.log\\('players:',JSON.stringify\\(j.players\\)\\);console.log\\('version:',j.version\\);if\\(j.debug\\) console.log\\('debug:',JSON.stringify\\(j.debug\\)\\);\")",
+      "Bash(gh run *)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -s \"https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/update-server-records.yml/runs?per_page=10\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\);const j=JSON.parse\\(d\\);if\\(j.workflow_runs\\) j.workflow_runs.forEach\\(r=>console.log\\(r.created_at, r.status, r.conclusion\\)\\); else console.log\\(d.slice\\(0,500\\)\\)\")",
+      "Bash(node -e \"const j=require\\('/tmp/wf-runs.json'\\);\\(j.workflow_runs||[]\\).forEach\\(r=>console.log\\(r.created_at, r.status, r.conclusion\\)\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/update-server-records.yml/runs?per_page=10\" -o wf-runs.json)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const j=JSON.parse\\(fs.readFileSync\\('wf-runs.json','utf8'\\)\\);\\(j.workflow_runs||[]\\).forEach\\(r=>console.log\\(r.created_at, r.status, r.conclusion\\)\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/runs?per_page=10&branch=main\" -o wf-runs.json)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const j=JSON.parse\\(fs.readFileSync\\('wf-runs.json','utf8'\\)\\);\\(j.workflow_runs||[]\\).forEach\\(r=>console.log\\(r.name, r.created_at, r.status, r.conclusion\\)\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows\" -o workflows.json)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const j=JSON.parse\\(fs.readFileSync\\('workflows.json','utf8'\\)\\);\\(j.workflows||[]\\).forEach\\(w=>console.log\\(w.id, w.name, w.state, w.path\\)\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/CubeX-MC/CubeX-MC.github.io/actions/workflows/271755693/runs?per_page=20\" -o wf-runs2.json)",
+      "Bash(node -e \"const fs=require\\('fs'\\);const j=JSON.parse\\(fs.readFileSync\\('wf-runs2.json','utf8'\\)\\);console.log\\('Total runs:', j.total_count\\);\\(j.workflow_runs||[]\\).forEach\\(r=>console.log\\(r.run_number, r.created_at, r.status, r.conclusion\\)\\)\")"
+    ]
+  }
+}

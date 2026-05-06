@@ -144,18 +144,6 @@ export const mergePoints = (entry, newPoints) => {
   return changed;
 };
 
-export const pruneNonMcmodPoints = (entry) => {
-  const next = entry.points.filter(([at]) => {
-    const date = new Date(at);
-    return Number.isFinite(date.valueOf()) &&
-      date.getUTCSeconds() === 0 &&
-      date.getUTCMilliseconds() === 0;
-  });
-  const changed = next.length !== entry.points.length;
-  entry.points = next;
-  return changed;
-};
-
 export const summarizePoints = (points) => {
   let record = { players: 0, at: null };
   for (const [at, players] of points) {
