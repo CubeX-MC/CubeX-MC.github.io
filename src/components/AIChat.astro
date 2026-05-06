@@ -1,0 +1,195 @@
+---
+import { readFile } from 'node:fs/promises';
+
+const messagesPath = new URL('../../public/data/chat-messages.json', import.meta.url);
+let initialMessages: any[] = [];
+let lastUpdated = '';
+try {
+  const raw = await readFile(messagesPath, 'utf8');
+  const data = JSON.parse(raw);
+  initialMessages = data.messages || [];
+  lastUpdated = data.updatedAt || '';
+} catch {
+  // File may not exist on first build
+}
+
+const issueUrl = 'https://github.com/CubeX-MC/CubeX-MC.github.io/issues/new?template=chat-message.yml';
+---
+
+<section id="chat" class="py-24 px-6">
+  <div class="mx-auto max-w-3xl">
+    <!-- Section header -->
+    <div class="text-center mb-10">
+      <p class="text-cubex-red text-sm font-semibold tracking-widest uppercase mb-3">AI Chat Room</p>
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">匿名聊天室</h2>
+      <p class="text-white/45 max-w-2xl mx-auto">
+        CubeX AI 常驻社区，随时陪你聊 Minecraft！
+        <br class="hidden md:inline" />
+        <span class="text-white/25 text-xs">消息由 AI 生成，仅供参考娱乐</span>
+      </p>
+    </div>
+
+    <!-- Chat container -->
+    <div class="glass-card p-4 md:p-6 overflow-hidden">
+      <!-- Messages area -->
+      <div
+        id="chat-messages"
+        data-initial-count={initialMessages.length}
+        data-initial-updated={lastUpdated}
+        class="space-y-4 max-h-[600px] overflow-y-auto pr-2 mb-6"
+      >
+        {initialMessages.length === 0 ? (
+          <p class="text-white/35 text-center py-12">
+            AI 正在加载聊天消息...
+          </p>
+        ) : (
+          initialMessages.map(msg => (
+            <div class={`flex gap-3 ${msg.author === 'user' ? 'flex-row-reverse' : ''}`}>
+              <!-- Avatar -->
+              <div class={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                msg.author === 'ai'
+                  ? 'bg-cubex-red/20 text-cubex-red'
+                  : 'bg-white/10 text-white/50'
+              }`}>
+                {msg.author === 'ai' ? 'AI' : (msg.name || '?')[0].toUpperCase()}
+              </div>
+              <!-- Bubble -->
+              <div class={`max-w-[75%] ${
+                msg.author === 'user' ? 'text-right' : ''
+              }`}>
+                <div class="text-xs text-white/35 mb-1">
+                  {msg.name || '?'}
+                  <span class="mx-1.5 opacity-30">&middot;</span>
+                  <time datetime={msg.timestamp} class="opacity-50">
+                    {new Date(msg.timestamp).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  </time>
+                </div>
+                <div class={`inline-block px-3 py-2 rounded-2xl text-sm leading-relaxed ${
+                  msg.author === 'ai'
+                    ? 'bg-white/8 rounded-tl-none'
+                    : 'bg-cubex-red/15 rounded-tr-none'
+                }`}>
+                  {msg.content}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <!-- Gradient divider -->
+      <div class="gradient-line mb-4"></div>
+
+      <!-- Input area -->
+      <div class="flex items-center gap-3">
+        <a
+          href={issueUrl}
+          target="_blank"
+          rel="noopener"
+          class="flex-1 text-center px-4 py-2.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-sm hover:bg-white/10 hover:text-white/60 hover:border-white/20 transition-colors"
+        >
+          输入消息，发送到聊天室...
+        </a>
+        <a
+          href={issueUrl}
+          target="_blank"
+          rel="noopener"
+          class="px-5 py-2.5 rounded-full bg-cubex-red/80 text-white text-sm font-medium hover:bg-cubex-red transition-colors"
+        >
+          发送
+        </a>
+      </div>
+      <p class="text-white/20 text-xs text-center mt-3">
+        消息提交后稍等片刻，AI 会自动回复
+      </p>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function() {
+    var container = document.getElementById('chat-messages');
+    if (!container) return;
+
+    var MSG_URL = '/data/chat-messages.json';
+    var initialCount = parseInt(container.getAttribute('data-initial-count') || '0');
+    var lastUpdated = container.getAttribute('data-initial-updated') || null;
+
+    function formatTime(ts) {
+      var d = new Date(ts);
+      return d.toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function firstChar(s) {
+      return (s || '?')[0].toUpperCase();
+    }
+
+    function esc(s) {
+      return String(s).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderMessages(msgs) {
+      if (msgs.length === 0) {
+        container.innerHTML = '<p class="text-white/35 text-center py-12">AI 正在加载聊天消息...</p>';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < msgs.length; i++) {
+        var m = msgs[i];
+        var isUser = m.author === 'user';
+        var avatarClass = m.author === 'ai'
+          ? 'bg-cubex-red/20 text-cubex-red'
+          : 'bg-white/10 text-white/50';
+        var bubbleClass = m.author === 'ai'
+          ? 'bg-white/8 rounded-tl-none'
+          : 'bg-cubex-red/15 rounded-tr-none';
+        html += '<div class="flex gap-3' + (isUser ? ' flex-row-reverse' : '') + '">' +
+          '<div class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ' + avatarClass + '">' +
+            (m.author === 'ai' ? 'AI' : firstChar(m.name)) +
+          '</div>' +
+          '<div class="max-w-[75%]' + (isUser ? ' text-right' : '') + '">' +
+            '<div class="text-xs text-white/35 mb-1">' +
+              esc(m.name || '?') +
+              '<span class="mx-1.5 opacity-30">&middot;</span>' +
+              '<time datetime="' + m.timestamp + '" class="opacity-50">' + formatTime(m.timestamp) + '</time>' +
+            '</div>' +
+            '<div class="inline-block px-3 py-2 rounded-2xl text-sm leading-relaxed ' + bubbleClass + '">' +
+              esc(m.content) +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function poll() {
+      fetch(MSG_URL + '?t=' + Date.now())
+        .then(function(res) {
+          if (!res.ok) return;
+          return res.json();
+        })
+        .then(function(data) {
+          if (!data) return;
+          var updated = data.updatedAt;
+          if (updated !== lastUpdated) {
+            lastUpdated = updated;
+            renderMessages(data.messages || []);
+            container.scrollTop = container.scrollHeight;
+          }
+        })
+        .catch(function() {});
+    }
+
+    // Initial poll if no server-rendered messages
+    if (initialCount === 0) {
+      poll();
+    } else {
+      requestAnimationFrame(function() {
+        container.scrollTop = container.scrollHeight;
+      });
+    }
+
+    // Poll for new messages every 30 seconds
+    setInterval(poll, 30000);
+  })();
+</script>
