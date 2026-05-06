@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 <section id="chat" class="py-24 px-6">
   <div class="mx-auto max-w-3xl">
-    <div class="text-center mb-10">
+    <div class="text-center mb-16">
       <p class="text-cubex-red text-sm font-semibold tracking-widest uppercase mb-3">AI Chat Room</p>
       <h2 class="text-3xl md:text-4xl font-bold mb-4">匿名聊天室</h2>
       <p class="text-white/45 max-w-2xl mx-auto">
@@ -25,11 +25,12 @@ const firebaseConfig = {
 
     <div class="glass-card p-4 md:p-6 overflow-hidden">
       <!-- Messages area -->
-      <div id="chat-messages" class="space-y-4 max-h-[600px] overflow-y-auto pr-2 mb-4">
+      <div id="chat-messages" class="space-y-4 max-h-[600px] overflow-y-auto pr-2 mb-6">
         <p class="text-white/35 text-center py-12">加载中...</p>
       </div>
 
-      <div class="gradient-line mb-4"></div>
+      <!-- Divider -->
+      <div class="border-t border-white/5 mb-4"></div>
 
       <!-- Input area -->
       <div class="flex items-center gap-2">
@@ -38,18 +39,18 @@ const firebaseConfig = {
           type="text"
           maxlength="12"
           placeholder="匿名"
-          class="w-16 md:w-20 px-2 py-2.5 rounded-full border border-white/10 bg-white/5 text-white/60 text-sm text-center placeholder-white/25 focus:outline-none focus:border-white/20 transition-colors shrink-0"
+          class="w-16 md:w-20 px-2 py-2.5 border border-white/10 bg-white/5 text-white/60 text-sm text-center placeholder-white/25 focus:outline-none focus:border-white/20 transition-colors shrink-0"
         />
         <input
           id="chat-input"
           type="text"
           maxlength="500"
           placeholder="输入消息..."
-          class="flex-1 px-4 py-2.5 rounded-full border border-white/10 bg-white/5 text-white/80 text-sm placeholder-white/25 focus:outline-none focus:border-white/20 transition-colors"
+          class="flex-1 px-4 py-2.5 border border-white/10 bg-white/5 text-white/80 text-sm placeholder-white/25 focus:outline-none focus:border-white/20 transition-colors"
         />
         <button
           id="chat-send"
-          class="px-5 py-2.5 rounded-full bg-cubex-red/80 text-white text-sm font-medium hover:bg-cubex-red transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
+          class="px-5 py-2.5 bg-cubex-red/80 text-white text-sm font-medium hover:bg-cubex-red transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
         >
           发送
         </button>
@@ -110,11 +111,11 @@ const firebaseConfig = {
         ? 'bg-cubex-red/20 text-cubex-red'
         : 'bg-white/10 text-white/50';
       const bubbleClass = m.author === 'ai'
-        ? 'bg-white/8 rounded-tl-none'
-        : 'bg-cubex-red/15 rounded-tr-none';
+        ? 'bg-white/8'
+        : 'bg-cubex-red/15';
       html +=
         '<div class="flex gap-3' + (isUser ? ' flex-row-reverse' : '') + '">' +
-          '<div class="shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ' + avatarClass + '">' +
+          '<div class="shrink-0 w-8 h-8 flex items-center justify-center text-xs font-bold ' + avatarClass + '">' +
             (m.author === 'ai' ? 'AI' : (m.name || '?')[0].toUpperCase()) +
           '</div>' +
           '<div class="max-w-[75%]' + (isUser ? ' text-right' : '') + '">' +
@@ -123,7 +124,7 @@ const firebaseConfig = {
               '<span class="mx-1.5 opacity-30">&middot;</span>' +
               '<time datetime="' + (m.timestamp || '') + '" class="opacity-50">' + formatTime(m.timestamp) + '</time>' +
             '</div>' +
-            '<div class="inline-block px-3 py-2 rounded-2xl text-sm leading-relaxed ' + bubbleClass + '">' +
+            '<div class="inline-block px-3 py-2 text-sm leading-relaxed ' + bubbleClass + '">' +
               esc(m.content) +
             '</div>' +
           '</div>' +
