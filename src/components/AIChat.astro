@@ -106,25 +106,18 @@ const firebaseConfig = {
     }
     let html = '';
     for (const m of msgs) {
-      const isUser = m.author === 'user';
-      const avatarClass = m.author === 'ai'
-        ? 'bg-cubex-red/20 text-cubex-red'
-        : 'bg-white/10 text-white/50';
-      const bubbleClass = m.author === 'ai'
-        ? 'bg-white/8'
-        : 'bg-cubex-red/15';
       html +=
-        '<div class="flex gap-3' + (isUser ? ' flex-row-reverse' : '') + '">' +
-          '<div class="shrink-0 w-8 h-8 flex items-center justify-center text-xs font-bold ' + avatarClass + '">' +
-            (m.author === 'ai' ? 'AI' : (m.name || '?')[0].toUpperCase()) +
+        '<div class="flex gap-3">' +
+          '<div class="shrink-0 w-8 h-8 flex items-center justify-center text-xs font-bold bg-white/10 text-white/50">' +
+            (m.name || '?')[0].toUpperCase() +
           '</div>' +
-          '<div class="max-w-[75%]' + (isUser ? ' text-right' : '') + '">' +
+          '<div class="max-w-[75%]">' +
             '<div class="text-xs text-white/35 mb-1">' +
               esc(m.name || '?') +
               '<span class="mx-1.5 opacity-30">&middot;</span>' +
               '<time datetime="' + (m.timestamp || '') + '" class="opacity-50">' + formatTime(m.timestamp) + '</time>' +
             '</div>' +
-            '<div class="inline-block px-3 py-2 text-sm leading-relaxed ' + bubbleClass + '">' +
+            '<div class="inline-block px-3 py-2 text-sm leading-relaxed bg-white/8">' +
               esc(m.content) +
             '</div>' +
           '</div>' +
