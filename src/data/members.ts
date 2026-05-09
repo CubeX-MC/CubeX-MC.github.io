@@ -147,7 +147,7 @@ export const people: PeopleSection[] = [
       {
         name: 'linzaiua',
         role: 'CubeX 贡献者',
-        description: '与 tomeggo、hektek、angushushu、SiYang 一起作为 CubeX 的创始人。',
+        description: '与 tomeggo、hecktech、angushushu、SiYang 一起作为 CubeX 的创始人。',
       },
       {
         name: 'NinKauneus',
@@ -170,7 +170,7 @@ export const people: PeopleSection[] = [
         description: '留下的临别赠言只有"随意"二字，却精准概括了 CubeX"生存养老"的理念。如风一般的管理者，在社区需要时贡献力量，一切步入正轨后便悄然隐去。',
       },
       {
-        name: 'hektek',
+        name: 'hecktech',
         role: 'CubeX 贡献者 / 前服主',
         description: '自称"平平无奇毫无贡献的腐竹"。实际上将技术能力无声地注入服务器底层架构，确保了稳定运行，是"无痕"基石的铸造者。',
       },
