@@ -131,7 +131,7 @@ export const people: PeopleSection[] = [
         name: 'AkariDream',
         aliases: ['AkaneCh4n', 'FallenCrystal'],
         role: 'CubeX 贡献者',
-        description: 'Commune 社区和 CubeX 联合创始人之一。CubeX 开服后的核心管理者，曾扶持 XY_Kuailexy 接手服务器，深度参与服务器运营和社区建设。',
+        description: 'CubeX 开服后的核心技术与管理者，曾扶持 XY_Kuailexy 接手服务器，深度参与服务器运营和社区建设。',
         links: [
           { label: 'GitHub', url: 'https://github.com/AkaneCh4n' },
         ],
