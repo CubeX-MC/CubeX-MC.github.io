@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const numberFormatter = new Intl.NumberFormat('zh-CN');
+
+const stats = [
+  { label: '一周目区域', value: numberFormatter.format(1366), tone: 'text-cubex-gold' },
+  { label: '二周目区域', value: numberFormatter.format(375), tone: 'text-cubex-blue' },
+  { label: '地图瓦片', value: numberFormatter.format(6271), tone: 'text-cubex-green' },
+  { label: '坐标跨度', value: '160,000 × 160,000', tone: 'text-cubex-accent' },
+];
+---
+
+<BaseLayout
+  title="存档合并 · CubeX"
+  description="CubeX 一二周目合并后的主世界领地可视化，二周目坐标保持不变，一周目领地平移并添加 zm1 前缀。"
+>
+  <section class="px-6 pt-14 pb-8">
+    <div class="mx-auto max-w-6xl">
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div class="max-w-3xl">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Merged World</p>
+          <h1 class="text-3xl font-bold text-white md:text-5xl">一二周目存档合并</h1>
+          <p class="mt-5 text-sm leading-relaxed text-white/50 md:text-base">
+            二周目主世界 4w × 4w 区域保留原坐标嵌入一周目空区；一周目 16w × 16w 存档整体平移后合并，所有一周目领地已加上 zm1 前缀。
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="/merge_residence_map/index.html"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 border border-cubex-red/30 bg-cubex-red/15 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-cubex-red/25"
+          >
+            打开全屏
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4h6m0 0v6m0-6L10 14M5 10v9h9" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((item) => (
+          <div class="glass-card p-4">
+            <p class="text-xs font-semibold uppercase tracking-widest text-white/30">{item.label}</p>
+            <p class={`mt-2 text-2xl font-bold ${item.tone}`}>{item.value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 pb-12">
+    <div class="mx-auto max-w-6xl">
+      <div class="overflow-hidden border border-white/10 bg-black/20">
+        <iframe
+          src="/merge_residence_map/index.html"
+          title="CubeX 一二周目存档合并领地地图"
+          class="block h-[72vh] min-h-[520px] w-full"
+        ></iframe>
+      </div>
+      <div class="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/35">
+        <span><span class="inline-block h-2.5 w-2.5 bg-cubex-gold"></span> zm1 / 一周目平移领地</span>
+        <span><span class="inline-block h-2.5 w-2.5 bg-cubex-blue"></span> zm2 / 二周目原坐标领地</span>
+        <span>生成时间 2026-05-23 17:05</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

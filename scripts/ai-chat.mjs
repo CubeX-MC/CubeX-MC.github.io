@@ -13,6 +13,16 @@ const AI_POST_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes between AI conversatio
 const AI_MAX_ROUNDS = 3;                    // max AI messages per invocation
 const AI_MAX_ROUNDS_REACTIVE = 1;           // max AI messages when responding to users
 const MAX_RECENT_MESSAGES = 30;
+const RETRYABLE_OPENROUTER_STATUSES = new Set([408, 409, 425, 429, 500, 502, 503, 504]);
+const RETRYABLE_OPENROUTER_PATTERNS = [
+  /insufficient_quota/i,
+  /out of credits/i,
+  /provider returned error/i,
+  /rate.?limit/i,
+  /temporarily unavailable/i,
+  /overloaded/i,
+  /no endpoints? found/i,
+];
 
 // ---- helpers ----
 
@@ -70,11 +80,24 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function summarizeOpenRouterError(status, text) {
+  return `OpenRouter ${status}: ${text.replace(/\s+/g, ' ').slice(0, 220)}`;
+}
+
+function isRetryableOpenRouterError(status, text) {
+  if (RETRYABLE_OPENROUTER_STATUSES.has(status)) return true;
+  if (status === 402) {
+    return RETRYABLE_OPENROUTER_PATTERNS.some(pattern => pattern.test(text));
+  }
+  return false;
+}
+
 // Returns { content, model } on success. Skips models already in usedModels.
 async function callOpenRouter(messages, apiKey, usedModels = new Set()) {
   const freeModels = await fetchFreeModels();
   const allModels = shuffleModels(freeModels);
   const candidates = allModels.filter(m => !usedModels.has(m));
+  const failures = [];
 
   if (!candidates.length) {
     // All models already used in this invocation — re-shuffle and allow repeats
@@ -111,17 +134,22 @@ async function callOpenRouter(messages, apiKey, usedModels = new Set()) {
       continue;
     }
 
-    if (res.status === 429) {
-      console.warn(`  Rate limited, trying next model...`);
-      await sleep(2000);
+    const text = await res.text();
+    const summary = summarizeOpenRouterError(res.status, text);
+    failures.push(`${model}: ${summary}`);
+
+    if (isRetryableOpenRouterError(res.status, text)) {
+      console.warn(`  ${summary}`);
+      console.warn(`  Trying next model...`);
+      if (res.status === 429) await sleep(2000);
       continue;
     }
 
-    const text = await res.text();
-    throw new Error(`OpenRouter ${res.status}: ${text.slice(0, 300)}`);
+    throw new Error(summary);
   }
 
-  throw new Error(`No model succeeded (${candidates.length} tried)`);
+  const detail = failures.slice(-5).join(' | ');
+  throw new Error(`No model succeeded (${candidates.length} tried). Last errors: ${detail}`);
 }
 
 // ---- Firestore helpers ----
