@@ -202,7 +202,6 @@ const firebaseConfig = {
     const nickname = nicknameInput.value.trim() || '匿名玩家';
     sendBtn.disabled = true;
     input.disabled = true;
-    lastSendTime = now;
 
     try {
       await addDoc(collection(db, 'chat-messages'), {
@@ -212,15 +211,13 @@ const firebaseConfig = {
         content,
         timestamp: serverTimestamp(),
       });
+      lastSendTime = now;
       input.value = '';
     } catch (err) {
       console.error('Send failed:', err);
-      status.textContent = '发送失败，请重试';
+      const detail = err?.code || err?.message || '未知错误';
+      status.textContent = '发送失败 — ' + detail;
       status.style.color = '#f87171';
-      setTimeout(() => {
-        status.textContent = '实时连接中';
-        status.style.color = '';
-      }, 3000);
     } finally {
       sendBtn.disabled = false;
       input.disabled = false;
