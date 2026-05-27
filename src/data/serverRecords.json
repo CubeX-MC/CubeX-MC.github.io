@@ -3,8 +3,8 @@
   "source": "mcmod.cn + mcsrvstat.us",
   "servers": {
     "cubex-lite": {
-      "name": "CubeX",
-      "ip": "play.cubexmc.top",
+      "name": "CubeX Lite",
+      "ip": "play.cubexmc.org",
       "edition": "java",
       "record": {
         "players": 68,

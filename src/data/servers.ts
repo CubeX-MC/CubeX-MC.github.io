@@ -12,10 +12,10 @@ export interface Server {
 
 export const servers: Server[] = [
   {
-    name: 'CubeX',
+    name: 'CubeX Lite',
     subtitle: '筑梦为家 · 温情养老',
     description: '由玩家共同维护，为高版本纯净养老生存玩家打造的宁静港湾。以"玩家自治、社区驱动"为核心理念，鼓励玩家建立社区化的聚集地，积极参与服务器的设计与政策制定。服务器已和平交接 6 轮服主，并允许有能力的玩家通过考核成为服主。珍视每位玩家的足迹，已公开一周目存档，保障回归或怀旧的权利。紧跟 Minecraft 更新步伐，支持 Java 版 1.13–1.21.8。',
-    ip: 'play.cubexmc.top',
+    ip: 'play.cubexmc.org',
     links: [
       { label: '官网', url: 'https://cubexmc.top' },
       { label: 'QQ 群', url: 'https://jq.qq.com/?_wv=1027&k=g38XNewm' },

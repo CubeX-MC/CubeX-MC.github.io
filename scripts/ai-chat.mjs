@@ -13,7 +13,9 @@ const AI_POST_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes between AI conversatio
 const AI_MAX_ROUNDS = 3;                    // max AI messages per invocation
 const AI_MAX_ROUNDS_REACTIVE = 1;           // max AI messages when responding to users
 const MAX_RECENT_MESSAGES = 30;
-const RETRYABLE_OPENROUTER_STATUSES = new Set([408, 409, 425, 429, 500, 502, 503, 504]);
+const OPENROUTER_MODELS_URL = 'https://openrouter.ai/api/v1/models?output_modalities=text';
+const MODEL_LIST_RETRIES = 3;
+const RETRYABLE_OPENROUTER_STATUSES = new Set([400, 404, 408, 409, 410, 425, 429, 500, 502, 503, 504]);
 const RETRYABLE_OPENROUTER_PATTERNS = [
   /insufficient_quota/i,
   /out of credits/i,
@@ -41,28 +43,77 @@ const systemPrompt = `你是一个 Minecraft 社区的一名普通成员。你�
 - 不要加任何前缀
 - 你就是一个普通玩家，语气和大家一样随意`;
 
-async function fetchFreeModels() {
-  const res = await fetch('https://openrouter.ai/api/v1/models');
-  if (!res.ok) return null;
-  const data = await res.json();
-  const free = (data.data || []).filter(
-    m => parseFloat(m.pricing?.prompt || '0') === 0 &&
-         parseFloat(m.pricing?.completion || '0') === 0
-  );
-  console.log(`Found ${free.length} free models`);
-  return free;
+function readPrice(value) {
+  if (value === undefined || value === null || value === '') return null;
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function isZeroPrice(value) {
+  return readPrice(value) === 0;
+}
+
+function isFreeTextModel(model) {
+  const id = typeof model?.id === 'string' ? model.id : '';
+  const input = model?.architecture?.input_modalities || [];
+  const output = model?.architecture?.output_modalities || [];
+  const pricing = model?.pricing || {};
+
+  const freeByPricing =
+    isZeroPrice(pricing.prompt) &&
+    isZeroPrice(pricing.completion) &&
+    (pricing.request === undefined || isZeroPrice(pricing.request));
+
+  return Boolean(id) &&
+    input.includes('text') &&
+    output.includes('text') &&
+    (id.endsWith(':free') || freeByPricing);
+}
+
+async function fetchFreeModels(apiKey) {
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= MODEL_LIST_RETRIES; attempt++) {
+    try {
+      const res = await fetch(OPENROUTER_MODELS_URL, {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(summarizeOpenRouterError(res.status, text));
+      }
+
+      const data = await res.json();
+      const free = (data.data || []).filter(isFreeTextModel);
+      console.log(`Found ${free.length} free OpenRouter text models`);
+
+      if (!free.length) {
+        throw new Error('OpenRouter model list returned no free text models');
+      }
+
+      return free;
+    } catch (err) {
+      lastError = err;
+      console.warn(`Failed to fetch OpenRouter free models (${attempt}/${MODEL_LIST_RETRIES}): ${err.message}`);
+      if (attempt < MODEL_LIST_RETRIES) await sleep(1000 * attempt);
+    }
+  }
+
+  throw new Error(`Could not fetch OpenRouter free models: ${lastError?.message || 'unknown error'}`);
 }
 
 function shuffleModels(freeModels) {
-  if (!freeModels?.length) return ['google/gemini-2.5-flash-lite'];
   const preferred = [];
   const rest = [];
   for (const m of freeModels) {
     const id = m.id || '';
     if (id.includes('gemini') || id.includes('llama') || id.includes('deepseek')) {
-      preferred.push(id);
+      preferred.push(m);
     } else {
-      rest.push(id);
+      rest.push(m);
     }
   }
   for (let i = preferred.length - 1; i > 0; i--) {
@@ -74,6 +125,24 @@ function shuffleModels(freeModels) {
     [rest[i], rest[j]] = [rest[j], rest[i]];
   }
   return [...preferred, ...rest];
+}
+
+function supportsParameter(model, parameter) {
+  const supported = model?.supported_parameters;
+  return !Array.isArray(supported) || supported.includes(parameter);
+}
+
+function buildChatCompletionBody(model, messages) {
+  const body = {
+    model: model.id,
+    messages,
+  };
+
+  if (supportsParameter(model, 'temperature')) body.temperature = 0.9;
+  if (supportsParameter(model, 'max_tokens')) body.max_tokens = 256;
+  if (supportsParameter(model, 'top_p')) body.top_p = 0.95;
+
+  return body;
 }
 
 function sleep(ms) {
@@ -94,9 +163,9 @@ function isRetryableOpenRouterError(status, text) {
 
 // Returns { content, model } on success. Skips models already in usedModels.
 async function callOpenRouter(messages, apiKey, usedModels = new Set()) {
-  const freeModels = await fetchFreeModels();
+  const freeModels = await fetchFreeModels(apiKey);
   const allModels = shuffleModels(freeModels);
-  const candidates = allModels.filter(m => !usedModels.has(m));
+  const candidates = allModels.filter(m => !usedModels.has(m.id));
   const failures = [];
 
   if (!candidates.length) {
@@ -107,7 +176,7 @@ async function callOpenRouter(messages, apiKey, usedModels = new Set()) {
 
   for (let i = 0; i < candidates.length; i++) {
     const model = candidates[i];
-    console.log(`  Trying model ${i + 1}/${candidates.length}: ${model}`);
+    console.log(`  Trying model ${i + 1}/${candidates.length}: ${model.id}`);
 
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -117,26 +186,20 @@ async function callOpenRouter(messages, apiKey, usedModels = new Set()) {
         'HTTP-Referer': 'https://cubexmc.org',
         'X-Title': 'CubeX Community AI Chat',
       },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature: 0.9,
-        max_tokens: 256,
-        top_p: 0.95,
-      }),
+      body: JSON.stringify(buildChatCompletionBody(model, messages)),
     });
 
     if (res.ok) {
       const data = await res.json();
       const content = data.choices?.[0]?.message?.content?.trim();
-      if (content) return { content, model };
+      if (content) return { content, model: model.id };
       console.warn(`  Empty response, trying next...`);
       continue;
     }
 
     const text = await res.text();
     const summary = summarizeOpenRouterError(res.status, text);
-    failures.push(`${model}: ${summary}`);
+    failures.push(`${model.id}: ${summary}`);
 
     if (isRetryableOpenRouterError(res.status, text)) {
       console.warn(`  ${summary}`);
