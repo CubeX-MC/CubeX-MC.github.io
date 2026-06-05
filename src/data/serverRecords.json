@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-05T08:29:06.890Z",
+  "updatedAt": "2026-06-05T11:43:04.651Z",
   "source": "mcmod.cn + mcsrvstat.us",
   "servers": {
     "cubex-lite": {
@@ -226,10 +226,10 @@
         },
         {
           "date": "2026-06-05",
-          "peak": 0,
-          "at": "2026-06-05T04:13:22.064Z",
-          "max": null,
-          "version": null
+          "peak": 5,
+          "at": "2026-06-05T11:43:04.651Z",
+          "max": 2025,
+          "version": "1.7.2-26.1.2"
         }
       ]
     },
