@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-06T22:56:44.290Z",
+  "updatedAt": "2026-06-07T00:01:47.722Z",
   "source": "mcmod.cn + mcsrvstat.us",
   "servers": {
     "cubex-lite": {
@@ -237,6 +237,13 @@
           "at": "2026-06-06T09:06:12.837Z",
           "max": 2025,
           "version": "1.7.2-26.1.2"
+        },
+        {
+          "date": "2026-06-07",
+          "peak": 0,
+          "at": "2026-06-07T00:01:47.722Z",
+          "max": null,
+          "version": null
         }
       ]
     },
@@ -475,6 +482,13 @@
           "at": "2026-06-06T02:27:28.855Z",
           "max": null,
           "version": null
+        },
+        {
+          "date": "2026-06-07",
+          "peak": 0,
+          "at": "2026-06-07T00:01:47.722Z",
+          "max": null,
+          "version": null
         }
       ]
     },
@@ -711,6 +725,13 @@
           "date": "2026-06-06",
           "peak": 0,
           "at": "2026-06-06T02:27:28.855Z",
+          "max": null,
+          "version": null
+        },
+        {
+          "date": "2026-06-07",
+          "peak": 0,
+          "at": "2026-06-07T00:01:47.722Z",
           "max": null,
           "version": null
         }
