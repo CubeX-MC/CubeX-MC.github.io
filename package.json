@@ -1,8 +1,8 @@
 {
-  "name": "cubex-hypercube",
+  "name": "cubex-research",
   "type": "module",
   "version": "2.0.0",
-  "description": "CubeX / HyperCube - Minecraft Server Organization",
+  "description": "CubeX 研究院 - Minecraft Server Organization",
   "engines": {
     "node": ">=22.12.0"
   },

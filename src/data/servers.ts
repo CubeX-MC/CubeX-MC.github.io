@@ -19,6 +19,8 @@ export const servers: Server[] = [
     ip: 'play.cubexmc.org',
     links: [
       { label: '官网', url: 'https://cubexmc.top' },
+      { label: '服务器文档', url: 'http://wiki.cubexmc.org' },
+      { label: '工单系统', url: 'http://ticket.cubexmc.org' },
       { label: 'QQ 群', url: 'https://jq.qq.com/?_wv=1027&k=g38XNewm' },
       { label: 'CubeX Lite 存档合并', url: '/map' },
     ],

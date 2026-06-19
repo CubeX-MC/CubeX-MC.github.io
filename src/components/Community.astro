@@ -6,7 +6,7 @@ const contributors = people.find((section) => section.variant === 'retired')?.me
 const allPeople = [...coreMembers, ...contributors];
 
 const coreLinks = [
-  { label: 'HyperCube Discord', desc: '核心组织交流', url: 'https://discord.gg/7tJeSZPZgv', tone: 'bg-[#5865F2]/12 text-[#5865F2]' },
+  { label: '研究院 Discord', desc: '核心组织交流', url: 'https://discord.gg/7tJeSZPZgv', tone: 'bg-[#5865F2]/12 text-[#5865F2]' },
   { label: 'GitHub', desc: 'CubeX-MC 组织', url: 'https://github.com/CubeX-MC', tone: 'bg-white/8 text-white/70' },
   { label: 'Modrinth', desc: 'CubeX 组织页面', url: 'https://modrinth.com/organization/cubexmc', tone: 'bg-cubex-green/12 text-cubex-green' },
   { label: 'Discussions', desc: 'GitHub 讨论区', url: 'https://github.com/CubeX-MC/CubeX-MC.github.io/discussions', tone: 'bg-cubex-red/10 text-cubex-red' },
@@ -41,7 +41,7 @@ const highlightedMembers = coreMembers.filter((member) => ['angushushu', 'Adlamb
         <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Community</p>
         <h1 class="text-3xl font-bold md:text-5xl">社区网络</h1>
         <p class="mt-5 max-w-3xl text-sm leading-relaxed text-white/50 md:text-base">
-          CubeX 不只是一个服务器名，而是一组服务器、项目、成员、历史和聊天入口交织成的网络。这里合并了社区入口和成员索引，方便新玩家找组织，也方便老玩家回来看谁还在做事。
+          CubeX 不只是一个服务器名，而是由服务器、项目、成员、历史和聊天入口交织成的研究院品牌。这里合并了社区入口和成员索引，方便新玩家找组织，也方便老玩家回来看谁还在做事。
         </p>
       </div>
 
@@ -49,7 +49,7 @@ const highlightedMembers = coreMembers.filter((member) => ['angushushu', 'Adlamb
         <div class="border border-white/7 bg-white/[0.025] p-4">
           <p class="text-xs uppercase tracking-wider text-white/25">Core</p>
           <p class="mt-2 text-3xl font-bold text-white">{coreMembers.length}</p>
-          <p class="mt-1 text-xs text-white/35">HyperCube 成员</p>
+          <p class="mt-1 text-xs text-white/35">研究院成员</p>
         </div>
         <div class="border border-white/7 bg-white/[0.025] p-4">
           <p class="text-xs uppercase tracking-wider text-white/25">People</p>
@@ -166,7 +166,7 @@ const highlightedMembers = coreMembers.filter((member) => ['angushushu', 'Adlamb
                       {member.badge && <span class="tag-pill bg-cubex-red/15 text-cubex-red">{member.badge}</span>}
                     </div>
 
-                    {member.description && member.description !== 'HyperCube 核心成员。' && member.description !== 'HyperCube 核心成员' && (
+                    {member.description && member.description !== 'CubeX 研究院核心成员。' && member.description !== 'CubeX 研究院核心成员' && (
                       <p class="mt-3 text-xs leading-relaxed text-white/40">{member.description}</p>
                     )}
 

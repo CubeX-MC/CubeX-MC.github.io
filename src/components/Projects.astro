@@ -14,7 +14,7 @@ const groups = [
   {
     title: '服务器插件',
     kicker: 'Server Plugins',
-    description: '直接服务于 CubeX / HyperCube 服务器运营的插件，从经济、交通、合同到内容存储。',
+    description: '直接服务于 CubeX 研究院服务器运营的插件，从经济、交通、合同到内容存储。',
     items: minecraftProjects,
   },
   {
@@ -54,7 +54,7 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
         <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Projects</p>
         <h1 class="text-3xl font-bold md:text-5xl">项目看板</h1>
         <p class="mt-5 max-w-3xl text-sm leading-relaxed text-white/50 md:text-base">
-          这里汇总 CubeX / HyperCube 正在维护和推进的插件、网页工具与 Minecraft 实验项目。每个条目都标注贡献者、平台、核心能力和仓库入口，方便玩家、开发者和服务器运营者随时回来查看进展。
+          这里汇总 CubeX 研究院正在维护和推进的插件、网页工具与 Minecraft 实验项目。每个条目都标注贡献者、平台、核心能力和仓库入口，方便玩家、开发者和服务器运营者随时回来查看进展。
         </p>
       </div>
 
@@ -93,7 +93,14 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
           {recentFocus.map((project) => {
             const activity = activityByName.get(project.name);
             return (
-              <a href={activity?.url ?? project.links[0]?.url} target="_blank" rel="noopener" class="block border border-white/7 bg-white/[0.025] p-4 transition-colors hover:border-cubex-red/30 hover:bg-white/[0.045]">
+              <a
+                href={activity?.url ?? project.links[0]?.url}
+                target="_blank"
+                rel="noopener"
+                data-project-card
+                data-contributors={project.contributors.join('|')}
+                class="block border border-white/7 bg-white/[0.025] p-4 transition-colors hover:border-cubex-red/30 hover:bg-white/[0.045]"
+              >
                 <div class="flex items-start justify-between gap-3">
                   <div>
                     <h3 class="font-semibold text-white">{project.name}</h3>
@@ -111,10 +118,18 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
 
       <div class="glass-card p-5 md:p-6">
         <p class="text-xs uppercase tracking-wider text-white/30">Contributors</p>
-        <h2 class="mt-1 text-xl font-bold">贡献者索引</h2>
+        <div class="mt-1 flex items-end justify-between gap-3">
+          <h2 class="text-xl font-bold">按贡献者筛选</h2>
+          <p class="text-xs text-white/35"><span data-project-filter-count>{projects.length}/{projects.length}</span> 个项目</p>
+        </div>
         <div class="mt-5 flex flex-wrap gap-2">
+          <button type="button" class="contributor-clear tag-pill bg-white/[0.045] text-white/55" data-contributor-clear aria-pressed="true">
+            全部
+          </button>
           {contributors.map((name) => (
-            <span class="tag-pill bg-white/[0.045] text-white/55">{name}</span>
+            <button type="button" class="contributor-filter tag-pill bg-white/[0.045] text-white/55" data-contributor-filter={name} aria-pressed="false">
+              {name}
+            </button>
           ))}
         </div>
       </div>
@@ -122,7 +137,7 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
 
     <div class="mt-12 space-y-12">
       {groups.map((group) => (
-        <section>
+        <section data-project-group>
           <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p class="text-xs font-semibold uppercase tracking-widest text-cubex-red">{group.kicker}</p>
@@ -133,7 +148,12 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
 
           <div class="grid gap-4 lg:grid-cols-2">
             {group.items.map((project) => (
-              <article class="glass-card p-5">
+              <article
+                class="glass-card p-5"
+                data-project-card
+                data-project-main-card
+                data-contributors={project.contributors.join('|')}
+              >
                 <div class="flex gap-4">
                   <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center bg-cubex-red/10 text-xl">
                     {project.icon}
@@ -173,8 +193,78 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
               </article>
             ))}
           </div>
+          <p data-project-empty hidden class="border border-white/7 bg-white/[0.025] p-4 text-sm text-white/40">
+            没有匹配当前贡献者筛选的项目。
+          </p>
         </section>
       ))}
     </div>
   </div>
 </section>
+
+<script>
+  const filterButtons = Array.from(document.querySelectorAll('[data-contributor-filter]'));
+  const clearButton = document.querySelector('[data-contributor-clear]');
+  const projectCards = Array.from(document.querySelectorAll('[data-project-card]'));
+  const mainProjectCards = Array.from(document.querySelectorAll('[data-project-main-card]'));
+  const projectGroups = Array.from(document.querySelectorAll('[data-project-group]'));
+  const filterCount = document.querySelector('[data-project-filter-count]');
+  const selectedContributors = new Set();
+
+  const readContributors = (card) => (card.getAttribute('data-contributors') || '').split('|').filter(Boolean);
+
+  const projectMatches = (card) => {
+    if (selectedContributors.size === 0) return true;
+    const contributors = readContributors(card);
+    return contributors.some((name) => selectedContributors.has(name));
+  };
+
+  const renderContributorFilters = () => {
+    let visibleProjects = 0;
+
+    for (const button of filterButtons) {
+      const contributor = button.getAttribute('data-contributor-filter');
+      button.setAttribute('aria-pressed', String(selectedContributors.has(contributor)));
+    }
+
+    clearButton?.setAttribute('aria-pressed', String(selectedContributors.size === 0));
+
+    for (const card of projectCards) {
+      const visible = projectMatches(card);
+      card.hidden = !visible;
+      if (visible && card.hasAttribute('data-project-main-card')) {
+        visibleProjects += 1;
+      }
+    }
+
+    for (const group of projectGroups) {
+      const hasVisibleCard = Array.from(group.querySelectorAll('[data-project-main-card]')).some((card) => !card.hidden);
+      const emptyState = group.querySelector('[data-project-empty]');
+      if (emptyState) emptyState.hidden = hasVisibleCard;
+    }
+
+    if (filterCount) {
+      filterCount.textContent = `${visibleProjects}/${mainProjectCards.length}`;
+    }
+  };
+
+  for (const button of filterButtons) {
+    button.addEventListener('click', () => {
+      const contributor = button.getAttribute('data-contributor-filter');
+      if (!contributor) return;
+
+      if (selectedContributors.has(contributor)) {
+        selectedContributors.delete(contributor);
+      } else {
+        selectedContributors.add(contributor);
+      }
+
+      renderContributorFilters();
+    });
+  }
+
+  clearButton?.addEventListener('click', () => {
+    selectedContributors.clear();
+    renderContributorFilters();
+  });
+</script>

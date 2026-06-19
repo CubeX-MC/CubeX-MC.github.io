@@ -126,6 +126,26 @@ body {
   letter-spacing: 0.025em;
 }
 
+.contributor-filter,
+.contributor-clear {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.contributor-filter:hover,
+.contributor-clear:hover {
+  border-color: rgba(160, 82, 45, 0.45);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.contributor-filter[aria-pressed="true"],
+.contributor-clear[aria-pressed="true"] {
+  background-color: rgba(160, 82, 45, 0.18);
+  border-color: rgba(160, 82, 45, 0.62);
+  color: #fff;
+}
+
 /* Rotating cube animation */
 @keyframes cubeSpin {
   from { transform: rotateY(0deg); }

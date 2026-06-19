@@ -16,15 +16,15 @@ export interface PeopleSection {
 
 export const people: PeopleSection[] = [
   {
-    title: 'HyperCube',
-    description: 'CubeX 的核心组织。HyperCube 维护着插件生态、GitHub 组织和 Modrinth 页面，协调各服务器的交流与合作。',
+    title: 'CubeX 研究院',
+    description: 'CubeX 的核心组织。研究院维护着插件生态、GitHub 组织和 Modrinth 页面，协调各服务器的交流与合作。',
     variant: 'core',
     members: [
       {
         name: 'Adlambxd',
         aliases: ['AdlambXD', '女装大佬'],
-        role: 'HyperCube 成员 / CubeX ELite 创办人',
-        description: 'HyperCube 核心成员。CubeX ELite RPG 商业服的创办人，在 CubeX Lite 退休后开启了新的探索。曾担任 CubeX 二周目服主，任职期间引入了 .top 域名。',
+        role: 'CubeX 研究院成员 / CubeX ELite 创办人',
+        description: 'CubeX 研究院核心成员。CubeX ELite RPG 商业服的创办人，在 CubeX Lite 退休后开启了新的探索。曾担任 CubeX 二周目服主，任职期间引入了 .top 域名。',
         links: [
           { label: '个人网站', url: 'https://adlambxd.github.io' },
         ],
@@ -32,12 +32,12 @@ export const people: PeopleSection[] = [
       {
         name: 'addxiaoyi',
         aliases: ['老钱'],
-        role: 'HyperCube 成员 / StarMC 服主',
-        description: '原 CubeX 基岩玩家，HyperCube 核心成员。独立开设了 StarMC 群组服务器，为社区提供多样化的游戏模式。',
+        role: 'CubeX 研究院成员 / StarMC 服主',
+        description: '原 CubeX 基岩玩家，CubeX 研究院核心成员。独立开设了 StarMC 群组服务器，为社区提供多样化的游戏模式。',
       },
       {
         name: 'angushushu',
-        role: 'HyperCube 成员',
+        role: 'CubeX 研究院成员',
         description: 'Commune，云湖边，CubeX，Gemocracy贡献者',
         links: [
           { label: '个人网站', url: 'https://angushushu.com' },
@@ -47,25 +47,25 @@ export const people: PeopleSection[] = [
       {
         name: 'Erblanz',
         aliases: ['红石佬'],
-        role: 'HyperCube 成员',
-        description: '云湖边社区管理，HyperCube 核心成员，红石方向。',
+        role: 'CubeX 研究院成员',
+        description: '云湖边社区管理，CubeX 研究院核心成员，红石方向。',
       },
       {
         name: 'ew',
         aliases: ['垃圾佬'],
-        role: 'HyperCube 成员',
-        description: 'HyperCube 核心成员。',
+        role: 'CubeX 研究院成员',
+        description: 'CubeX 研究院核心成员。',
       },
       {
         name: 'FZAoao',
-        role: 'HyperCube 成员 / Gemocracy 联合创始人',
-        description: 'HyperCube 核心成员。Gemocracy 玩家自治服的联合创始人推动玩家自治的实验。',
+        role: 'CubeX 研究院成员 / Gemocracy 联合创始人',
+        description: 'CubeX 研究院核心成员。Gemocracy 玩家自治服的联合创始人推动玩家自治的实验。',
       },
       {
         name: 'HotWind',
         aliases: ['技术佬'],
-        role: 'HyperCube 成员',
-        description: 'HyperCube 核心成员，技术方向。',
+        role: 'CubeX 研究院成员',
+        description: 'CubeX 研究院核心成员，技术方向。',
         links: [
           { label: '博客', url: 'https://blog.hotwind.cc' },
         ],
@@ -73,14 +73,14 @@ export const people: PeopleSection[] = [
       {
         name: 'itmn23',
         aliases: ['技术佬'],
-        role: 'HyperCube 成员',
-        description: 'HyperCube 核心成员，技术方向。',
+        role: 'CubeX 研究院成员',
+        description: 'CubeX 研究院核心成员，技术方向。',
       },
       {
         name: 'janhous',
         aliases: ['技术佬'],
-        role: 'HyperCube 成员',
-        description: 'HyperCube 核心成员，技术方向。',
+        role: 'CubeX 研究院成员',
+        description: 'CubeX 研究院核心成员，技术方向。',
         links: [
           { label: 'GitHub', url: 'https://github.com/janhous233' },
         ],
@@ -88,37 +88,37 @@ export const people: PeopleSection[] = [
       {
         name: 'LCDJ',
         aliases: ['KangmiNansen'],
-        role: 'HyperCube 成员 / CubeX 服主',
-        description: 'HyperCube 核心成员，CubeX 服主。与 steve3184 并肩从普通玩家成长为服主，2025 年暑期与 Mark_Q、steve3184 联合成为主事。',
+        role: 'CubeX 研究院成员 / CubeX 服主',
+        description: 'CubeX 研究院核心成员，CubeX 服主。与 steve3184 并肩从普通玩家成长为服主，2025 年暑期与 Mark_Q、steve3184 联合成为主事。',
       },
       {
         name: 'mark_q',
         aliases: ['老钱'],
-        role: 'HyperCube 成员 / CubeX 服主',
-        description: 'CubeX Lite 服主，HyperCube 核心成员。xingchen 被弹劾后与 AdlambXD 一同上位，后联合 LCDJ 和 steve3184 成为 CubeX 主事。',
+        role: 'CubeX 研究院成员 / CubeX 服主',
+        description: 'CubeX Lite 服主，CubeX 研究院核心成员。xingchen 被弹劾后与 AdlambXD 一同上位，后联合 LCDJ 和 steve3184 成为 CubeX 主事。',
       },
       {
         name: 'Morgen_yc',
         aliases: ['肌肉佬'],
-        role: 'HyperCube 成员',
-        description: '云湖边社区管理，HyperCube 核心成员。以温和公正的态度化解玩家间的矛盾与纷争，是社区和谐与稳定的基石。',
+        role: 'CubeX 研究院成员',
+        description: '云湖边社区管理，CubeX 研究院核心成员。以温和公正的态度化解玩家间的矛盾与纷争，是社区和谐与稳定的基石。',
       },
       {
         name: 'qorhe',
         aliases: ['建筑佬'],
-        role: 'HyperCube 成员',
-        description: 'CubeX官方建筑师，HyperCube 核心成员，建筑方向。',
+        role: 'CubeX 研究院成员',
+        description: 'CubeX官方建筑师，CubeX 研究院核心成员，建筑方向。',
       },
       {
         name: 'Steve3184',
         aliases: ['公共技术佬'],
-        role: 'HyperCube 成员 / CubeX 服主',
+        role: 'CubeX 研究院成员 / CubeX 服主',
         description: 'CubeX 现任服主之一。2021 年底作为普通玩家加入 CubeX，从搭建第一座小木屋起步，逐步凭借技术能力承担服务器技术支持，最终成长为服主。全栈开发者，擅长 Node.js、Python、Java 及服务器运维，同时负责一周目怀旧服（old.cubexmc.org）的维护。',
       },
       {
         name: 'wwwer',
-        role: 'HyperCube 成员 / CubeX Wonderful 服主',
-        description: '云湖边社区管理，原 CubeX OP，HyperCube 核心成员。小湖镇管理者，通过小湖镇复兴 CubeX 的关键人物，后与 angushushu 一同运营玩家服务器。2024 年 1 月与 angushushu 一同半退休。',
+        role: 'CubeX 研究院成员 / CubeX Wonderful 服主',
+        description: '云湖边社区管理，原 CubeX OP，CubeX 研究院核心成员。小湖镇管理者，通过小湖镇复兴 CubeX 的关键人物，后与 angushushu 一同运营玩家服务器。2024 年 1 月与 angushushu 一同半退休。',
       },
     ],
   },

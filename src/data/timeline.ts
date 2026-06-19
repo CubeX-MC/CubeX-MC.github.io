@@ -22,12 +22,12 @@ export const timeline: TimelineEvent[] = [
   },
   {
     year: '2024–25',
-    title: 'HyperCube 组织成型',
-    description: 'CubeX 的老管理们组建了 HyperCube，逐渐吸收来自 CubeX 的重要贡献者。HyperCube 接管了 GitHub CubeX-MC 组织和 Modrinth CubeX 页面，域名迁移至 cubexmc.org。插件生态逐步完善：EcoBalancer、Metro、Railway、RuleGems、FAWEReplace 相继开发。成员们开始开设不同的服务器，探索更多模式。',
+    title: 'CubeX 研究院成型',
+    description: 'CubeX 的老管理们将服务器、项目和贡献者网络整理为 CubeX 研究院。研究院接管了 GitHub CubeX-MC 组织和 Modrinth CubeX 页面，域名迁移至 cubexmc.org。插件生态逐步完善：EcoBalancer、Metro、Railway、RuleGems、FAWEReplace 相继开发。成员们开始开设不同的服务器，探索更多模式。',
   },
   {
     year: '2026.05',
     title: '泛 CubeX 概念',
-    description: '原 CubeX 服务器逐渐衰落，被改称为 CubeX Lite。HyperCube 提出"泛 CubeX"概念——以 HyperCube 为核心，任何为 CubeX 做出过贡献的人都是泛 CubeX 社区的一部分。围绕这个核心，CubeX ELite、Gemocracy、StarMC、CubeX Wonderful 等多个服务器继续运转，CubeX 的探索精神延续。',
+    description: '原 CubeX 服务器逐渐衰落，被改称为 CubeX Lite。CubeX 研究院提出"泛 CubeX"概念——以 CubeX 品牌为核心，任何为 CubeX 做出过贡献的人都是泛 CubeX 社区的一部分。围绕这个核心，CubeX ELite、Gemocracy、StarMC、CubeX Wonderful 等多个服务器继续运转，CubeX 的探索精神延续。',
   },
 ];
