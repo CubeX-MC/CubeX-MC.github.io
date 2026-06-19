@@ -1,0 +1,180 @@
+---
+import { projects } from '../data/projects';
+import projectActivity from '../data/projectActivity.json';
+
+const contributors = Array.from(new Set(projects.flatMap((project) => project.contributors)));
+const minecraftProjects = projects.filter((project) => project.platforms.some((platform) => /Paper|Spigot|Folia|Bukkit|Vault/.test(platform)));
+const webProjects = projects.filter((project) => project.platforms.some((platform) => /Web|Minecraft 1\.21\.8/.test(platform)));
+const activityByName = new Map(projectActivity.projects.map((activity) => [activity.name, activity]));
+const recentFocus = projectActivity.projects
+  .map((activity) => projects.find((project) => project.name === activity.name))
+  .filter((project): project is typeof projects[number] => Boolean(project));
+
+const groups = [
+  {
+    title: '服务器插件',
+    kicker: 'Server Plugins',
+    description: '直接服务于 CubeX / HyperCube 服务器运营的插件，从经济、交通、合同到内容存储。',
+    items: minecraftProjects,
+  },
+  {
+    title: '客户端与网页实验',
+    kicker: 'Web & Client',
+    description: '面向浏览器、客户端和跨平台体验的长期实验项目。',
+    items: webProjects,
+  },
+];
+
+const projectType = (project: typeof projects[number]) => {
+  if (project.platforms.includes('Web')) return '网页';
+  if (project.platforms.some((platform) => platform.includes('Paper') || platform.includes('Spigot') || platform.includes('Folia'))) return '插件';
+  return '项目';
+};
+
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
+
+const formatActivityDate = (date: string | null) => {
+  if (!date) return '等待 GitHub 同步';
+  return dateFormatter.format(new Date(date));
+};
+
+const syncedAt = formatActivityDate(projectActivity.updatedAt);
+---
+
+<section id="projects" class="px-6 py-20">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
+      <div>
+        <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Projects</p>
+        <h1 class="text-3xl font-bold md:text-5xl">项目看板</h1>
+        <p class="mt-5 max-w-3xl text-sm leading-relaxed text-white/50 md:text-base">
+          这里汇总 CubeX / HyperCube 正在维护和推进的插件、网页工具与 Minecraft 实验项目。每个条目都标注贡献者、平台、核心能力和仓库入口，方便玩家、开发者和服务器运营者随时回来查看进展。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="border border-white/7 bg-white/[0.025] p-4">
+          <p class="text-xs uppercase tracking-wider text-white/25">Total</p>
+          <p class="mt-2 text-3xl font-bold text-white">{projects.length}</p>
+          <p class="mt-1 text-xs text-white/35">公开项目</p>
+        </div>
+        <div class="border border-white/7 bg-white/[0.025] p-4">
+          <p class="text-xs uppercase tracking-wider text-white/25">Plugins</p>
+          <p class="mt-2 text-3xl font-bold text-white">{minecraftProjects.length}</p>
+          <p class="mt-1 text-xs text-white/35">服务器插件</p>
+        </div>
+        <div class="border border-white/7 bg-white/[0.025] p-4">
+          <p class="text-xs uppercase tracking-wider text-white/25">People</p>
+          <p class="mt-2 text-3xl font-bold text-white">{contributors.length}</p>
+          <p class="mt-1 text-xs text-white/35">贡献者</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 grid gap-3 md:grid-cols-[1.2fr_0.8fr]">
+      <div class="glass-card p-5 md:p-6">
+        <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-wider text-white/30">Focus</p>
+            <h2 class="mt-1 text-xl font-bold">近期关注</h2>
+            <p class="mt-1 text-xs text-white/35">GitHub 最近更新同步于 {syncedAt}</p>
+          </div>
+          <a href="https://github.com/CubeX-MC" target="_blank" rel="noopener" class="text-sm text-cubex-red hover:text-cubex-accent">
+            GitHub 组织
+          </a>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {recentFocus.map((project) => {
+            const activity = activityByName.get(project.name);
+            return (
+              <a href={activity?.url ?? project.links[0]?.url} target="_blank" rel="noopener" class="block border border-white/7 bg-white/[0.025] p-4 transition-colors hover:border-cubex-red/30 hover:bg-white/[0.045]">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 class="font-semibold text-white">{project.name}</h3>
+                    <p class="mt-1 text-xs text-white/35">更新 {formatActivityDate(activity?.pushedAt ?? null)}</p>
+                  </div>
+                  <span class="tag-pill bg-cubex-red/12 text-cubex-red">{projectType(project)}</span>
+                </div>
+                <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-white/45">{project.description}</p>
+                <p class="mt-3 text-xs text-white/35">贡献者: {project.contributors.join(', ')}</p>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
+      <div class="glass-card p-5 md:p-6">
+        <p class="text-xs uppercase tracking-wider text-white/30">Contributors</p>
+        <h2 class="mt-1 text-xl font-bold">贡献者索引</h2>
+        <div class="mt-5 flex flex-wrap gap-2">
+          {contributors.map((name) => (
+            <span class="tag-pill bg-white/[0.045] text-white/55">{name}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 space-y-12">
+      {groups.map((group) => (
+        <section>
+          <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-cubex-red">{group.kicker}</p>
+              <h2 class="mt-1 text-2xl font-bold">{group.title}</h2>
+            </div>
+            <p class="max-w-xl text-sm leading-relaxed text-white/40 md:text-right">{group.description}</p>
+          </div>
+
+          <div class="grid gap-4 lg:grid-cols-2">
+            {group.items.map((project) => (
+              <article class="glass-card p-5">
+                <div class="flex gap-4">
+                  <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center bg-cubex-red/10 text-xl">
+                    {project.icon}
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                      <div>
+                        <h3 class="text-lg font-bold text-white">{project.name}</h3>
+                        <p class="mt-1 text-xs text-white/35">贡献者: {project.contributors.join(', ')}</p>
+                      </div>
+                      <div class="flex flex-wrap gap-1.5 md:justify-end">
+                        {project.platforms.map((platform) => (
+                          <span class="tag-pill bg-cubex-blue/10 text-cubex-blue">{platform}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <p class="mt-3 text-sm leading-relaxed text-white/50">{project.description}</p>
+
+                    <div class="mt-4 flex flex-wrap gap-1.5">
+                      {project.features.map((feature) => (
+                        <span class="tag-pill bg-white/[0.04] text-white/45">{feature}</span>
+                      ))}
+                    </div>
+
+                    {project.links.length > 0 && (
+                      <div class="mt-4 flex flex-wrap gap-3 border-t border-white/5 pt-3">
+                        {project.links.map((link) => (
+                          <a href={link.url} target="_blank" rel="noopener" class="text-xs text-cubex-red transition-colors hover:text-cubex-accent">
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</section>

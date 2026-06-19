@@ -1,0 +1,59 @@
+{
+  "updatedAt": "2026-06-19T10:37:32.163Z",
+  "projects": [
+    {
+      "name": "WebMC",
+      "repository": "Steve3184/WebMC",
+      "url": "https://github.com/Steve3184/WebMC",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-15T00:48:37Z",
+      "updatedAt": "2026-06-15T00:48:42Z"
+    },
+    {
+      "name": "Metro",
+      "repository": "CubeX-MC/Metro",
+      "url": "https://github.com/CubeX-MC/Metro",
+      "description": "minecraft metro system",
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-14T18:48:46Z",
+      "updatedAt": "2026-05-23T22:32:06Z"
+    },
+    {
+      "name": "RuleGems",
+      "repository": "CubeX-MC/RuleGems",
+      "url": "https://github.com/CubeX-MC/RuleGems",
+      "description": "An experimental plugin for server management",
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-14T18:48:44Z",
+      "updatedAt": "2026-05-31T16:48:13Z"
+    },
+    {
+      "name": "Contract",
+      "repository": "CubeX-MC/Contract",
+      "url": "https://github.com/CubeX-MC/Contract",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-14T18:48:42Z",
+      "updatedAt": "2026-06-19T09:17:56Z"
+    },
+    {
+      "name": "Hooked",
+      "repository": "AdLambXD/Hooked",
+      "url": "https://github.com/AdLambXD/Hooked",
+      "description": "类似《木筏求生》游戏的Minecraft插件，将在海中捕捞漂浮物",
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-13T13:16:51Z",
+      "updatedAt": "2026-06-14T07:23:19Z"
+    },
+    {
+      "name": "EcoBalancer",
+      "repository": "CubeX-MC/EcoBalancer",
+      "url": "https://github.com/CubeX-MC/EcoBalancer",
+      "description": "Brutal punishment toward inactive players of CubeX",
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-06T20:04:32Z",
+      "updatedAt": "2026-06-01T01:03:54Z"
+    }
+  ]
+}

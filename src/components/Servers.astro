@@ -6,94 +6,159 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
   offline: { label: '离线', color: 'text-white/35', bg: 'bg-white/5' },
   'in-development': { label: '开发中', color: 'text-cubex-blue', bg: 'bg-cubex-blue/15' },
 };
+
+const trackedServers = servers.filter((server) => server.ip);
+const operators = Array.from(new Set(servers.flatMap((server) => server.operators)));
+const liveServers = servers.filter((server) => server.status === 'online');
+const tools = [
+  { href: '/lookup', label: '服务器查询', kicker: 'Lookup', desc: '快速查询任意 Java 版服务器状态、版本、MOTD 和在线人数。' },
+  { href: '/records', label: '人数纪录', kicker: 'Records', desc: '查看 CubeX 在线人数历史曲线、峰值与更新时间。' },
+  { href: '/map', label: 'CubeX Lite 存档合并', kicker: 'World Map', desc: '浏览 CubeX Lite 一二周目合并后的主世界领地可视化。' },
+];
 ---
 
-<section id="servers" class="py-24 px-6">
+<section id="servers" class="px-6 py-20">
   <div class="mx-auto max-w-6xl">
-    <div class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <div class="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
       <div>
         <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Servers</p>
-        <h2 class="text-3xl font-bold md:text-4xl">服务器列表</h2>
+        <h1 class="text-3xl font-bold md:text-5xl">服务器中枢</h1>
+        <p class="mt-5 max-w-3xl text-sm leading-relaxed text-white/50 md:text-base">
+          这里是泛 CubeX 服务器矩阵的常用入口。你可以查看各服务器的定位、状态、IP、运营者和社区链接，也可以跳转到查询、纪录和地图工具。
+        </p>
       </div>
-      <p class="max-w-xl text-sm leading-relaxed text-white/45 md:text-right">
-        养老服、RPG、玩家自治实验服和社区成员独立开设的服务器。状态会在页面加载后自动刷新。
-      </p>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="border border-white/7 bg-white/[0.025] p-4">
+          <p class="text-xs uppercase tracking-wider text-white/25">Servers</p>
+          <p class="mt-2 text-3xl font-bold text-white">{servers.length}</p>
+          <p class="mt-1 text-xs text-white/35">服务器条目</p>
+        </div>
+        <div class="border border-white/7 bg-white/[0.025] p-4">
+          <p class="text-xs uppercase tracking-wider text-white/25">Tracked</p>
+          <p class="mt-2 text-3xl font-bold text-white">{trackedServers.length}</p>
+          <p class="mt-1 text-xs text-white/35">可查询 IP</p>
+        </div>
+        <div class="border border-white/7 bg-white/[0.025] p-4">
+          <p class="text-xs uppercase tracking-wider text-white/25">People</p>
+          <p class="mt-2 text-3xl font-bold text-white">{operators.length}</p>
+          <p class="mt-1 text-xs text-white/35">运营参与者</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Server cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="mt-10 grid gap-4 lg:grid-cols-[0.86fr_1.14fr]">
+      <div class="glass-card p-5 md:p-6">
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs uppercase tracking-wider text-white/30">Quick Tools</p>
+            <h2 class="mt-1 text-xl font-bold">常用服务器工具</h2>
+          </div>
+          <span class="tag-pill bg-cubex-green/12 text-cubex-green">{liveServers.length} 个在线条目</span>
+        </div>
+        <div class="space-y-3">
+          {tools.map((tool) => (
+            <a href={tool.href} class="block border border-white/7 bg-white/[0.025] p-4 transition-colors hover:border-cubex-red/30 hover:bg-white/[0.045]">
+              <p class="text-xs uppercase tracking-wider text-white/25">{tool.kicker}</p>
+              <h3 class="mt-1 font-semibold text-white">{tool.label}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-white/40">{tool.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="glass-card p-5 md:p-6">
+        <p class="text-xs uppercase tracking-wider text-white/30">Live Snapshot</p>
+        <h2 class="mt-1 text-xl font-bold">服务器实时快照</h2>
+        <div class="mt-5 divide-y divide-white/5">
+          {servers.map((server) => {
+            const status = server.status ? statusConfig[server.status] : null;
+            return (
+              <div class="flex flex-col gap-3 py-3 first:pt-0 last:pb-0 md:flex-row md:items-center md:justify-between" data-server-row={server.ip || ''}>
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-semibold text-white">{server.name}</h3>
+                    {status && <span class={`tag-pill ${status.bg} ${status.color}`} data-status-tag>{status.label}</span>}
+                    <span class="tag-pill bg-white/[0.04] text-white/35">{server.subtitle}</span>
+                  </div>
+                  <p class="mt-1 truncate text-sm text-white/35">{server.ip || '暂未公开 IP'}</p>
+                </div>
+                <div class="flex items-center gap-3 text-sm">
+                  <span class="font-mono text-white/35" data-players style="display:none;"></span>
+                  {server.ip && (
+                    <button class="text-xs text-cubex-red hover:text-cubex-accent" data-copy={server.ip} title="复制 IP">
+                      复制 IP
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
       {servers.map((server) => {
         const status = server.status ? statusConfig[server.status] : null;
         return (
-          <div class="glass-card p-5 flex flex-col" data-server-card={server.ip || ''}>
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="text-lg font-bold">{server.name}</h3>
-                  <p class="text-white/35 text-sm">{server.subtitle}</p>
-                </div>
-                {status && (
-                  <span class={`tag-pill ${status.bg} ${status.color}`} data-status-tag>
-                    {status.label}
-                  </span>
-                )}
+          <article class="glass-card flex flex-col p-5" data-server-card={server.ip || ''}>
+            <div class="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-bold text-white">{server.name}</h2>
+                <p class="mt-1 text-sm text-white/35">{server.subtitle}</p>
               </div>
+              {status && <span class={`tag-pill ${status.bg} ${status.color}`} data-status-tag>{status.label}</span>}
+            </div>
 
-              <p class="text-white/50 text-sm leading-relaxed mb-3 flex-1">
-                {server.description}
-              </p>
+            <p class="flex-1 text-sm leading-relaxed text-white/50">{server.description}</p>
 
-              <!-- Dynamic MOTD -->
-              {server.ip && (
-                <div class="bg-white/[0.03] px-4 py-2 mb-3" data-motd style="display:none;">
-                  <p class="text-white/60 text-xs leading-relaxed" data-motd-text></p>
-                </div>
-              )}
+            <div class="mt-4 min-h-12 border border-white/5 bg-white/[0.025] p-3" data-motd style={server.ip ? '' : 'display:none;'}>
+              <p class="text-xs leading-relaxed text-white/40" data-motd-text>正在读取服务器信息...</p>
+            </div>
 
-              {server.ip && (
-                <div class="bg-white/[0.03] px-4 py-2 mb-3 flex items-center justify-between">
-                  <code class="text-cubex-green text-sm font-mono">{server.ip}</code>
-                  <div class="flex items-center gap-2">
-                    <span class="text-white/20 text-xs" data-players style="display:none;"></span>
-                    <button
-                      class="text-white/35 hover:text-white transition-colors text-xs"
-                      data-copy={server.ip}
-                      title="复制 IP"
-                    >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                    </button>
+            {server.ip && (
+              <div class="mt-4 flex items-center justify-between gap-3 bg-white/[0.035] px-3 py-2">
+                <code class="truncate font-mono text-sm text-cubex-green">{server.ip}</code>
+                <button class="text-xs text-white/35 transition-colors hover:text-white" data-copy={server.ip} title="复制 IP">复制</button>
+              </div>
+            )}
+
+            {server.contacts && server.contacts.length > 0 && (
+              <div class="mt-4 grid gap-2">
+                {server.contacts.map((contact) => (
+                  <div class="flex items-center justify-between gap-3 bg-white/[0.025] px-3 py-2">
+                    <span class="text-xs text-white/35">{contact.label}</span>
+                    {contact.url ? (
+                      <a href={contact.url} target="_blank" rel="noopener" class="font-mono text-xs text-cubex-red hover:text-cubex-accent">{contact.value}</a>
+                    ) : (
+                      <span class="font-mono text-xs text-white/55">{contact.value}</span>
+                    )}
                   </div>
-                </div>
-              )}
-
-              <!-- Tags -->
-              <div class="flex flex-wrap gap-1.5 mb-3">
-                {server.tags.map((tag) => (
-                  <span class="tag-pill bg-white/[0.04] text-white/45">{tag}</span>
                 ))}
               </div>
+            )}
 
-              <!-- Links -->
-              {server.links && server.links.length > 0 && (
-                <div class="flex flex-wrap gap-2 pt-2 border-t border-white/5">
-                  {server.links.map((link) => (
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener"
-                      class="text-xs text-cubex-red hover:text-cubex-accent transition-colors flex items-center gap-1"
-                    >
-                      {link.label}
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    </a>
-                  ))}
-                </div>
-              )}
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              {server.tags.map((tag) => (
+                <span class="tag-pill bg-white/[0.04] text-white/45">{tag}</span>
+              ))}
+            </div>
 
-              <!-- Operators -->
-              <div class="text-xs text-white/25 mt-3">
-                现任服主: {server.operators.join(', ')}
+            {server.links && server.links.length > 0 && (
+              <div class="mt-4 flex flex-wrap gap-3 border-t border-white/5 pt-3">
+                {server.links.map((link) => (
+                  <a href={link.url} target={link.url.startsWith('/') ? undefined : '_blank'} rel={link.url.startsWith('/') ? undefined : 'noopener'} class="text-xs text-cubex-red transition-colors hover:text-cubex-accent">
+                    {link.label}
+                  </a>
+                ))}
               </div>
-          </div>
+            )}
+
+            <div class="mt-4 border-t border-white/5 pt-3 text-xs text-white/30">
+              运营: {server.operators.join(', ')}
+            </div>
+          </article>
         );
       })}
     </div>
@@ -101,62 +166,58 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
 </section>
 
 <script>
-  // Copy IP
   document.querySelectorAll('[data-copy]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const text = btn.getAttribute('data-copy');
-      if (text) {
-        try {
-          await navigator.clipboard.writeText(text);
-          btn.setAttribute('title', '已复制!');
-          setTimeout(() => btn.setAttribute('title', '复制 IP'), 2000);
-        } catch {}
-      }
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.setAttribute('title', '已复制');
+        setTimeout(() => btn.setAttribute('title', '复制 IP'), 1600);
+      } catch {}
     });
   });
 
-  // Fetch server status from mcsrvstat.us
-  document.querySelectorAll('[data-server-card]').forEach(async card => {
-    const ip = card.getAttribute('data-server-card');
-    if (!ip) return;
+  const updateStatus = (root, data) => {
+    const statusTags = root.querySelectorAll('[data-status-tag]');
+    const playersEls = root.querySelectorAll('[data-players]');
+    const motdTexts = root.querySelectorAll('[data-motd-text]');
+    const motdContainers = root.querySelectorAll('[data-motd]');
 
-    const statusTag = card.querySelector('[data-status-tag]');
-    const motdContainer = card.querySelector('[data-motd]');
-    const motdText = card.querySelector('[data-motd-text]');
-    const playersEl = card.querySelector('[data-players]');
+    if (data.online) {
+      statusTags.forEach(tag => {
+        tag.textContent = '在线';
+        tag.className = 'tag-pill bg-cubex-green/15 text-cubex-green';
+      });
+
+      playersEls.forEach(el => {
+        const online = data.players?.online ?? 0;
+        const max = data.players?.max ?? 0;
+        el.textContent = `${online}/${max}`;
+        el.style.display = 'inline';
+      });
+
+      const motd = data.motd?.clean?.filter(Boolean).join(' ') || '在线服务器';
+      motdTexts.forEach(el => el.textContent = motd);
+      motdContainers.forEach(el => el.style.display = 'block');
+    } else {
+      statusTags.forEach(tag => {
+        tag.textContent = '离线';
+        tag.className = 'tag-pill bg-white/5 text-white/35';
+      });
+      motdTexts.forEach(el => el.textContent = '暂时无法连接到服务器。');
+    }
+  };
+
+  document.querySelectorAll('[data-server-card], [data-server-row]').forEach(async el => {
+    const ip = el.getAttribute('data-server-card') || el.getAttribute('data-server-row');
+    if (!ip) return;
 
     try {
       const res = await fetch(`https://api.mcsrvstat.us/3/${ip}`);
+      if (!res.ok) return;
       const data = await res.json();
-
-      if (data.online) {
-        if (statusTag) {
-          statusTag.textContent = '在线';
-          statusTag.className = 'tag-pill bg-cubex-green/15 text-cubex-green';
-        }
-
-        if (motdContainer && motdText) {
-          const motd = data.motd?.clean?.join(' ') || data.motd?.clean?.[0] || '';
-          if (motd) {
-            motdText.textContent = motd;
-            motdContainer.style.display = 'block';
-          }
-        }
-
-        if (playersEl && data.players) {
-          const online = data.players.online || 0;
-          const max = data.players.max || 0;
-          playersEl.textContent = `${online}/${max}`;
-          playersEl.style.display = 'inline';
-        }
-      } else {
-        if (statusTag) {
-          statusTag.textContent = '离线';
-          statusTag.className = 'tag-pill bg-white/5 text-white/35';
-        }
-      }
-    } catch {
-      // API failed, keep default status
-    }
+      document.querySelectorAll(`[data-server-card="${ip}"], [data-server-row="${ip}"]`).forEach(root => updateStatus(root, data));
+    } catch {}
   });
 </script>

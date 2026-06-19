@@ -117,7 +117,7 @@ export const people: PeopleSection[] = [
       },
       {
         name: 'wwwer',
-        role: 'HyperCube 成员 / 玩家服服主',
+        role: 'HyperCube 成员 / CubeX Wonderful 服主',
         description: '云湖边社区管理，原 CubeX OP，HyperCube 核心成员。小湖镇管理者，通过小湖镇复兴 CubeX 的关键人物，后与 angushushu 一同运营玩家服务器。2024 年 1 月与 angushushu 一同半退休。',
       },
     ],

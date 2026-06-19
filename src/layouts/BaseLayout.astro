@@ -8,17 +8,13 @@ interface Props {
 
 const {
   title = 'CubeX · HyperCube — Minecraft Server Organization',
-  description = 'CubeX / HyperCube 是一个 Minecraft 服务器组织，起源于 WolfX Commune 社区。我们探索不同的服务器模式，维护自己的插件生态。',
+  description = 'CubeX / HyperCube 是一个 Minecraft 服务器组织，起源于 WolfX Commune 社区。我们探索不同的服务器模式，维护自己的项目生态。',
 } = Astro.props;
 
 const navItems = [
-  { href: '/lookup', label: '查询' },
-  { href: '/records', label: '纪录' },
   { href: '/servers', label: '服务器' },
+  { href: '/projects', label: '项目' },
   { href: '/community', label: '社区' },
-  { href: '/plugins', label: '插件' },
-  { href: '/members', label: '成员' },
-  { href: '/about', label: '故事' },
 ];
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';

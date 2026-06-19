@@ -4,6 +4,7 @@ export interface Server {
   description: string;
   ip?: string;
   links?: { label: string; url: string }[];
+  contacts?: { label: string; value: string; url?: string }[];
   tags: string[];
   /** Static status for servers without an IP (e.g. in development) */
   status?: 'online' | 'offline' | 'in-development';
@@ -19,7 +20,7 @@ export const servers: Server[] = [
     links: [
       { label: '官网', url: 'https://cubexmc.top' },
       { label: 'QQ 群', url: 'https://jq.qq.com/?_wv=1027&k=g38XNewm' },
-      { label: '存档合并', url: '/map' },
+      { label: 'CubeX Lite 存档合并', url: '/map' },
     ],
     tags: ['生存', '养老', '原版', '玩家自治', '社区驱动'],
     status: 'offline',
@@ -28,13 +29,24 @@ export const servers: Server[] = [
   {
     name: 'CubeX ELite',
     subtitle: 'RPG 服务器',
-    description: '由退休 CubeX 服主 Adlamb 开设的 RPG 服务器，在 CubeX 的社区基础上探索角色扮演和冒险玩法。目前正在开发中。',
-    links: [
-      { label: 'QQ 群', url: 'https://qm.qq.com/q/tKgRKGvDtS' },
+    description: '由退休 CubeX 服主 Adlamb 开设的 RPG 服务器，在 CubeX 的社区基础上探索角色扮演和冒险玩法。目前正在内测开发中。',
+    contacts: [
+      { label: '内测群', value: '835031357' },
     ],
     tags: ['RPG', '冒险', '开发中'],
     status: 'in-development',
     operators: ['Adlambxd'],
+  },
+  {
+    name: 'CubeX Wonderful',
+    subtitle: '社区实验服',
+    description: '基于 CubeX 一周目后期的测试服理念，由 wwwer、angushushu、addxiaoyi 共同推动的社区开服尝试。目前以 CubeX Wonderful 的名字继续开发。',
+    contacts: [
+      { label: 'Wonderful 群', value: '1042692728' },
+    ],
+    tags: ['生存', '社区', 'Wonderful', '开发中'],
+    status: 'in-development',
+    operators: ['wwwer', 'angushushu', 'addxiaoyi'],
   },
   {
     name: 'Gemocracy',
@@ -59,13 +71,5 @@ export const servers: Server[] = [
     tags: ['群组', '多模式'],
     status: 'online',
     operators: ['addxiaoyi'],
-  },
-  {
-    name: '玩家服',
-    subtitle: '社区实验服',
-    description: '基于 CubeX 一周目后期的测试服理念，由 wwwer、angushushu、addxiaoyi 共同推动的社区开服尝试。目前正在开发中。',
-    tags: ['生存', '社区', '开发中'],
-    status: 'in-development',
-    operators: ['wwwer', 'angushushu', 'addxiaoyi'],
   },
 ];
