@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-06-20T08:37:52.540Z",
+  "updatedAt": "2026-06-20T13:21:41.091Z",
   "projects": [
+    {
+      "name": "Hooked",
+      "repository": "AdLambXD/Hooked",
+      "url": "https://github.com/AdLambXD/Hooked",
+      "description": "类似《木筏求生》游戏的Minecraft插件，将在海中捕捞漂浮物",
+      "defaultBranch": "main",
+      "pushedAt": "2026-06-20T12:45:40Z",
+      "updatedAt": "2026-06-20T12:40:06Z"
+    },
     {
       "name": "WebMC",
       "repository": "Steve3184/WebMC",
@@ -36,15 +45,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-06-14T18:48:42Z",
       "updatedAt": "2026-06-19T09:17:56Z"
-    },
-    {
-      "name": "Hooked",
-      "repository": "AdLambXD/Hooked",
-      "url": "https://github.com/AdLambXD/Hooked",
-      "description": "类似《木筏求生》游戏的Minecraft插件，将在海中捕捞漂浮物",
-      "defaultBranch": "main",
-      "pushedAt": "2026-06-13T13:16:51Z",
-      "updatedAt": "2026-06-14T07:23:19Z"
     },
     {
       "name": "EcoBalancer",
