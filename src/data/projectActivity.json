@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-21T02:27:35.692Z",
+  "updatedAt": "2026-06-21T09:32:33.178Z",
   "projects": [
     {
       "name": "Hooked",
@@ -7,8 +7,8 @@
       "url": "https://github.com/AdLambXD/Hooked",
       "description": "类似《木筏求生》游戏的Minecraft插件，将在海中捕捞漂浮物",
       "defaultBranch": "main",
-      "pushedAt": "2026-06-20T12:45:40Z",
-      "updatedAt": "2026-06-20T12:40:06Z"
+      "pushedAt": "2026-06-21T06:50:39Z",
+      "updatedAt": "2026-06-21T06:50:42Z"
     },
     {
       "name": "WebMC",
