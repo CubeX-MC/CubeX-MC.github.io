@@ -1,23 +1,23 @@
 {
-  "updatedAt": "2026-07-06T01:53:15.763Z",
+  "updatedAt": "2026-07-06T09:50:15.453Z",
   "projects": [
-    {
-      "name": "WebMC",
-      "repository": "Steve3184/WebMC",
-      "url": "https://github.com/Steve3184/WebMC",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-04T04:39:37Z",
-      "updatedAt": "2026-07-04T04:39:41Z"
-    },
     {
       "name": "Hooked",
       "repository": "AdLambXD/Hooked",
       "url": "https://github.com/AdLambXD/Hooked",
       "description": "类似《木筏求生》游戏的Minecraft插件，将在海中捕捞漂浮物",
       "defaultBranch": "main",
-      "pushedAt": "2026-06-21T06:50:39Z",
-      "updatedAt": "2026-06-21T06:50:42Z"
+      "pushedAt": "2026-07-06T06:41:02Z",
+      "updatedAt": "2026-07-06T06:41:06Z"
+    },
+    {
+      "name": "WebMC",
+      "repository": "Steve3184/WebMC",
+      "url": "https://github.com/Steve3184/WebMC",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-06T04:29:05Z",
+      "updatedAt": "2026-07-06T04:29:08Z"
     },
     {
       "name": "Metro",
