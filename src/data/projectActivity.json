@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-10T01:27:29.270Z",
+  "updatedAt": "2026-07-10T08:56:02.359Z",
   "projects": [
     {
       "name": "WebMC",
@@ -7,17 +7,35 @@
       "url": "https://github.com/Steve3184/WebMC",
       "description": null,
       "defaultBranch": "main",
-      "pushedAt": "2026-07-09T23:25:51Z",
-      "updatedAt": "2026-07-09T22:59:52Z"
+      "pushedAt": "2026-07-10T04:26:08Z",
+      "updatedAt": "2026-07-10T04:26:12Z"
     },
     {
-      "name": "Hooked",
-      "repository": "AdLambXD/Hooked",
-      "url": "https://github.com/AdLambXD/Hooked",
-      "description": "类似《木筏求生》游戏的Minecraft插件，将在海中捕捞漂浮物",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-06T06:41:02Z",
-      "updatedAt": "2026-07-06T06:41:06Z"
+      "name": "Clarity",
+      "repository": "CubeX-MC/Clarity",
+      "url": "https://github.com/CubeX-MC/Clarity",
+      "description": "CubeX Clarity - 属性清理插件(清除 Adapt 遗留 modifier)",
+      "defaultBranch": "monorepo-sync",
+      "pushedAt": "2026-07-10T03:30:21Z",
+      "updatedAt": "2026-06-05T01:08:36Z"
+    },
+    {
+      "name": "FAWEReplace",
+      "repository": "CubeX-MC/FAWEReplace",
+      "url": "https://github.com/CubeX-MC/FAWEReplace",
+      "description": "fast replacer of paper servers",
+      "defaultBranch": "master",
+      "pushedAt": "2026-07-10T03:30:05Z",
+      "updatedAt": "2026-04-19T17:30:02Z"
+    },
+    {
+      "name": "Railway",
+      "repository": "CubeX-MC/Railway",
+      "url": "https://github.com/CubeX-MC/Railway",
+      "description": "minecraft metro system",
+      "defaultBranch": "railway",
+      "pushedAt": "2026-07-10T03:30:04Z",
+      "updatedAt": "2026-06-01T01:03:56Z"
     },
     {
       "name": "Metro",
@@ -25,8 +43,8 @@
       "url": "https://github.com/CubeX-MC/Metro",
       "description": "minecraft metro system",
       "defaultBranch": "main",
-      "pushedAt": "2026-06-14T18:48:46Z",
-      "updatedAt": "2026-07-09T23:31:06Z"
+      "pushedAt": "2026-07-10T03:30:03Z",
+      "updatedAt": "2026-07-10T03:30:08Z"
     },
     {
       "name": "RuleGems",
@@ -34,26 +52,8 @@
       "url": "https://github.com/CubeX-MC/RuleGems",
       "description": "An experimental plugin for server management",
       "defaultBranch": "main",
-      "pushedAt": "2026-06-14T18:48:44Z",
-      "updatedAt": "2026-07-04T15:26:16Z"
-    },
-    {
-      "name": "Contract",
-      "repository": "CubeX-MC/Contract",
-      "url": "https://github.com/CubeX-MC/Contract",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-06-14T18:48:42Z",
-      "updatedAt": "2026-06-19T09:17:56Z"
-    },
-    {
-      "name": "EcoBalancer",
-      "repository": "CubeX-MC/EcoBalancer",
-      "url": "https://github.com/CubeX-MC/EcoBalancer",
-      "description": "Brutal punishment toward inactive players of CubeX",
-      "defaultBranch": "main",
-      "pushedAt": "2026-06-06T20:04:32Z",
-      "updatedAt": "2026-06-01T01:03:54Z"
+      "pushedAt": "2026-07-10T03:29:18Z",
+      "updatedAt": "2026-07-10T03:29:22Z"
     }
   ]
 }
