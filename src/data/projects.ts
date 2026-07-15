@@ -154,4 +154,16 @@ export const projects: Project[] = [
     ],
     icon: '🧹',
   },
+  {
+    name: 'Polls',
+    description: '游戏内民意投票插件。玩家可通过 GUI 发起议题并参与一人一票的表决，管理员可编辑议题和截止时间，投票数据由 SQLite 持久化保存。',
+    features: ['GUI 投票', '一人一票', 'SQLite 持久化'],
+    platforms: ['Bukkit 1.21.4+', 'Spigot', 'Paper', 'Folia'],
+    contributors: ['FZAoao'],
+    repository: 'CubeX-MC/Polls',
+    links: [
+      { label: 'GitHub', url: 'https://github.com/CubeX-MC/Polls' },
+    ],
+    icon: '🗳️',
+  },
 ];
