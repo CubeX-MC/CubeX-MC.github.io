@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-15T13:04:11.953Z",
+  "updatedAt": "2026-07-15T18:51:12.899Z",
   "projects": [
     {
       "name": "WebMC",
@@ -9,6 +9,15 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-15T11:13:17Z",
       "updatedAt": "2026-07-15T11:13:23Z"
+    },
+    {
+      "name": "Polls",
+      "repository": "CubeX-MC/Polls",
+      "url": "https://github.com/CubeX-MC/Polls",
+      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-14T10:28:43Z",
+      "updatedAt": "2026-07-15T07:11:40Z"
     },
     {
       "name": "Clarity",
@@ -45,15 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-10T03:30:03Z",
       "updatedAt": "2026-07-10T03:30:08Z"
-    },
-    {
-      "name": "RuleGems",
-      "repository": "CubeX-MC/RuleGems",
-      "url": "https://github.com/CubeX-MC/RuleGems",
-      "description": "An experimental plugin for server management",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-10T03:29:18Z",
-      "updatedAt": "2026-07-10T03:29:22Z"
     }
   ]
 }
