@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-07-17T01:22:59.393Z",
+  "updatedAt": "2026-07-17T07:48:42.007Z",
   "projects": [
+    {
+      "name": "Polls",
+      "repository": "CubeX-MC/Polls",
+      "url": "https://github.com/CubeX-MC/Polls",
+      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-17T06:28:59Z",
+      "updatedAt": "2026-07-17T06:29:05Z"
+    },
     {
       "name": "WebMC",
       "repository": "Steve3184/WebMC",
@@ -9,15 +18,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-16T19:39:50Z",
       "updatedAt": "2026-07-16T19:40:01Z"
-    },
-    {
-      "name": "Polls",
-      "repository": "CubeX-MC/Polls",
-      "url": "https://github.com/CubeX-MC/Polls",
-      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-16T03:20:54Z",
-      "updatedAt": "2026-07-16T03:20:58Z"
     },
     {
       "name": "Clarity",
