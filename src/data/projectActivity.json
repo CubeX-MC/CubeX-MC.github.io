@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-18T01:15:01.874Z",
+  "updatedAt": "2026-07-18T07:23:28.249Z",
   "projects": [
     {
       "name": "Polls",
@@ -7,8 +7,8 @@
       "url": "https://github.com/CubeX-MC/Polls",
       "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
       "defaultBranch": "main",
-      "pushedAt": "2026-07-18T00:20:14Z",
-      "updatedAt": "2026-07-18T00:20:18Z"
+      "pushedAt": "2026-07-18T04:48:40Z",
+      "updatedAt": "2026-07-18T04:48:43Z"
     },
     {
       "name": "WebMC",
