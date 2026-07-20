@@ -87,7 +87,7 @@ export const projects: Project[] = [
     description: '将 Minecraft 1.21.8 客户端通过 TeaVM 编译到浏览器运行的 WebGL 2 项目，目标是在网页端运行可验收的 Minecraft 客户端体验。',
     features: ['浏览器运行', 'TeaVM 编译', 'WebGL 2 渲染'],
     platforms: ['Web', 'Minecraft 1.21.8'],
-    contributors: ['addxiaoyi'],
+    contributors: ['addxiaoyi', 'Steve3184'],
     repository: 'Steve3184/WebMC',
     links: [
       { label: 'GitHub', url: 'https://github.com/Steve3184/WebMC' },
