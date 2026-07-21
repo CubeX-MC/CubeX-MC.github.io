@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-07-21T13:10:13.604Z",
+  "updatedAt": "2026-07-21T19:00:01.336Z",
   "projects": [
+    {
+      "name": "Metro",
+      "repository": "CubeX-MC/Metro",
+      "url": "https://github.com/CubeX-MC/Metro",
+      "description": "minecraft metro system",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-21T13:57:12Z",
+      "updatedAt": "2026-07-21T13:57:49Z"
+    },
     {
       "name": "Polls",
       "repository": "CubeX-MC/Polls",
@@ -45,15 +54,6 @@
       "defaultBranch": "railway",
       "pushedAt": "2026-07-10T03:30:04Z",
       "updatedAt": "2026-06-01T01:03:56Z"
-    },
-    {
-      "name": "Metro",
-      "repository": "CubeX-MC/Metro",
-      "url": "https://github.com/CubeX-MC/Metro",
-      "description": "minecraft metro system",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-10T03:30:03Z",
-      "updatedAt": "2026-07-10T03:30:08Z"
     }
   ]
 }
