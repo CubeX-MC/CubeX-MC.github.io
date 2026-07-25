@@ -1,6 +1,33 @@
 {
-  "updatedAt": "2026-07-24T19:08:05.831Z",
+  "updatedAt": "2026-07-25T01:23:27.523Z",
   "projects": [
+    {
+      "name": "Metro",
+      "repository": "CubeX-MC/Metro",
+      "url": "https://github.com/CubeX-MC/Metro",
+      "description": "minecraft metro system",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-24T23:23:42Z",
+      "updatedAt": "2026-07-24T23:23:46Z"
+    },
+    {
+      "name": "RuleGems",
+      "repository": "CubeX-MC/RuleGems",
+      "url": "https://github.com/CubeX-MC/RuleGems",
+      "description": "An experimental plugin for server management",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-24T23:23:19Z",
+      "updatedAt": "2026-07-24T23:23:23Z"
+    },
+    {
+      "name": "Contract",
+      "repository": "CubeX-MC/Contract",
+      "url": "https://github.com/CubeX-MC/Contract",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-24T23:22:25Z",
+      "updatedAt": "2026-07-24T23:22:30Z"
+    },
     {
       "name": "Polls",
       "repository": "CubeX-MC/Polls",
@@ -9,15 +36,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-23T03:09:08Z",
       "updatedAt": "2026-07-23T03:09:15Z"
-    },
-    {
-      "name": "Metro",
-      "repository": "CubeX-MC/Metro",
-      "url": "https://github.com/CubeX-MC/Metro",
-      "description": "minecraft metro system",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-21T13:57:12Z",
-      "updatedAt": "2026-07-21T13:57:49Z"
     },
     {
       "name": "WebMC",
@@ -36,24 +54,6 @@
       "defaultBranch": "monorepo-sync",
       "pushedAt": "2026-07-10T03:30:21Z",
       "updatedAt": "2026-06-05T01:08:36Z"
-    },
-    {
-      "name": "FAWEReplace",
-      "repository": "CubeX-MC/FAWEReplace",
-      "url": "https://github.com/CubeX-MC/FAWEReplace",
-      "description": "fast replacer of paper servers",
-      "defaultBranch": "master",
-      "pushedAt": "2026-07-10T03:30:05Z",
-      "updatedAt": "2026-04-19T17:30:02Z"
-    },
-    {
-      "name": "Railway",
-      "repository": "CubeX-MC/Railway",
-      "url": "https://github.com/CubeX-MC/Railway",
-      "description": "minecraft metro system",
-      "defaultBranch": "railway",
-      "pushedAt": "2026-07-10T03:30:04Z",
-      "updatedAt": "2026-06-01T01:03:56Z"
     }
   ]
 }
