@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-07-26T18:51:49.212Z",
+  "updatedAt": "2026-07-27T01:30:33.658Z",
   "projects": [
+    {
+      "name": "RuleGems",
+      "repository": "CubeX-MC/RuleGems",
+      "url": "https://github.com/CubeX-MC/RuleGems",
+      "description": "An experimental plugin for server management",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-26T19:09:31Z",
+      "updatedAt": "2026-07-26T19:09:41Z"
+    },
     {
       "name": "Metro",
       "repository": "CubeX-MC/Metro",
@@ -9,15 +18,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-25T14:25:18Z",
       "updatedAt": "2026-07-25T14:25:29Z"
-    },
-    {
-      "name": "RuleGems",
-      "repository": "CubeX-MC/RuleGems",
-      "url": "https://github.com/CubeX-MC/RuleGems",
-      "description": "An experimental plugin for server management",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-24T23:23:19Z",
-      "updatedAt": "2026-07-24T23:23:23Z"
     },
     {
       "name": "Contract",
