@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-07-29T01:20:11.897Z",
+  "updatedAt": "2026-07-29T08:14:14.967Z",
   "projects": [
+    {
+      "name": "Polls",
+      "repository": "CubeX-MC/Polls",
+      "url": "https://github.com/CubeX-MC/Polls",
+      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
+      "defaultBranch": "main",
+      "pushedAt": "2026-07-29T03:19:38Z",
+      "updatedAt": "2026-07-29T03:19:50Z"
+    },
     {
       "name": "RuleGems",
       "repository": "CubeX-MC/RuleGems",
@@ -27,15 +36,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-24T23:22:25Z",
       "updatedAt": "2026-07-24T23:22:30Z"
-    },
-    {
-      "name": "Polls",
-      "repository": "CubeX-MC/Polls",
-      "url": "https://github.com/CubeX-MC/Polls",
-      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-23T03:09:08Z",
-      "updatedAt": "2026-07-23T03:09:15Z"
     },
     {
       "name": "WebMC",
