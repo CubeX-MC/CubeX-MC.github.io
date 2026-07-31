@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-31T18:50:25.785Z",
+  "updatedAt": "2026-07-31T20:16:30.239Z",
   "source": "mcmod.cn + mcsrvstat.us",
   "servers": {
     "cubex-lite": {
@@ -1253,9 +1253,9 @@
       "ip": "mc.star-mc.top",
       "edition": "java",
       "record": {
-        "players": 90,
+        "players": 105,
         "max": 2048,
-        "at": "2026-07-31T15:35:09.829Z",
+        "at": "2026-07-31T20:16:30.239Z",
         "version": "1.7.2-26.2",
         "motd": "欢迎来到 StarX！"
       },
@@ -1864,8 +1864,8 @@
         },
         {
           "date": "2026-07-31",
-          "peak": 90,
-          "at": "2026-07-31T15:35:09.829Z",
+          "peak": 105,
+          "at": "2026-07-31T20:16:30.239Z",
           "max": 2048,
           "version": "1.7.2-26.2"
         }
