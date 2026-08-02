@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-08-01T18:49:18.456Z",
+  "updatedAt": "2026-08-02T01:25:42.205Z",
   "projects": [
+    {
+      "name": "Metro",
+      "repository": "CubeX-MC/Metro",
+      "url": "https://github.com/CubeX-MC/Metro",
+      "description": "minecraft metro system",
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-01T23:05:50Z",
+      "updatedAt": "2026-08-01T23:05:54Z"
+    },
+    {
+      "name": "RuleGems",
+      "repository": "CubeX-MC/RuleGems",
+      "url": "https://github.com/CubeX-MC/RuleGems",
+      "description": "An experimental plugin for server management",
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-01T23:05:48Z",
+      "updatedAt": "2026-08-01T23:05:51Z"
+    },
     {
       "name": "Polls",
       "repository": "CubeX-MC/Polls",
@@ -9,24 +27,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-29T03:19:38Z",
       "updatedAt": "2026-07-29T03:19:50Z"
-    },
-    {
-      "name": "RuleGems",
-      "repository": "CubeX-MC/RuleGems",
-      "url": "https://github.com/CubeX-MC/RuleGems",
-      "description": "An experimental plugin for server management",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-26T19:09:31Z",
-      "updatedAt": "2026-07-26T19:09:41Z"
-    },
-    {
-      "name": "Metro",
-      "repository": "CubeX-MC/Metro",
-      "url": "https://github.com/CubeX-MC/Metro",
-      "description": "minecraft metro system",
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-25T14:25:18Z",
-      "updatedAt": "2026-07-25T14:25:29Z"
     },
     {
       "name": "Contract",
