@@ -1,6 +1,33 @@
 {
-  "updatedAt": "2026-08-10T18:39:10.700Z",
+  "updatedAt": "2026-08-11T00:45:11.341Z",
   "projects": [
+    {
+      "name": "Railway",
+      "repository": "CubeX-MC/Railway",
+      "url": "https://github.com/CubeX-MC/Railway",
+      "description": "minecraft metro system",
+      "defaultBranch": "railway",
+      "pushedAt": "2026-08-10T23:10:41Z",
+      "updatedAt": "2026-06-01T01:03:56Z"
+    },
+    {
+      "name": "RuleGems",
+      "repository": "CubeX-MC/RuleGems",
+      "url": "https://github.com/CubeX-MC/RuleGems",
+      "description": "An experimental plugin for server management",
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-10T23:10:35Z",
+      "updatedAt": "2026-08-10T23:10:43Z"
+    },
+    {
+      "name": "Contract",
+      "repository": "CubeX-MC/Contract",
+      "url": "https://github.com/CubeX-MC/Contract",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-10T23:10:30Z",
+      "updatedAt": "2026-08-10T23:10:37Z"
+    },
     {
       "name": "Metro",
       "repository": "CubeX-MC/Metro",
@@ -9,15 +36,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-08-02T15:16:26Z",
       "updatedAt": "2026-08-02T15:16:53Z"
-    },
-    {
-      "name": "RuleGems",
-      "repository": "CubeX-MC/RuleGems",
-      "url": "https://github.com/CubeX-MC/RuleGems",
-      "description": "An experimental plugin for server management",
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-01T23:05:48Z",
-      "updatedAt": "2026-08-01T23:05:51Z"
     },
     {
       "name": "Polls",
@@ -29,15 +47,6 @@
       "updatedAt": "2026-07-29T03:19:50Z"
     },
     {
-      "name": "Contract",
-      "repository": "CubeX-MC/Contract",
-      "url": "https://github.com/CubeX-MC/Contract",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-24T23:22:25Z",
-      "updatedAt": "2026-07-24T23:22:30Z"
-    },
-    {
       "name": "WebMC",
       "repository": "Steve3184/WebMC",
       "url": "https://github.com/Steve3184/WebMC",
@@ -45,15 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-16T19:39:50Z",
       "updatedAt": "2026-07-16T19:40:01Z"
-    },
-    {
-      "name": "Clarity",
-      "repository": "CubeX-MC/Clarity",
-      "url": "https://github.com/CubeX-MC/Clarity",
-      "description": "CubeX Clarity - 属性清理插件(清除 Adapt 遗留 modifier)",
-      "defaultBranch": "monorepo-sync",
-      "pushedAt": "2026-07-10T03:30:21Z",
-      "updatedAt": "2026-06-05T01:08:36Z"
     }
   ]
 }
