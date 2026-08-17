@@ -1,13 +1,31 @@
 {
-  "updatedAt": "2026-08-16T18:10:33.230Z",
+  "updatedAt": "2026-08-17T00:30:06.566Z",
   "projects": [
+    {
+      "name": "Metro",
+      "repository": "CubeX-MC/Metro",
+      "url": "https://github.com/CubeX-MC/Metro",
+      "description": "minecraft metro system",
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-16T19:22:52Z",
+      "updatedAt": "2026-08-16T19:23:03Z"
+    },
+    {
+      "name": "Clarity",
+      "repository": "CubeX-MC/Clarity",
+      "url": "https://github.com/CubeX-MC/Clarity",
+      "description": "CubeX Clarity - 属性清理插件(清除 Adapt 遗留 modifier)",
+      "defaultBranch": "monorepo-sync",
+      "pushedAt": "2026-08-16T18:58:37Z",
+      "updatedAt": "2026-06-05T01:08:36Z"
+    },
     {
       "name": "Railway",
       "repository": "CubeX-MC/Railway",
       "url": "https://github.com/CubeX-MC/Railway",
       "description": "minecraft metro system",
       "defaultBranch": "railway",
-      "pushedAt": "2026-08-10T23:10:41Z",
+      "pushedAt": "2026-08-16T18:58:34Z",
       "updatedAt": "2026-06-01T01:03:56Z"
     },
     {
@@ -29,15 +47,6 @@
       "updatedAt": "2026-08-10T23:10:37Z"
     },
     {
-      "name": "Metro",
-      "repository": "CubeX-MC/Metro",
-      "url": "https://github.com/CubeX-MC/Metro",
-      "description": "minecraft metro system",
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-02T15:16:26Z",
-      "updatedAt": "2026-08-02T15:16:53Z"
-    },
-    {
       "name": "Polls",
       "repository": "CubeX-MC/Polls",
       "url": "https://github.com/CubeX-MC/Polls",
@@ -45,15 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-07-29T03:19:38Z",
       "updatedAt": "2026-07-29T03:19:50Z"
-    },
-    {
-      "name": "WebMC",
-      "repository": "Steve3184/WebMC",
-      "url": "https://github.com/Steve3184/WebMC",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-07-16T19:39:50Z",
-      "updatedAt": "2026-07-16T19:40:01Z"
     }
   ]
 }
