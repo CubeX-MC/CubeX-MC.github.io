@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-08-24T00:31:52.945Z",
+  "updatedAt": "2026-08-24T06:31:42.527Z",
   "projects": [
+    {
+      "name": "Polls",
+      "repository": "CubeX-MC/Polls",
+      "url": "https://github.com/CubeX-MC/Polls",
+      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-24T04:35:25Z",
+      "updatedAt": "2026-08-24T04:36:10Z"
+    },
     {
       "name": "Clarity",
       "repository": "CubeX-MC/Clarity",
@@ -45,15 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-08-17T20:13:12Z",
       "updatedAt": "2026-08-17T20:17:42Z"
-    },
-    {
-      "name": "Contract",
-      "repository": "CubeX-MC/Contract",
-      "url": "https://github.com/CubeX-MC/Contract",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-17T20:13:08Z",
-      "updatedAt": "2026-08-17T20:13:58Z"
     }
   ]
 }
