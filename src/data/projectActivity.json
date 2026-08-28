@@ -1,22 +1,13 @@
 {
-  "updatedAt": "2026-08-27T16:57:18.899Z",
+  "updatedAt": "2026-08-28T01:49:51.220Z",
   "projects": [
-    {
-      "name": "Polls",
-      "repository": "CubeX-MC/Polls",
-      "url": "https://github.com/CubeX-MC/Polls",
-      "description": "玩家民意收集插件，适配 Bukkit / Spigot / Paper / Folia。",
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-24T04:35:25Z",
-      "updatedAt": "2026-08-24T04:36:10Z"
-    },
     {
       "name": "Clarity",
       "repository": "CubeX-MC/Clarity",
       "url": "https://github.com/CubeX-MC/Clarity",
       "description": "CubeX Clarity - 属性清理插件(清除 Adapt 遗留 modifier)",
       "defaultBranch": "monorepo-sync",
-      "pushedAt": "2026-08-17T20:13:26Z",
+      "pushedAt": "2026-08-27T22:29:04Z",
       "updatedAt": "2026-06-05T01:08:36Z"
     },
     {
@@ -25,7 +16,7 @@
       "url": "https://github.com/CubeX-MC/Railway",
       "description": "minecraft metro system",
       "defaultBranch": "railway",
-      "pushedAt": "2026-08-17T20:13:22Z",
+      "pushedAt": "2026-08-27T22:29:00Z",
       "updatedAt": "2026-06-01T01:03:56Z"
     },
     {
@@ -34,8 +25,8 @@
       "url": "https://github.com/CubeX-MC/Metro",
       "description": "minecraft metro system",
       "defaultBranch": "main",
-      "pushedAt": "2026-08-17T20:13:19Z",
-      "updatedAt": "2026-08-17T20:18:06Z"
+      "pushedAt": "2026-08-27T22:28:57Z",
+      "updatedAt": "2026-08-27T22:29:07Z"
     },
     {
       "name": "RuleGems",
@@ -43,8 +34,8 @@
       "url": "https://github.com/CubeX-MC/RuleGems",
       "description": "An experimental plugin for server management",
       "defaultBranch": "main",
-      "pushedAt": "2026-08-17T20:13:16Z",
-      "updatedAt": "2026-08-17T20:16:58Z"
+      "pushedAt": "2026-08-27T22:28:52Z",
+      "updatedAt": "2026-08-27T22:36:11Z"
     },
     {
       "name": "EcoBalancer",
@@ -52,8 +43,17 @@
       "url": "https://github.com/CubeX-MC/EcoBalancer",
       "description": "Brutal punishment toward inactive players of CubeX",
       "defaultBranch": "main",
-      "pushedAt": "2026-08-17T20:13:12Z",
-      "updatedAt": "2026-08-17T20:17:42Z"
+      "pushedAt": "2026-08-27T22:28:48Z",
+      "updatedAt": "2026-08-27T22:29:03Z"
+    },
+    {
+      "name": "Contract",
+      "repository": "CubeX-MC/Contract",
+      "url": "https://github.com/CubeX-MC/Contract",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-27T22:28:44Z",
+      "updatedAt": "2026-08-27T22:28:59Z"
     }
   ]
 }
