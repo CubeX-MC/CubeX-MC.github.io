@@ -1,6 +1,33 @@
 {
-  "updatedAt": "2026-09-20T01:57:54.546Z",
+  "updatedAt": "2026-09-20T10:11:29.942Z",
   "projects": [
+    {
+      "name": "LetMeAsk",
+      "repository": "LetSeries/LetMeAsk",
+      "url": "https://github.com/LetSeries/LetMeAsk",
+      "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-20T05:42:59Z",
+      "updatedAt": "2026-09-20T05:43:02Z"
+    },
+    {
+      "name": "LetMeDo",
+      "repository": "LetSeries/LetMeDo",
+      "url": "https://github.com/LetSeries/LetMeDo",
+      "description": "LetMeDo - A powerful multifunctional Minecraft plugin supporting almost all versions & server types | 多功能 Minecraft 插件，几乎支持所有版本与所有服务端 | By LetSeries Team",
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-19T04:12:39Z",
+      "updatedAt": "2026-09-19T04:12:42Z"
+    },
+    {
+      "name": "Regions",
+      "repository": "CubeX-MC/Regions",
+      "url": "https://github.com/CubeX-MC/Regions",
+      "description": "CubeX Regions - 区域管理插件(模板、模式与裁判队)",
+      "defaultBranch": "main",
+      "pushedAt": "2026-08-27T22:29:08Z",
+      "updatedAt": "2026-08-27T22:29:13Z"
+    },
     {
       "name": "Clarity",
       "repository": "CubeX-MC/Clarity",
@@ -27,33 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-08-27T22:28:57Z",
       "updatedAt": "2026-08-27T22:29:07Z"
-    },
-    {
-      "name": "RuleGems",
-      "repository": "CubeX-MC/RuleGems",
-      "url": "https://github.com/CubeX-MC/RuleGems",
-      "description": "An experimental plugin for server management",
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-27T22:28:52Z",
-      "updatedAt": "2026-08-27T22:36:11Z"
-    },
-    {
-      "name": "EcoBalancer",
-      "repository": "CubeX-MC/EcoBalancer",
-      "url": "https://github.com/CubeX-MC/EcoBalancer",
-      "description": "Brutal punishment toward inactive players of CubeX",
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-27T22:28:48Z",
-      "updatedAt": "2026-08-27T22:29:03Z"
-    },
-    {
-      "name": "Contract",
-      "repository": "CubeX-MC/Contract",
-      "url": "https://github.com/CubeX-MC/Contract",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-27T22:28:44Z",
-      "updatedAt": "2026-08-27T22:28:59Z"
     }
   ]
 }
