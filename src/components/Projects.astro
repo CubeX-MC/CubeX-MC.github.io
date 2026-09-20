@@ -1,35 +1,25 @@
 ---
-import { projects } from '../data/projects';
+import { projects, projectGroups, type ProjectGroup } from '../data/projects';
 import projectActivity from '../data/projectActivity.json';
 
 const contributors = Array.from(new Set(projects.flatMap((project) => project.contributors)));
-const minecraftProjects = projects.filter((project) => project.platforms.some((platform) => /Paper|Spigot|Folia|Bukkit|Vault/.test(platform)));
-const webProjects = projects.filter((project) => project.platforms.some((platform) => /Web|Minecraft 1\.21\.8/.test(platform)));
+const pluginProjects = projects.filter((project) => project.group === 'plugin' || project.group === 'letseries');
 const activityByName = new Map(projectActivity.projects.map((activity) => [activity.name, activity]));
 const recentFocus = projectActivity.projects
   .map((activity) => projects.find((project) => project.name === activity.name))
   .filter((project): project is typeof projects[number] => Boolean(project));
 
-const groups = [
-  {
-    title: '服务器插件',
-    kicker: 'Server Plugins',
-    description: '直接服务于 CubeX 研究院服务器运营的插件，从经济、交通、合同到内容存储。',
-    items: minecraftProjects,
-  },
-  {
-    title: '客户端与网页实验',
-    kicker: 'Web & Client',
-    description: '面向浏览器、客户端和跨平台体验的长期实验项目。',
-    items: webProjects,
-  },
-];
+const groups = projectGroups
+  .map((group) => ({ ...group, items: projects.filter((project) => project.group === group.id) }))
+  .filter((group) => group.items.length > 0);
 
-const projectType = (project: typeof projects[number]) => {
-  if (project.platforms.includes('Web')) return '网页';
-  if (project.platforms.some((platform) => platform.includes('Paper') || platform.includes('Spigot') || platform.includes('Folia'))) return '插件';
-  return '项目';
+const typeLabels: Record<ProjectGroup, string> = {
+  plugin: '插件',
+  letseries: 'LetMe',
+  platform: '平台',
 };
+
+const projectType = (project: typeof projects[number]) => typeLabels[project.group];
 
 const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
   month: '2-digit',
@@ -66,7 +56,7 @@ const syncedAt = formatActivityDate(projectActivity.updatedAt);
         </div>
         <div class="border border-white/7 bg-white/[0.025] p-4">
           <p class="text-xs uppercase tracking-wider text-white/25">Plugins</p>
-          <p class="mt-2 text-3xl font-bold text-white">{minecraftProjects.length}</p>
+          <p class="mt-2 text-3xl font-bold text-white">{pluginProjects.length}</p>
           <p class="mt-1 text-xs text-white/35">服务器插件</p>
         </div>
         <div class="border border-white/7 bg-white/[0.025] p-4">

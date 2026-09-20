@@ -8,17 +8,17 @@
     "historyStartDate": "2021-12-05"
   },
   {
-    "id": "gemocracy",
-    "name": "Gemocracy",
-    "ip": "mc.gemocracy.org",
-    "edition": "java"
-  },
-  {
     "id": "starmc",
     "name": "StarMC",
     "ip": "mc.star-mc.top",
     "edition": "java",
     "mcmodServerId": "20188607",
     "historyStartDate": "2025-11-15"
+  },
+  {
+    "id": "qingyu",
+    "name": "清屿服",
+    "ip": "202.189.10.108:20577",
+    "edition": "java"
   }
 ]

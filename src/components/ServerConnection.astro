@@ -1,0 +1,104 @@
+---
+import type { ServerAddress, ServerInstance } from '../data/servers';
+
+interface Props {
+  instances: ServerInstance[];
+  notes?: string[];
+}
+
+const { instances, notes = [] } = Astro.props;
+
+/** Java clients take a single `host:port` string; Bedrock clients take host and port separately. */
+const addressText = (address: ServerAddress) =>
+  address.edition === 'JE' && address.port ? `${address.host}:${address.port}` : address.host;
+---
+
+<details class="server-details mt-4 border border-white/7 bg-white/[0.025]">
+  <summary class="flex cursor-pointer list-none items-center justify-between px-3 py-2 text-xs text-white/45 transition-colors hover:text-white/70">
+    <span>连接方式与版本</span>
+    <svg class="server-chevron h-3 w-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+  </summary>
+
+  <div class="space-y-4 border-t border-white/7 px-3 py-3">
+    {instances.map((instance) => (
+      <div>
+        <p class="mb-2 text-[0.7rem] font-semibold uppercase tracking-wider text-white/50">{instance.name}</p>
+
+        <div class="space-y-2">
+          {instance.addresses.map((address) => (
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-6 shrink-0 font-mono text-[0.65rem] text-white/30">{address.edition}</span>
+                <code class="flex-1 truncate font-mono text-xs text-cubex-green">{addressText(address)}</code>
+                {address.edition === 'BE' && address.port && (
+                  <span class="shrink-0 text-[0.65rem] text-white/30">端口 {address.port}</span>
+                )}
+                <button
+                  class="shrink-0 text-[0.65rem] text-white/30 transition-colors hover:text-white"
+                  data-copy={addressText(address)}
+                  title="复制地址"
+                >
+                  复制
+                </button>
+              </div>
+              {address.versions && (
+                <p class="pl-8 text-[0.65rem] text-white/25">支持 {address.versions}</p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <dl class="mt-2 space-y-1 text-[0.65rem] text-white/30">
+          {instance.version && (
+            <div class="flex gap-2">
+              <dt class="w-16 shrink-0">服务器版本</dt>
+              <dd class="text-white/45">{instance.version}</dd>
+            </div>
+          )}
+          {instance.seed && (
+            <div class="flex gap-2">
+              <dt class="w-16 shrink-0">种子</dt>
+              <dd class="font-mono text-white/45">{instance.seed}</dd>
+            </div>
+          )}
+          {instance.mapUrl && (
+            <div class="flex gap-2">
+              <dt class="w-16 shrink-0">网页地图</dt>
+              <dd class="min-w-0">
+                <a
+                  href={instance.mapUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="block truncate text-cubex-red transition-colors hover:text-cubex-accent"
+                >
+                  {instance.mapUrl}
+                </a>
+              </dd>
+            </div>
+          )}
+        </dl>
+      </div>
+    ))}
+
+    {notes.length > 0 && (
+      <ul class="space-y-1.5 border-t border-white/7 pt-3">
+        {notes.map((note) => (
+          <li class="flex gap-2 text-[0.7rem] leading-relaxed text-white/35">
+            <span class="mt-1.5 h-1 w-1 shrink-0 bg-cubex-red/60"></span>
+            <span>{note}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</details>
+
+<style>
+  .server-details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .server-details[open] .server-chevron {
+    transform: rotate(180deg);
+  }
+</style>

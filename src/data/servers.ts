@@ -1,3 +1,23 @@
+/** One connectable address of a server instance */
+export interface ServerAddress {
+  /** Client edition: Java 版 / 基岩版 */
+  edition: 'JE' | 'BE';
+  host: string;
+  port?: number;
+  /** Supported client versions for this edition */
+  versions?: string;
+}
+
+/** A running instance of a server (main world, test world, ...) */
+export interface ServerInstance {
+  name: string;
+  addresses: ServerAddress[];
+  /** Server-side version */
+  version?: string;
+  seed?: string;
+  mapUrl?: string;
+}
+
 export interface Server {
   name: string;
   subtitle: string;
@@ -8,7 +28,11 @@ export interface Server {
   tags: string[];
   /** Static status for servers without an IP (e.g. in development) */
   status?: 'online' | 'offline' | 'in-development';
-  operators: string[];
+  /** Connection details for servers running several instances or editions */
+  instances?: ServerInstance[];
+  /** Tips shown alongside the connection details */
+  notes?: string[];
+  operators?: string[];
 }
 
 export const servers: Server[] = [
@@ -40,32 +64,6 @@ export const servers: Server[] = [
     operators: ['Adlambxd'],
   },
   {
-    name: 'CubeX Wonderful',
-    subtitle: '社区实验服',
-    description: '基于 CubeX 一周目后期的测试服理念，由 wwwer、angushushu、addxiaoyi 共同推动的社区开服尝试。目前以 CubeX Wonderful 的名字继续开发。',
-    contacts: [
-      { label: 'Wonderful 群', value: '1042692728' },
-    ],
-    tags: ['生存', '社区', 'Wonderful', '开发中'],
-    status: 'in-development',
-    operators: ['wwwer', 'angushushu', 'addxiaoyi'],
-  },
-  {
-    name: 'Gemocracy',
-    subtitle: '玩家自治实验服 · 宝石民主',
-    description: '革命性的 Minecraft 生存服务器。消除了传统管理员系统，权力通过物理宝石分配——正义宝石、真理宝石、飞行宝石、生命宝石、刺客宝石、土地宝石、导航宝石。玩家可以找到、偷取和使用宝石来获得临时的管理能力。"法律不是被给予的，而是被夺取的。信任是货币。作弊意味着终结。"',
-    ip: 'mc.gemocracy.org',
-    links: [
-      { label: 'Discord', url: 'https://discord.gg/twSjTsKtpU' },
-      { label: 'QQ 群', url: 'https://qm.qq.com/q/caVZGSf8VG' },
-      { label: '实时地图', url: 'http://mc.gemocracy.org:12001/' },
-      { label: 'GitHub', url: 'https://github.com/Gemocracy' },
-    ],
-    tags: ['自治', '实验', 'RuleGems', '七大宝石', '无传送'],
-    status: 'online',
-    operators: ['angushushu', 'FZAoao', 'addy', 'henrynph', 'oneflyfish'],
-  },
-  {
     name: 'StarMC',
     subtitle: '群组服',
     description: '原 CubeX 玩家 addxiaoyi 独立开设的群组服务器，提供多样化的游戏模式，延续了 CubeX 社区的开服精神。',
@@ -73,5 +71,45 @@ export const servers: Server[] = [
     tags: ['群组', '多模式'],
     status: 'online',
     operators: ['addxiaoyi'],
+  },
+  {
+    name: '清屿服',
+    subtitle: '生电服务器 · QingYu',
+    description: '面向生电（技术向生存）玩法的服务器，同时开放 Java 版与基岩版入口。主服之外另设一个与主服同种子的测试服，方便在正式建造前验证机器与红石设计；两个服务器都提供网页地图。主服上 Java 与基岩版的同 ID 账号数据互通，测试服是否互通请留意后续公告。',
+    ip: '202.189.10.108:20577',
+    links: [
+      { label: '主服网页地图', url: 'http://202.189.10.108:20851' },
+      { label: '测试服网页地图', url: 'http://202.189.10.109:30198/' },
+    ],
+    tags: ['生电', '红石科技', 'JE/BE 互通', '主服 + 测试服'],
+    status: 'online',
+    instances: [
+      {
+        name: '生电主服',
+        version: '26.2',
+        seed: '-3636732475308954',
+        mapUrl: 'http://202.189.10.108:20851',
+        addresses: [
+          { edition: 'JE', host: '202.189.10.108', port: 20577, versions: '1.20 - 26.2' },
+          { edition: 'BE', host: '202.189.10.108', port: 20577, versions: '26.0 - 26.45' },
+        ],
+      },
+      {
+        name: '测试服',
+        version: '26.2',
+        seed: '-3636732475308954',
+        mapUrl: 'http://202.189.10.109:30198/',
+        addresses: [
+          { edition: 'JE', host: '202.189.10.109', port: 30187, versions: '1.20 - 26.2' },
+          { edition: 'BE', host: '202.189.10.109', port: 30187, versions: '26.0 - 26.45' },
+        ],
+      },
+    ],
+    notes: [
+      '绑定后 QQ 群名片会自动改为你的游戏 ID；若没有自动更换，可以手动修改。',
+      '商店区域卡顿时建议安装 ImmediatelyFast Mod，通过批处理绘制调用大幅提升 FPS——实测 200 个带文本告示牌性能提升 2.7 倍，400 个箱子提升 1.3 倍。',
+      'Java 版与基岩版同 ID 账号数据互通（主服适用；测试服是否互通请留意后续公告）。',
+    ],
+    operators: ['ALingqing'],
   },
 ];

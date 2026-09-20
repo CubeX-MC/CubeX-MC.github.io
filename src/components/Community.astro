@@ -10,19 +10,36 @@ const coreLinks = [
   { label: 'GitHub', desc: 'CubeX-MC 组织', url: 'https://github.com/CubeX-MC', tone: 'bg-white/8 text-white/70' },
   { label: 'Modrinth', desc: 'CubeX 组织页面', url: 'https://modrinth.com/organization/cubexmc', tone: 'bg-cubex-green/12 text-cubex-green' },
   { label: 'Discussions', desc: 'GitHub 讨论区', url: 'https://github.com/CubeX-MC/CubeX-MC.github.io/discussions', tone: 'bg-cubex-red/10 text-cubex-red' },
+  { label: 'LetSeries', desc: 'LetMe 系列 GitHub', url: 'https://github.com/LetSeries', tone: 'bg-cubex-purple/12 text-cubex-purple' },
+  { label: 'LetSeries 官网', desc: 'letseries.github.io', url: 'https://letseries.github.io/', tone: 'bg-cubex-blue/12 text-cubex-blue' },
 ];
 
-const qqGroups = [
-  { name: 'CubeX 服务器群', value: '470579814', href: 'https://jq.qq.com/?_wv=1027&k=g38XNewm', note: '主入口' },
-  { name: 'CubeX ELite 内测群', value: '835031357', note: 'RPG 内测' },
-  { name: 'CubeX Wonderful 群', value: '1042692728', note: '社区实验服' },
-  { name: 'CubeX 开服群', value: '614479400', note: '运营讨论' },
-  { name: 'CubeX 玩家代表群', value: '261026870', note: '玩家反馈' },
-  { name: 'CubeX 社区群', value: '296590378', note: '一周目 Commune 社区' },
-  { name: 'WolfX 社区群', value: '801731569', note: '起源社区' },
-  { name: '云湖边社区群', value: '766910766', note: '友邻社区' },
-  { name: 'Eutopia 社区', value: '894099870', note: '友邻社区' },
-  { name: 'CubeX 吵架群', value: '713832786', note: '慎入' },
+const qqCategories = [
+  {
+    title: '服务器群',
+    groups: [
+      { name: 'CubeX 服务器群', value: '470579814', href: 'https://jq.qq.com/?_wv=1027&k=g38XNewm', note: '主入口' },
+      { name: 'CubeX ELite 内测群', value: '835031357', note: 'RPG 内测' },
+      { name: '清屿服交流群', value: '1102137231', note: '生电服 · 绑定后自动改名片' },
+    ],
+  },
+  {
+    title: '运营与反馈',
+    groups: [
+      { name: 'CubeX 开服群', value: '614479400', note: '运营讨论' },
+      { name: 'CubeX 玩家代表群', value: '261026870', note: '玩家反馈' },
+    ],
+  },
+  {
+    title: '社区与友邻',
+    groups: [
+      { name: 'CubeX 社区群', value: '296590378', note: '一周目 Commune 社区' },
+      { name: 'WolfX 社区群', value: '801731569', note: '起源社区' },
+      { name: '云湖边社区群', value: '766910766', note: '友邻社区' },
+      { name: 'Eutopia 社区', value: '894099870', note: '友邻社区' },
+      { name: 'CubeX 吵架群', value: '713832786', note: '慎入' },
+    ],
+  },
 ];
 
 const platformLinks = [
@@ -58,7 +75,7 @@ const highlightedMembers = coreMembers.filter((member) => ['angushushu', 'Adlamb
         </div>
         <div class="border border-white/7 bg-white/[0.025] p-4">
           <p class="text-xs uppercase tracking-wider text-white/25">Groups</p>
-          <p class="mt-2 text-3xl font-bold text-white">{qqGroups.length}</p>
+          <p class="mt-2 text-3xl font-bold text-white">{qqCategories.reduce((total, category) => total + category.groups.length, 0)}</p>
           <p class="mt-1 text-xs text-white/35">QQ群入口</p>
         </div>
       </div>
@@ -108,18 +125,25 @@ const highlightedMembers = coreMembers.filter((member) => ['angushushu', 'Adlamb
           <h2 class="mt-1 text-2xl font-bold">聊天与平台</h2>
         </div>
 
-        <div class="grid gap-3">
-          {qqGroups.map((group) => (
-            <div class="glass-card flex items-center justify-between gap-4 p-4">
-              <div>
-                <h3 class="text-sm font-semibold text-white/85">{group.name}</h3>
-                <p class="mt-1 text-xs text-white/35">{group.value} · {group.note}</p>
+        <div class="space-y-6">
+          {qqCategories.map((category) => (
+            <div>
+              <p class="mb-2 text-xs uppercase tracking-wider text-white/25">{category.title}</p>
+              <div class="grid gap-3">
+                {category.groups.map((group) => (
+                  <div class="glass-card flex items-center justify-between gap-4 p-4">
+                    <div>
+                      <h3 class="text-sm font-semibold text-white/85">{group.name}</h3>
+                      <p class="mt-1 text-xs text-white/35">{group.value} · {group.note}</p>
+                    </div>
+                    {group.href ? (
+                      <a href={group.href} target="_blank" rel="noopener" class="text-xs text-cubex-red hover:text-cubex-accent">加入</a>
+                    ) : (
+                      <span class="font-mono text-xs text-white/25">{group.value}</span>
+                    )}
+                  </div>
+                ))}
               </div>
-              {group.href ? (
-                <a href={group.href} target="_blank" rel="noopener" class="text-xs text-cubex-red hover:text-cubex-accent">加入</a>
-              ) : (
-                <span class="font-mono text-xs text-white/25">{group.value}</span>
-              )}
             </div>
           ))}
         </div>

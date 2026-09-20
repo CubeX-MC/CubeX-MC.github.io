@@ -36,6 +36,16 @@ export const people: PeopleSection[] = [
         description: '原 CubeX 基岩玩家，CubeX 研究院核心成员。独立开设了 StarMC 群组服务器，为社区提供多样化的游戏模式。',
       },
       {
+        name: 'ALingqing',
+        aliases: ['Alingqing'],
+        role: 'CubeX 研究院成员 / 清屿服服主',
+        description: 'Minecraft 服务端插件开发者。清屿生电服的服主，也是 Metro 与 Railway 两个铁路插件的贡献者。',
+        links: [
+          { label: 'GitHub', url: 'https://github.com/ALingqing' },
+          { label: '个人网站', url: 'https://www.chenray.top/' },
+        ],
+      },
+      {
         name: 'angushushu',
         role: 'CubeX 研究院成员',
         description: 'Commune，云湖边，CubeX，Gemocracy贡献者',
@@ -224,6 +234,7 @@ export const adminTimeline: string[] = [
   'AdlambXD',
   'Mark_Q + LCDJ',
   'Mark_Q',
+  '无服主 · 玩家所有 · 玩家维护 · 玩家自治',
 ];
 
 export const adminTimelineSecret: string[] = [
@@ -242,4 +253,5 @@ export const adminTimelineSecret: string[] = [
   '实体机时代 — 几位服主凑钱买了台实体机，放到了 Mark 家。物理意义上的"服务器在我家所以我是服主"。AdlambXD 主事。',
   '权力更迭 — AdlambXD 变得保守，所有人提的意见他全否了，服务器像个死水塘。于是 angushushu 在幕后煽风点火，推了 LCDJ 和 steve3184 上前台，把 AdlambXD 架空了。妙的是，CubeX 从一周目起就有"投票表决"的传统——结果这波架空直接把遮羞布撕了，大家发现规则原来只是摆设。从此打开了潘多拉魔盒，为后面 Mark_Q 的独断专行铺平了道路。',
   '停滞 — Mark_Q 拿到了实体机和 QQ 群。有了机器就有了服务器，有了群就有了玩家。然后——他消失了。也许这才是最大的地狱笑话：折腾了十四轮权力更替，最后谁都没得玩。',
+  '改革落地 — 2026 年 6 月，改革真的执行下去了。在研究院成员的推动下，HyperCube 正式更名为 CubeX 研究院，CubeX 服务器改称 CubeX Lite，传统服主制被直接取消——服务器归玩家所有，由玩家维护，靠玩家自治。折腾了十五轮才想明白：解决"谁当服主"的唯一办法，是让这个位子彻底消失。',
 ];

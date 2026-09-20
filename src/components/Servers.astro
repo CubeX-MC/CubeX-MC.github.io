@@ -1,5 +1,6 @@
 ---
 import { servers } from '../data/servers';
+import ServerConnection from './ServerConnection.astro';
 
 const statusConfig: Record<string, { label: string; color: string; bg: string }> = {
   online: { label: '在线', color: 'text-cubex-green', bg: 'bg-cubex-green/15' },
@@ -8,7 +9,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string }>
 };
 
 const trackedServers = servers.filter((server) => server.ip);
-const operators = Array.from(new Set(servers.flatMap((server) => server.operators)));
+const operators = Array.from(new Set(servers.flatMap((server) => server.operators ?? [])));
 const liveServers = servers.filter((server) => server.status === 'online');
 const tools = [
   { href: '/lookup', label: '服务器查询', kicker: 'Lookup', desc: '快速查询任意 Java 版服务器状态、版本、MOTD 和在线人数。' },
@@ -139,6 +140,10 @@ const tools = [
               </div>
             )}
 
+            {server.instances && server.instances.length > 0 && (
+              <ServerConnection instances={server.instances} notes={server.notes} />
+            )}
+
             <div class="mt-4 flex flex-wrap gap-1.5">
               {server.tags.map((tag) => (
                 <span class="tag-pill bg-white/[0.04] text-white/45">{tag}</span>
@@ -155,9 +160,11 @@ const tools = [
               </div>
             )}
 
-            <div class="mt-4 border-t border-white/5 pt-3 text-xs text-white/30">
-              运营: {server.operators.join(', ')}
-            </div>
+            {server.operators && server.operators.length > 0 && (
+              <div class="mt-4 border-t border-white/5 pt-3 text-xs text-white/30">
+                运营: {server.operators.join(', ')}
+              </div>
+            )}
           </article>
         );
       })}
@@ -170,10 +177,11 @@ const tools = [
     btn.addEventListener('click', async () => {
       const text = btn.getAttribute('data-copy');
       if (!text) return;
+      const originalTitle = btn.getAttribute('title') || '复制 IP';
       try {
         await navigator.clipboard.writeText(text);
         btn.setAttribute('title', '已复制');
-        setTimeout(() => btn.setAttribute('title', '复制 IP'), 1600);
+        setTimeout(() => btn.setAttribute('title', originalTitle), 1600);
       } catch {}
     });
   });
