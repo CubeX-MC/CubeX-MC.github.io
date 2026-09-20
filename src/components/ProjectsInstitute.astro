@@ -1,0 +1,338 @@
+---
+import { projects, projectGroups, type ProjectGroup } from '../data/projects';
+import projectActivity from '../data/projectActivity.json';
+
+const activityByName = new Map(projectActivity.projects.map((a) => [a.name, a]));
+
+const typeLabels: Record<ProjectGroup, string> = {
+  plugin: '插件',
+  letseries: 'LetMe',
+  platform: '平台',
+};
+
+/** Catalogue numbers follow the register's own order, not the display grouping. */
+const records = projects.map((project, index) => ({
+  ...project,
+  no: `PRJ-${String(index + 1).padStart(3, '0')}`,
+  slug: `prj-${String(index + 1).padStart(3, '0')}`,
+  activity: activityByName.get(project.name) ?? null,
+}));
+
+const groups = projectGroups
+  .map((group) => ({ ...group, items: records.filter((r) => r.group === group.id) }))
+  .filter((group) => group.items.length > 0);
+
+const contributors = Array.from(new Set(projects.flatMap((p) => p.contributors))).sort((a, b) =>
+  a.toLowerCase().localeCompare(b.toLowerCase()),
+);
+
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
+  month: '2-digit',
+  day: '2-digit',
+});
+
+const formatDate = (value: string | null | undefined) =>
+  value ? dateFormatter.format(new Date(value)) : '—';
+
+const syncedAt = projectActivity.updatedAt
+  ? new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(
+      new Date(projectActivity.updatedAt),
+    )
+  : '等待同步';
+---
+
+<article>
+  <header class="shell plate">
+    <div class="plate-head">
+      <p class="label">Register</p>
+      <p class="label-cn">共 {records.length} 项 · {contributors.length} 位贡献者</p>
+    </div>
+
+    <h1 class="display">项目档案</h1>
+
+    <p class="lede">
+      方块叉研究院维护和推进的全部公开项目：服务器插件、LetMe 系列、工具与平台。
+      每项标注贡献者、运行平台、核心能力与仓库入口，更新时间同步自 GitHub。
+    </p>
+  </header>
+
+  <section class="shell index-block" aria-labelledby="prj-index">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head">
+      <h2 id="prj-index" class="label">Index</h2>
+      <p class="label-cn">GitHub 同步于 {syncedAt}</p>
+    </div>
+
+    <ol class="index index-prj">
+      {records.map((record) => (
+        <li data-entry data-contributors={record.contributors.join('|')}>
+          <a href={`#${record.slug}`} class="index-link">
+            <span class="index-no">{record.no}</span>
+            <span class="index-name">{record.name}</span>
+            <span class="index-sub">{record.features[0]}</span>
+            <span class="index-meta">{record.contributors.join(', ')}</span>
+            <span class="index-tail">{typeLabels[record.group]}</span>
+            <span class="index-tail data">{formatDate(record.activity?.pushedAt)}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head">
+      <p class="label">Filter</p>
+      <p class="label-cn"><span data-filter-count>{records.length}/{records.length}</span> 项</p>
+    </div>
+    <div class="filters">
+      <button type="button" class="chip is-on" data-filter-clear aria-pressed="true">全部</button>
+      {contributors.map((name) => (
+        <button type="button" class="chip" data-filter={name} aria-pressed="false">{name}</button>
+      ))}
+    </div>
+  </section>
+
+  {groups.map((group) => (
+    <section class="shell block" data-group>
+      <div class="tick-rule" aria-hidden="true"></div>
+      <div class="block-head">
+        <div>
+          <p class="label">{group.kicker}</p>
+          <h2 class="block-title">{group.title}</h2>
+        </div>
+        <p class="block-note">{group.description}</p>
+      </div>
+
+      <div class="entries">
+        {group.items.map((record) => (
+          <article
+            class="entry"
+            id={record.slug}
+            data-entry
+            data-main
+            data-contributors={record.contributors.join('|')}
+          >
+            <div class="entry-gutter">
+              <span class="entry-glyph" aria-hidden="true">{record.icon}</span>
+              <span class="entry-no data">{record.no}</span>
+            </div>
+
+            <div class="entry-body">
+              <div class="entry-head">
+                <h3 class="entry-name">{record.name}</h3>
+                <span class="entry-date data">更新 {formatDate(record.activity?.pushedAt)}</span>
+              </div>
+
+              <p class="entry-desc">{record.description}</p>
+
+              <dl class="spec">
+                <div><dt>平台</dt><dd>{record.platforms.join(' / ')}</dd></div>
+                <div><dt>能力</dt><dd>{record.features.join(' · ')}</dd></div>
+                <div><dt>贡献</dt><dd>{record.contributors.join('、')}</dd></div>
+                <div><dt>仓库</dt><dd class="data">{record.repository}</dd></div>
+              </dl>
+
+              <p class="foot-links">
+                {record.links.map((link) => (
+                  <a href={link.url} target="_blank" rel="noopener">{link.label} ↗</a>
+                ))}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="empty" data-empty hidden>没有匹配当前筛选的项目。</p>
+    </section>
+  ))}
+</article>
+
+<style>
+  .index-prj .index-link {
+    grid-template-columns: 62px minmax(84px, 1fr) minmax(0, 1.1fr) minmax(0, 1.4fr) 52px 48px;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 4px;
+  }
+
+  .chip {
+    padding: 3px 10px;
+    border: 1px solid var(--rule);
+    background: none;
+    color: var(--fg-2);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .chip:hover {
+    color: #fff;
+  }
+
+  .chip.is-on {
+    border-color: var(--mark);
+    background: rgba(196, 113, 58, 0.12);
+    color: var(--mark);
+  }
+
+  .entries {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  @media (min-width: 1000px) {
+    .entries {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 48px;
+    }
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 18px;
+    padding-block: 22px;
+    border-bottom: 1px solid var(--rule-soft);
+    scroll-margin-top: 104px;
+  }
+
+  .entry[hidden] {
+    display: none;
+  }
+
+  .entry-gutter {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .entry-glyph {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .entry-no {
+    font-size: 0.6875rem;
+    color: var(--fg-3);
+  }
+
+  .entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 16px;
+  }
+
+  .entry-name {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .entry-date {
+    font-size: 0.6875rem;
+    color: var(--fg-3);
+  }
+
+  .entry-desc {
+    margin: 10px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    color: var(--fg-2);
+  }
+
+  .entry .spec {
+    margin-top: 14px;
+  }
+
+  .entry .spec dt {
+    width: 36px;
+  }
+
+  .entry .foot-links {
+    margin-top: 12px;
+  }
+
+  .empty {
+    margin: 16px 0 0;
+    padding: 14px 16px;
+    border: 1px solid var(--rule-soft);
+    font-size: 0.8125rem;
+    color: var(--fg-3);
+  }
+
+  @media (max-width: 860px) {
+    .index-prj .index-link {
+      grid-template-columns: 58px minmax(0, 1fr) 48px 44px;
+    }
+
+    .index-prj .index-sub,
+    .index-prj .index-meta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-filter-clear]');
+  const entries = Array.from(document.querySelectorAll<HTMLElement>('[data-entry]'));
+  const mainEntries = entries.filter((el) => el.hasAttribute('data-main'));
+  const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-group]'));
+  const countEl = document.querySelector('[data-filter-count]');
+  const selected = new Set<string>();
+
+  const matches = (el: HTMLElement) => {
+    if (selected.size === 0) return true;
+    return (el.dataset.contributors || '')
+      .split('|')
+      .filter(Boolean)
+      .some((name) => selected.has(name));
+  };
+
+  const render = () => {
+    for (const button of filterButtons) {
+      const on = selected.has(button.dataset.filter || '');
+      button.classList.toggle('is-on', on);
+      button.setAttribute('aria-pressed', String(on));
+    }
+
+    clearButton?.classList.toggle('is-on', selected.size === 0);
+    clearButton?.setAttribute('aria-pressed', String(selected.size === 0));
+
+    for (const entry of entries) entry.hidden = !matches(entry);
+
+    for (const group of groups) {
+      const visible = Array.from(group.querySelectorAll<HTMLElement>('[data-main]')).some((el) => !el.hidden);
+      const empty = group.querySelector<HTMLElement>('[data-empty]');
+      if (empty) empty.hidden = visible;
+    }
+
+    if (countEl) {
+      countEl.textContent = `${mainEntries.filter((el) => !el.hidden).length}/${mainEntries.length}`;
+    }
+  };
+
+  for (const button of filterButtons) {
+    button.addEventListener('click', () => {
+      const name = button.dataset.filter;
+      if (!name) return;
+      selected.has(name) ? selected.delete(name) : selected.add(name);
+      render();
+    });
+  }
+
+  clearButton?.addEventListener('click', () => {
+    selected.clear();
+    render();
+  });
+</script>

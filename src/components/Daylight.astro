@@ -1,0 +1,139 @@
+---
+/**
+ * 天光 — the site's one atmospheric element.
+ *
+ * Minecraft lighting is not a gradient: it is 16 discrete levels on a block
+ * grid, lit by a hard-edged square sun. So this draws on a coarse grid, snaps
+ * every cell to one of 16 levels, and scales up with `image-rendering: pixelated`.
+ * The sun's angle and colour follow the real clock in Asia/Shanghai — the
+ * servers' timezone — which makes it a reading off an instrument, not wallpaper.
+ */
+---
+
+<div class="daylight" aria-hidden="true" data-daylight>
+  <canvas data-daylight-canvas></canvas>
+</div>
+
+<script>
+  const LEVELS = 16; // Minecraft's light levels, 0–15.
+  const CELL = 22; // CSS px per lit cell.
+  const PEAK_ALPHA = 0.085; // Ceiling, so body text contrast never suffers.
+
+  const clock = new Intl.DateTimeFormat('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+
+  const root = document.querySelector<HTMLElement>('[data-daylight]');
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-daylight-canvas]');
+  const ctx = canvas?.getContext('2d');
+
+  /** Minutes since midnight in the servers' timezone, whatever the viewer's own is. */
+  const shanghaiMinutes = () => {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Shanghai',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+    const hour = Number(parts.find((p) => p.type === 'hour')?.value ?? 12);
+    const minute = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
+    return hour * 60 + minute;
+  };
+
+  /**
+   * Sun position and colour across the day. Dawn 06:00, zenith 12:00, dusk 18:00.
+   * At night the moon takes over, dimmer and blue.
+   */
+  const sky = (minutes: number) => {
+    const t = minutes / 60;
+    const isDay = t >= 5.5 && t <= 18.5;
+
+    if (isDay) {
+      const progress = (t - 5.5) / 13; // 0 → 1 across the day
+      const altitude = Math.sin(progress * Math.PI); // 0 at horizon, 1 at zenith
+      // Warm and low at the edges of the day, pale at noon.
+      const warmth = 1 - altitude;
+      return {
+        x: progress,
+        y: 0.92 - altitude * 0.78,
+        r: 195 + warmth * 25,
+        g: 150 + altitude * 50 - warmth * 20,
+        b: 90 + altitude * 70,
+        strength: 0.42 + altitude * 0.58,
+        level: Math.round(4 + altitude * 11),
+        phase: t < 8 ? '拂晓' : t < 11 ? '上午' : t < 14 ? '正午' : t < 17 ? '午后' : '黄昏',
+      };
+    }
+
+    // Night: the moon crosses the other half, faint and cold.
+    const nightT = t > 18.5 ? t - 18.5 : t + 5.5;
+    const progress = nightT / 11;
+    const altitude = Math.sin(progress * Math.PI);
+    return {
+      x: 1 - progress,
+      y: 0.94 - altitude * 0.7,
+      r: 110,
+      g: 140,
+      b: 185,
+      strength: 0.2 + altitude * 0.24,
+      level: Math.round(altitude * 3),
+      phase: '夜',
+    };
+  };
+
+  const draw = () => {
+    if (!canvas || !ctx) return;
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const cols = Math.max(1, Math.ceil(w / CELL));
+    const rows = Math.max(1, Math.ceil(h / CELL));
+
+    canvas.width = cols;
+    canvas.height = rows;
+
+    const s = sky(shanghaiMinutes());
+    const sunX = s.x * cols;
+    const sunY = s.y * rows;
+    const reach = Math.hypot(cols, rows) * 0.78;
+
+    ctx.clearRect(0, 0, cols, rows);
+
+    for (let row = 0; row < rows; row += 1) {
+      for (let col = 0; col < cols; col += 1) {
+        const distance = Math.hypot(col + 0.5 - sunX, row + 0.5 - sunY);
+        const falloff = Math.max(0, 1 - distance / reach);
+
+        // Quantise to Minecraft's 16 light levels — this is the whole point.
+        const level = Math.round(falloff * falloff * (LEVELS - 1));
+        if (level <= 0) continue;
+
+        const alpha = (level / (LEVELS - 1)) * PEAK_ALPHA * s.strength;
+        ctx.fillStyle = `rgba(${Math.round(s.r)}, ${Math.round(s.g)}, ${Math.round(s.b)}, ${alpha.toFixed(4)})`;
+        ctx.fillRect(col, row, 1, 1);
+      }
+    }
+
+    root?.classList.add('is-lit');
+
+    // Print the reading with the colophon's other measurements.
+    const reading = document.querySelector('[data-daylight-reading]');
+    if (reading) {
+      reading.textContent = `${s.phase} · 光照 ${s.level} · ${clock.format(new Date())}`;
+    }
+  };
+
+  let resizeTimer: number | undefined;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(draw, 180);
+  });
+
+  draw();
+  // The sky is the only thing on this site that moves on its own, and it moves
+  // at the pace of an actual day.
+  window.setInterval(draw, 60_000);
+</script>

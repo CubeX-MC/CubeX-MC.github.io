@@ -1,34 +1,10 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
+import InstituteLayout from '../layouts/InstituteLayout.astro';
+import HomeInstitute from '../components/HomeInstitute.astro';
 import Guestbook from '../components/Guestbook.astro';
-
-const sections = [
-  { href: '/servers', title: '服务器', desc: 'CubeX 研究院服务器列表。' },
-  { href: '/projects', title: '项目', desc: '我们正在推进的全部项目。' },
-  { href: '/community', title: '社区', desc: '入口、成员与贡献者网络。' },
-  { href: '/map', title: 'CubeX Lite 存档合并', desc: 'CubeX Lite 一二周目合并后的主世界领地可视化。' },
-  { href: '/about', title: '故事', desc: '从 WolfX Commune 到 CubeX 研究院。' },
-];
 ---
 
-<BaseLayout>
-  <Hero />
-  <section class="px-6 py-16">
-    <div class="mx-auto max-w-6xl">
-      <div class="mb-8">
-        <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-cubex-red">Explore</p>
-        <h2 class="text-3xl font-bold md:text-4xl">选择一个页面</h2>
-      </div>
-      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {sections.map((section) => (
-          <a href={section.href} class="glass-card block p-5 hover:border-cubex-red/25">
-            <h3 class="font-semibold text-white">{section.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-white/40">{section.desc}</p>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+<InstituteLayout>
+  <HomeInstitute />
   <Guestbook />
-</BaseLayout>
+</InstituteLayout>

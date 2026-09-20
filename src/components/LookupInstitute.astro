@@ -1,0 +1,381 @@
+---
+import { servers } from '../data/servers';
+
+const knownServers = servers.filter((server) => server.ip);
+---
+
+<article>
+  <header class="shell plate">
+    <div class="plate-head">
+      <p class="label">Instrument · L</p>
+      <p class="label-cn">数据来源 mcsrvstat.us</p>
+    </div>
+
+    <h1 class="display-sm">服务器查询</h1>
+
+    <p class="epigraph">有些逼服还活着，而有些逼服已经死了</p>
+
+    <p class="lede">
+      查询任意 Java 版 Minecraft 服务器的在线状态、版本、MOTD 与人数。
+      输入域名或 <code class="data">地址:端口</code> 均可。
+    </p>
+  </header>
+
+  <section class="shell block" data-lookup-panel>
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head">
+      <p class="label">Query</p>
+      <p class="state is-dark" data-lookup-state>待查询</p>
+    </div>
+
+    <form class="lookup-form" data-lookup-form>
+      <label class="visually-hidden" for="lookup-input">服务器地址</label>
+      <input
+        id="lookup-input"
+        name="server"
+        type="text"
+        inputmode="url"
+        autocomplete="off"
+        spellcheck="false"
+        value={knownServers[0]?.ip}
+        placeholder="play.cubexmc.org"
+        data-lookup-input
+      />
+      <button type="submit">查询</button>
+    </form>
+
+    <div class="presets">
+      <span class="label preset-label">Known</span>
+      {knownServers.map((server) => (
+        <button type="button" class="chip" data-known-server={server.ip}>{server.name}</button>
+      ))}
+    </div>
+
+    <div class="result" data-lookup-result>
+      <p class="result-idle">输入地址后开始查询 · MOTD · Version · Players</p>
+    </div>
+  </section>
+</article>
+
+<style>
+  .epigraph {
+    max-width: 30ch;
+    margin: 20px 0 0;
+    font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+    line-height: 1.5;
+    color: var(--mark);
+  }
+
+  .lookup-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 4px;
+  }
+
+  .lookup-form input {
+    flex: 1 1 260px;
+    min-width: 0;
+    min-height: 44px;
+    padding-inline: 14px;
+    border: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.025);
+    color: #fff;
+    font-family: var(--font-data);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .lookup-form input::placeholder {
+    color: var(--fg-3);
+  }
+
+  .lookup-form input:focus {
+    border-color: var(--mark);
+  }
+
+  .lookup-form button {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding-inline: 26px;
+    border: 1px solid var(--mark);
+    background: var(--mark);
+    color: #14100c;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .lookup-form button:hover {
+    background: #d8823f;
+  }
+
+  .presets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .preset-label {
+    margin-right: 4px;
+  }
+
+  .chip {
+    padding: 3px 10px;
+    border: 1px solid var(--rule);
+    background: none;
+    color: var(--fg-2);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .chip:hover {
+    border-color: var(--mark);
+    color: var(--mark);
+  }
+
+  .result {
+    min-height: 210px;
+    margin-top: 28px;
+    padding: 20px;
+    border: 1px solid var(--rule-soft);
+  }
+
+  .result-idle {
+    margin: 0;
+    font-family: var(--font-data);
+    font-size: 0.75rem;
+    color: var(--fg-3);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Injected by the script below — kept in the same register as the rest. */
+  .result :global(.res-head) {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .result :global(.res-icon) {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--rule-soft);
+    image-rendering: pixelated;
+  }
+
+  .result :global(.res-addr) {
+    margin: 0;
+    font-family: var(--font-data);
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+    color: #fff;
+  }
+
+  .result :global(.res-quote) {
+    margin: 14px 0 0;
+    padding-left: 14px;
+    border-left: 2px solid var(--mark);
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    color: var(--fg-2);
+  }
+
+  .result :global(.res-spec) {
+    display: grid;
+    gap: 0;
+    margin: 20px 0 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .result :global(.res-spec div) {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-block: 9px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .result :global(.res-spec dt) {
+    flex-shrink: 0;
+    width: 72px;
+    font-family: var(--font-stamp);
+    font-size: 0.5rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+
+  .result :global(.res-spec dd) {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--font-data);
+    font-size: 0.8125rem;
+    color: var(--fg);
+  }
+
+  .result :global(.res-copy) {
+    margin-top: 18px;
+    padding: 4px 12px;
+    border: 1px solid var(--rule);
+    background: none;
+    color: var(--fg-3);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    cursor: pointer;
+  }
+
+  .result :global(.res-copy:hover) {
+    border-color: var(--mark);
+    color: var(--mark);
+  }
+
+  .result :global(.res-msg) {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--fg-2);
+  }
+
+  .result :global(.res-sub) {
+    margin: 8px 0 0;
+    font-family: var(--font-data);
+    font-size: 0.75rem;
+    color: var(--fg-3);
+  }
+</style>
+
+<script>
+  const panel = document.querySelector('[data-lookup-panel]');
+  const form = document.querySelector('[data-lookup-form]');
+  const input = document.querySelector('[data-lookup-input]');
+  const result = document.querySelector('[data-lookup-result]');
+  const state = document.querySelector('[data-lookup-state]');
+
+  const escapeHtml = (value) => String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+  const setState = (label, tone) => {
+    if (!state) return;
+    state.textContent = label;
+    state.className = `state ${tone}`;
+  };
+
+  const renderMessage = (title, detail) => {
+    if (!result) return;
+    result.innerHTML = `<p class="res-msg">${escapeHtml(title)}</p><p class="res-sub">${escapeHtml(detail)}</p>`;
+  };
+
+  const renderStatus = (ip, data) => {
+    if (!result) return;
+
+    if (!data.online) {
+      setState('离线', 'is-dark');
+      result.innerHTML = `
+        <div class="res-head">
+          <div class="res-icon"></div>
+          <div>
+            <p class="res-addr">${escapeHtml(ip)}</p>
+            <p class="res-sub">该地址当前无法连接。</p>
+          </div>
+        </div>
+        <button type="button" class="res-copy" data-copy-lookup="${escapeHtml(ip)}">复制地址</button>
+      `;
+      return;
+    }
+
+    const motd = data.motd?.clean?.filter(Boolean).join(' ') || '';
+    const version = data.version || data.protocol?.name || '未知';
+    const online = data.players?.online ?? 0;
+    const max = data.players?.max ?? 0;
+    const icon = data.icon
+      ? `<img class="res-icon" src="${escapeHtml(data.icon)}" alt="" />`
+      : '<div class="res-icon"></div>';
+
+    setState('在线', 'is-live');
+    result.innerHTML = `
+      <div class="res-head">
+        ${icon}
+        <div>
+          <p class="res-addr">${escapeHtml(ip)}</p>
+          ${motd ? `<p class="res-quote">${escapeHtml(motd)}</p>` : ''}
+        </div>
+      </div>
+      <dl class="res-spec">
+        <div><dt>Players</dt><dd>${online} / ${max}</dd></div>
+        <div><dt>Version</dt><dd>${escapeHtml(version)}</dd></div>
+        <div><dt>Address</dt><dd>${escapeHtml(ip)}</dd></div>
+      </dl>
+      <button type="button" class="res-copy" data-copy-lookup="${escapeHtml(ip)}">复制地址</button>
+    `;
+  };
+
+  const lookup = async (rawIp) => {
+    const ip = rawIp.trim();
+    if (!ip) {
+      setState('待查询', 'is-dark');
+      renderMessage('请输入服务器地址。', '例如 play.cubexmc.org 或 202.189.10.108:20577');
+      return;
+    }
+
+    setState('查询中', 'is-dev');
+    renderMessage('正在查询…', ip);
+
+    try {
+      const res = await fetch(`https://api.mcsrvstat.us/3/${encodeURIComponent(ip)}`);
+      if (!res.ok) throw new Error('API returned an error');
+      renderStatus(ip, await res.json());
+    } catch {
+      setState('失败', 'is-mark');
+      renderMessage('查询失败。', '暂时无法连接到状态接口，稍后再试。');
+    }
+  };
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (input instanceof HTMLInputElement) lookup(input.value);
+  });
+
+  panel?.querySelectorAll('[data-known-server]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const ip = button.getAttribute('data-known-server') || '';
+      if (input instanceof HTMLInputElement) input.value = ip;
+      lookup(ip);
+    });
+  });
+
+  result?.addEventListener('click', async (event) => {
+    const target = event.target instanceof Element ? event.target.closest('[data-copy-lookup]') : null;
+    const ip = target?.getAttribute('data-copy-lookup');
+    if (!ip) return;
+    try {
+      await navigator.clipboard.writeText(ip);
+      const original = target.textContent;
+      target.textContent = '已复制';
+      setTimeout(() => {
+        target.textContent = original;
+      }, 1600);
+    } catch {}
+  });
+
+  if (input instanceof HTMLInputElement && input.value) lookup(input.value);
+</script>

@@ -1,0 +1,715 @@
+/* ==========================================================================
+   CubeX 研究院 — catalogue design system
+   Registers:
+     Silkscreen  — institute mark, section labels, plate numbers (Latin only;
+                   it has no CJK glyphs and its digits blur below ~14px)
+     JetBrains   — all data: addresses, seeds, versions, counts, small numerals
+     Inter/Noto  — prose and anything Chinese
+   Colour carries status and nothing else. The mark appears ~3× per page.
+   ========================================================================== */
+
+:root {
+  --ink: #0c0b09;
+  --ink-2: #080704;
+  --rule: rgba(255, 255, 255, 0.11);
+  --rule-soft: rgba(255, 255, 255, 0.055);
+  --fg: #d9d2c8;
+  --fg-2: rgba(255, 255, 255, 0.44);
+  --fg-3: rgba(255, 255, 255, 0.26);
+  --mark: #c4713a;
+  --live: #5fbe86;
+  --dev: #7fa3c4;
+  --gold: #c9a84c;
+  --purple: #a78bd0;
+
+  --font-body: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-data: 'JetBrains Mono', ui-monospace, monospace;
+  --font-stamp: 'Silkscreen', monospace;
+
+  --gutter: 24px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(196, 113, 58, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink-2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ---------- Measure ---------- */
+
+.shell {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* The grid made structural: a rule with ticks hanging off it. */
+.tick-rule {
+  border-top: 1px solid var(--rule);
+  height: 7px;
+  background-image: repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px 64px);
+  background-repeat: repeat-x;
+  background-size: 64px 7px;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-stamp);
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+/* Labels that contain Chinese can't use Silkscreen — it has no CJK glyphs. */
+.label-cn {
+  margin: 0;
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: var(--fg-3);
+}
+
+.data {
+  font-family: var(--font-data);
+  font-size: 0.8125rem;
+}
+
+/* ---------- Head plate ---------- */
+
+.plate {
+  padding-block: 72px 56px;
+}
+
+.plate-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.display {
+  margin: 22px 0 0;
+  font-size: clamp(2.6rem, 8vw, 5.25rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.display-sm {
+  margin: 18px 0 0;
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.lede {
+  max-width: 48ch;
+  margin: 24px 0 0;
+  font-size: 0.9375rem;
+  color: var(--fg-2);
+}
+
+/* ---------- Index table ---------- */
+
+.index-block {
+  padding-block: 0 64px;
+}
+
+.index-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-block: 12px;
+}
+
+.index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.index > li {
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.index-link {
+  display: grid;
+  align-items: baseline;
+  gap: 14px;
+  padding-block: 13px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.index-link:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.index-no {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+}
+
+.index-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+.index-sub,
+.index-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--fg-3);
+}
+
+.index-tail {
+  text-align: right;
+  color: var(--fg-3);
+}
+
+/* ---------- Status ---------- */
+
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+}
+
+.state::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+}
+
+.is-live { color: var(--live); }
+.is-dev { color: var(--dev); }
+.is-dark { color: var(--fg-3); }
+.is-mark { color: var(--mark); }
+
+/* ---------- Record ---------- */
+
+.record {
+  padding-block: 0 72px;
+  scroll-margin-top: 96px;
+}
+
+.record-body {
+  display: grid;
+  gap: 28px;
+  padding-top: 28px;
+}
+
+@media (min-width: 880px) {
+  .record-body {
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 48px;
+  }
+}
+
+/* Specimen label — Silkscreen at plate scale, where it actually resolves. */
+.spine {
+  position: relative;
+}
+
+@media (min-width: 880px) {
+  .spine {
+    position: sticky;
+    top: 104px;
+    align-self: start;
+  }
+}
+
+.spine > * {
+  margin: 0;
+}
+
+.spine-code {
+  font-family: var(--font-stamp);
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  color: var(--fg-3);
+}
+
+.spine-no {
+  font-family: var(--font-stamp);
+  font-size: 3.25rem;
+  line-height: 0.9;
+  color: #fff;
+}
+
+.spine-glyph {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.spine-state {
+  margin-top: 14px !important;
+}
+
+.spine-count {
+  margin-top: 2px !important;
+  color: var(--fg-3);
+}
+
+.spine-tag {
+  margin-top: 14px !important;
+  font-family: var(--font-stamp);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+}
+
+.record-name {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.record-sub {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  color: var(--fg-3);
+}
+
+.prose {
+  max-width: 58ch;
+  margin: 22px 0 0;
+  color: var(--fg-2);
+}
+
+/* Live text quoted as a specimen label. */
+.quote {
+  margin: 22px 0 0;
+  padding-left: 16px;
+  border-left: 2px solid var(--mark);
+  font-size: 0.875rem;
+  color: var(--fg);
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+  margin-top: 34px;
+}
+
+.field > .label,
+.field > .label-cn {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.row-key {
+  flex-shrink: 0;
+  width: 22px;
+  font-family: var(--font-stamp);
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  color: var(--fg-3);
+}
+
+.row-key.wide {
+  width: auto;
+  min-width: 78px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+}
+
+.row-value {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--live);
+}
+
+.row-value.plain {
+  color: var(--fg-2);
+}
+
+.row-port,
+.row-note {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  color: var(--fg-3);
+}
+
+.row-action {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  text-decoration: none;
+  color: var(--mark);
+}
+
+.row-action:hover {
+  color: #fff;
+}
+
+.copy {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border: 1px solid var(--rule);
+  background: none;
+  color: var(--fg-3);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.copy:hover {
+  border-color: var(--mark);
+  color: var(--mark);
+}
+
+.spec {
+  display: grid;
+  gap: 4px;
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+}
+
+.spec div {
+  display: flex;
+  gap: 16px;
+}
+
+.spec dt {
+  flex-shrink: 0;
+  width: 64px;
+  color: var(--fg-3);
+}
+
+.spec dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--fg-2);
+}
+
+.spec a {
+  text-decoration: none;
+  color: var(--mark);
+}
+
+.notes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notes li {
+  display: flex;
+  gap: 14px;
+  max-width: 62ch;
+  padding-block: 11px;
+  border-bottom: 1px solid var(--rule-soft);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  color: var(--fg-2);
+}
+
+.note-no {
+  flex-shrink: 0;
+  font-family: var(--font-data);
+  font-size: 0.6875rem;
+  color: var(--fg-3);
+}
+
+.record-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 30px;
+}
+
+.foot-meta {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.foot-meta div {
+  display: flex;
+  gap: 16px;
+}
+
+.foot-meta dt {
+  flex-shrink: 0;
+  width: 32px;
+  color: var(--fg-3);
+}
+
+.foot-meta dd {
+  margin: 0;
+  color: var(--fg-2);
+}
+
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.foot-links a {
+  text-decoration: none;
+  color: var(--mark);
+}
+
+.foot-links a:hover {
+  color: #fff;
+}
+
+/* ---------- Ruled link list ---------- */
+
+.tools {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.tools li {
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.tools a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 168px) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 14px;
+  padding-block: 15px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.tools a:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.tool-code {
+  font-family: var(--font-stamp);
+  font-size: 0.7rem;
+  color: var(--mark);
+}
+
+.tool-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+.tool-desc {
+  font-size: 0.8125rem;
+  color: var(--fg-3);
+}
+
+/* ---------- Section block ---------- */
+
+.block {
+  padding-block: 0 64px;
+}
+
+.block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-block: 12px;
+}
+
+.block-title {
+  margin: 6px 0 0;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.block-note {
+  max-width: 44ch;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--fg-3);
+}
+
+@media (max-width: 720px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .plate {
+    padding-block: 48px 40px;
+  }
+
+  .tools a {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+
+  .tool-desc {
+    display: none;
+  }
+
+  .spine {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .spine-no {
+    font-size: 2.25rem;
+  }
+
+  .spine-state,
+  .spine-count,
+  .spine-tag {
+    margin-top: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   天光 — daylight
+   Minecraft has 16 discrete light levels and a hard-edged square sun; nothing
+   in it is smoothly blurred. So the light is drawn on a coarse grid, quantised
+   to 16 steps, and scaled up with pixelated rendering. Angle and colour follow
+   the real clock in Asia/Shanghai, which makes it an instrument reading rather
+   than decoration.
+   ========================================================================== */
+
+.daylight {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.daylight.is-lit {
+  opacity: 1;
+}
+
+.daylight canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: crisp-edges; /* fallback first — `pixelated` must win */
+  image-rendering: pixelated;
+}
+
+/* Everything else sits above the light. */
+.masthead,
+main,
+.colophon {
+  position: relative;
+  z-index: 1;
+}
+
+/* Chunk-load reveal: claims resolve outward from the centre of the plate. */
+@keyframes chunk-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.plot rect {
+  opacity: 0;
+  animation: chunk-in 0.45s steps(4, end) forwards;
+}
+
+/* A live server reads like a beacon rather than a static dot. */
+@keyframes beacon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.state.is-live::before {
+  animation: beacon 2.6s steps(6, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daylight {
+    transition: none;
+  }
+
+  .plot rect {
+    opacity: 1;
+    animation: none;
+  }
+
+  .state.is-live::before {
+    animation: none;
+  }
+}

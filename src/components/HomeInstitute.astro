@@ -1,0 +1,390 @@
+---
+import claimData from '../../public/merge_residence_map/claims.json';
+import { servers } from '../data/servers';
+import { projects } from '../data/projects';
+import { people } from '../data/members';
+import { timeline } from '../data/timeline';
+
+interface Claim {
+  group?: string;
+  x1: number;
+  z1: number;
+  x2: number;
+  z2: number;
+}
+
+/** Figure 01 is drawn at build time from the merged world's own claim table. */
+const claims = claimData as Claim[];
+
+const CANVAS = 1000;
+
+/**
+ * The two cycles do not share a neighbourhood: 二周目 sits on the origin, and
+ * 一周目 was translated wholesale to roughly x+50k / z-50k. Drawn on one shared
+ * extent each block collapses to a speck, so each is cropped to its own bounds
+ * and printed as its own plate.
+ */
+const plateOf = (group: 'zm1' | 'zm2') => {
+  const members = claims.filter((claim) => (claim.group === 'zm2' ? 'zm2' : 'zm1') === group);
+  const xs = members.flatMap((c) => [c.x1, c.x2]);
+  const zs = members.flatMap((c) => [c.z1, c.z2]);
+  const minX = Math.min(...xs);
+  const minZ = Math.min(...zs);
+  const span = Math.max(Math.max(...xs) - minX, Math.max(...zs) - minZ) || 1;
+  const scale = (value: number, min: number) => ((value - min) / span) * CANVAS;
+
+  return {
+    group,
+    count: members.length,
+    span: Math.round(span),
+    bounds: {
+      x: [minX, Math.max(...xs)] as const,
+      z: [minZ, Math.max(...zs)] as const,
+    },
+    rects: members.map((claim) => {
+      const x = scale(Math.min(claim.x1, claim.x2), minX);
+      const y = scale(Math.min(claim.z1, claim.z2), minZ);
+      const mid = CANVAS / 2;
+      const reach = Math.hypot(mid, mid);
+      // Delay grows with distance from the plate's centre, so the world
+      // resolves outward in rings rather than all at once.
+      const delay = (Math.hypot(x - mid, y - mid) / reach) * 900;
+      return {
+        x: +x.toFixed(1),
+        y: +y.toFixed(1),
+        w: +Math.max(2.4, scale(Math.max(claim.x1, claim.x2), minX) - x).toFixed(1),
+        h: +Math.max(2.4, scale(Math.max(claim.z1, claim.z2), minZ) - y).toFixed(1),
+        delay: `${Math.round(delay)}ms`,
+      };
+    }),
+  };
+};
+
+const plates = [
+  { ...plateOf('zm2'), no: '01a', title: '二周目', note: '保留原坐标，坐落在世界原点附近。' },
+  { ...plateOf('zm1'), no: '01b', title: '一周目', note: '整体平移后并入，领地统一加上 zm1 前缀。' },
+];
+
+const kFormat = (value: number) => `${Math.round(value / 1000).toLocaleString()}k`;
+
+const totalPeople = people.reduce((sum, section) => sum + section.members.length, 0);
+const liveServers = servers.filter((s) => s.ip);
+
+const contents = [
+  { code: 'SRV', href: '/servers', name: '服务器档案', desc: `${servers.length} 条线路的持续观测记录` },
+  { code: 'PRJ', href: '/projects', name: '项目档案', desc: `${projects.length} 项插件、工具与平台` },
+  { code: 'COM', href: '/community', name: '社区网络', desc: `入口、成员与贡献者，共 ${totalPeople} 人收录` },
+  { code: 'HIS', href: '/about', name: '我们的故事', desc: `${timeline.length} 个阶段，从 Commune 到研究院` },
+];
+
+const instruments = [
+  { code: 'L', href: '/lookup', name: '服务器查询', desc: '任意 Java 版服务器的状态与在线人数' },
+  { code: 'R', href: '/records', name: '人数纪录', desc: '在线人数历史曲线与峰值' },
+  { code: 'M', href: '/map', name: '存档合并', desc: '一二周目合并后的领地可视化' },
+];
+---
+
+<article>
+  <header class="shell plate masthead-plate">
+    <div class="plate-head">
+      <p class="label">Cubex Research Institute</p>
+      <p class="label-cn">自 2021 年 11 月持续运行</p>
+    </div>
+
+    <h1 class="wordmark">CUBEX</h1>
+    <p class="wordmark-zh">方块叉研究院</p>
+
+    <p class="lede">
+      有好多方块的服务器。起源于 WolfX Commune 社区，现在统一归纳在 CubeX 品牌下。
+      我们探索养老服、RPG 商业服、生电服等不同模式，开发维护着自己的插件生态，
+      始终在寻找 Minecraft 服务器的更多可能性。
+    </p>
+
+    <dl class="tally">
+      <div><dt>服务器</dt><dd>{servers.length}</dd></div>
+      <div><dt>项目</dt><dd>{projects.length}</dd></div>
+      <div><dt>成员</dt><dd>{totalPeople}</dd></div>
+      <div><dt>领地</dt><dd>{claims.length.toLocaleString()}</dd></div>
+    </dl>
+  </header>
+
+  <!-- Figure 01 — the merged world, drawn at build time from its own claim table. -->
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head">
+      <p class="label">Fig. 01 · Merged World</p>
+      <p class="label-cn">共 {claims.length.toLocaleString()} 块领地</p>
+    </div>
+
+    <div class="plates">
+      {plates.map((plate) => (
+        <figure class="plate-item">
+          <div class="plate-frame">
+            <svg
+              viewBox={`0 0 ${CANVAS} ${CANVAS}`}
+              role="img"
+              aria-label={`${plate.title}领地分布，共 ${plate.count} 块`}
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <g class={plate.group === 'zm1' ? 'plot plot-1' : 'plot plot-2'}>
+                {plate.rects.map((r) => (
+                  <rect x={r.x} y={r.y} width={r.w} height={r.h} style={`animation-delay:${r.delay}`} />
+                ))}
+              </g>
+            </svg>
+          </div>
+          <figcaption>
+            <span class="label">Fig. {plate.no}</span>
+            <span class="plate-name">{plate.title}</span>
+            <span class="plate-stat data">{plate.count} 块 · 跨度 {kFormat(plate.span)}</span>
+            <span class="plate-note">{plate.note}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="figure-text figure-foot">
+      两个周目在合并后的世界里相距约 5 万格，因此分开制版。密集处是大家真正住下来的地方，
+      零散的点是有人走得足够远。<a href="/map" class="row-action">打开完整地图 ↗</a>
+    </p>
+  </section>
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head">
+      <p class="label">Now</p>
+      <p class="label-cn" data-live-note>正在查询…</p>
+    </div>
+
+    <ol class="index index-home">
+      {liveServers.map((server) => (
+        <li data-probe={server.ip}>
+          <a href="/servers" class="index-link">
+            <span class="index-name">{server.name}</span>
+            <span class="index-meta data">{server.ip}</span>
+            <span class="state is-dark" data-state>查询中</span>
+            <span class="index-tail data" data-count>—</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head"><p class="label">Contents</p></div>
+    <ul class="tools">
+      {contents.map((item) => (
+        <li>
+          <a href={item.href}>
+            <span class="tool-code">{item.code}</span>
+            <span class="tool-name">{item.name}</span>
+            <span class="tool-desc">{item.desc}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="label instruments-label">Instruments</p>
+    <ul class="tools">
+      {instruments.map((item) => (
+        <li>
+          <a href={item.href}>
+            <span class="tool-code">{item.code}</span>
+            <span class="tool-name">{item.name}</span>
+            <span class="tool-desc">{item.desc}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</article>
+
+<style>
+  .masthead-plate {
+    padding-block: 80px 48px;
+  }
+
+  /* The pixel face at the one size where it genuinely belongs. */
+  .wordmark {
+    margin: 26px 0 0;
+    font-family: var(--font-stamp);
+    font-size: clamp(2.75rem, 13vw, 9rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+
+  .wordmark-zh {
+    margin: 14px 0 0;
+    font-size: clamp(1rem, 2.4vw, 1.375rem);
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    color: var(--mark);
+  }
+
+  .tally {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 34px 0 0;
+    border-top: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .tally div {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 12px 28px 12px 0;
+  }
+
+  .tally dt {
+    font-size: 0.75rem;
+    color: var(--fg-3);
+  }
+
+  .tally dd {
+    margin: 0;
+    font-family: var(--font-data);
+    font-size: 1rem;
+    color: var(--fg);
+  }
+
+  .plates {
+    display: grid;
+    gap: 24px;
+    margin-top: 6px;
+  }
+
+  @media (min-width: 760px) {
+    .plates {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+  }
+
+  .plate-item {
+    margin: 0;
+  }
+
+  .plate-frame {
+    border: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .plate-frame svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .plot rect {
+    shape-rendering: crispEdges;
+  }
+
+  .plot-1 rect { fill: var(--mark); }
+  .plot-2 rect { fill: var(--dev); }
+
+  .plate-item figcaption {
+    display: grid;
+    gap: 3px;
+    padding-top: 12px;
+  }
+
+  .plate-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .plate-stat {
+    font-size: 0.6875rem;
+    color: var(--fg-3);
+  }
+
+  .plate-note {
+    max-width: 40ch;
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--fg-2);
+  }
+
+  .figure-text {
+    max-width: 66ch;
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+
+  .figure-foot {
+    margin-top: 26px;
+  }
+
+  .figure-foot .row-action {
+    margin-left: 10px;
+  }
+
+  .index-home .index-link {
+    grid-template-columns: minmax(84px, 1fr) minmax(0, 1.6fr) 66px 52px;
+  }
+
+  .instruments-label {
+    padding-block: 22px 12px;
+  }
+
+  @media (max-width: 720px) {
+    .index-home .index-link {
+      grid-template-columns: minmax(0, 1fr) 66px 46px;
+    }
+
+    .index-home .index-meta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const probes = Array.from(document.querySelectorAll<HTMLElement>('[data-probe]'));
+  const note = document.querySelector('[data-live-note]');
+  let settled = 0;
+
+  const finish = () => {
+    settled += 1;
+    if (note && settled === probes.length) {
+      const live = document.querySelectorAll('.index-home .state.is-live').length;
+      note.textContent = `${live}/${probes.length} 条在线`;
+    }
+  };
+
+  if (probes.length === 0 && note) note.textContent = '无可查询条目';
+
+  probes.forEach(async (row) => {
+    const ip = row.dataset.probe;
+    const state = row.querySelector<HTMLElement>('[data-state]');
+    const count = row.querySelector('[data-count]');
+    if (!ip) return finish();
+
+    try {
+      const res = await fetch(`https://api.mcsrvstat.us/3/${ip}`);
+      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      const online = Boolean(data.online);
+
+      if (state) {
+        state.textContent = online ? '在线' : '离线';
+        state.classList.remove('is-dark', 'is-live');
+        state.classList.add(online ? 'is-live' : 'is-dark');
+      }
+      if (count) {
+        count.textContent = online ? `${data.players?.online ?? 0}/${data.players?.max ?? 0}` : '—';
+      }
+    } catch {
+      if (state) state.textContent = '未知';
+    } finally {
+      finish();
+    }
+  });
+</script>

@@ -1,25 +1,40 @@
 ---
 ---
 
-<section id="guestbook" class="py-24 px-6">
-  <div class="mx-auto max-w-3xl">
-    <!-- Section header -->
-    <div class="text-center mb-10">
-      <p class="text-cubex-red text-sm font-semibold tracking-widest uppercase mb-3">Guestbook</p>
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">留言板</h2>
-      <p class="text-white/45 max-w-2xl mx-auto">
-        有什么想说的？留下你的足迹。
-      </p>
+<section id="guestbook" class="shell block guestbook">
+  <div class="tick-rule" aria-hidden="true"></div>
+  <div class="block-head">
+    <div>
+      <p class="label">Guestbook</p>
+      <h2 class="block-title">留言板</h2>
     </div>
+    <p class="block-note">有什么想说的？留下你的足迹。讨论托管在 GitHub Discussions。</p>
+  </div>
 
-    <div class="glass-card p-4 md:p-6 overflow-hidden">
-      <div class="giscus"></div>
-    </div>
+  <div class="guestbook-frame">
+    <div class="giscus"></div>
   </div>
 </section>
 
+<style>
+  .guestbook {
+    padding-bottom: 8px;
+  }
+
+  .guestbook-frame {
+    border: 1px solid var(--rule-soft);
+    padding: 16px;
+  }
+
+  @media (min-width: 720px) {
+    .guestbook-frame {
+      padding: 22px 24px;
+    }
+  }
+</style>
+
 <script is:inline>
-  (function() {
+  (function () {
     var s = document.createElement('script');
     s.src = 'https://giscus.app/client.js';
     s.setAttribute('data-repo', 'CubeX-MC/CubeX-MC.github.io');

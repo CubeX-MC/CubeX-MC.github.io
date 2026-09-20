@@ -1,0 +1,255 @@
+---
+import { timeline } from '../data/timeline';
+import { adminTimeline, adminTimelineSecret } from '../data/members';
+---
+
+<article>
+  <header class="shell plate">
+    <div class="plate-head">
+      <p class="label">History</p>
+      <p class="label-cn">{timeline.length} 个阶段 · 2021 — 2026</p>
+    </div>
+
+    <h1 class="display">我们的故事</h1>
+
+    <p class="lede">
+      从一个社区到多个服务器，从玩家到组织者。这份沿革记录方块叉如何一路走到
+      CubeX 研究院，以及中间那些没有被删掉的部分。
+    </p>
+  </header>
+
+  <!-- Figure 1 — the origin photograph, printed rather than blurred into wallpaper. -->
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <figure class="plate-figure">
+      <img src="/imgs/commune.png" alt="WolfX Commune 社区的主城景象" loading="lazy" />
+      <figcaption>
+        <span class="label">Fig. 01</span>
+        <span class="figure-text">
+          WolfX Commune — 一切的起点。建筑佬、红石玩家、冒险家和养老玩家在这里第一次聚到一起，
+          这片社区的友谊与文化后来成了 CubeX 诞生的土壤。
+        </span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head"><p class="label">Chronology</p></div>
+
+    <ol class="chrono">
+      {timeline.map((event, index) => (
+        <li class="chrono-item">
+          <div class="chrono-spine">
+            <span class="chrono-no">{String(index + 1).padStart(2, '0')}</span>
+            <span class="chrono-year data">{event.year}</span>
+          </div>
+          <div class="chrono-body">
+            <h2 class="chrono-title">{event.title}</h2>
+            <p class="chrono-text">{event.description}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- Appendices: deliberately faint in the original design; kept faint, framed as restricted. -->
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <details class="appendix">
+      <summary>
+        <span class="label">Appendix A · Classified</span>
+        <span class="appendix-title">铁打的服务器，流水的管理</span>
+        <span class="appendix-note">CubeX 管理核心更替记录 · {adminTimeline.length} 次</span>
+      </summary>
+      <ol class="ledger">
+        {adminTimeline.map((entry, index) => (
+          <li>
+            <span class="ledger-no data">{String(index + 1).padStart(2, '0')}</span>
+            <span class="ledger-text data">{entry}</span>
+          </li>
+        ))}
+      </ol>
+    </details>
+
+    <details class="appendix is-redacted">
+      <summary>
+        <span class="label">Appendix B · Uncensored</span>
+        <span class="appendix-title">真相永远不止一个版本</span>
+        <span class="appendix-note">以下内容不代表本站立场。也许。</span>
+      </summary>
+      <ol class="ledger">
+        {adminTimelineSecret.map((entry, index) => (
+          <li>
+            <span class="ledger-no data">{String(index + 1).padStart(2, '0')}</span>
+            <span class="ledger-text">{entry}</span>
+          </li>
+        ))}
+      </ol>
+    </details>
+  </section>
+</article>
+
+<style>
+  .plate-figure {
+    margin: 16px 0 0;
+  }
+
+  .plate-figure img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--rule);
+  }
+
+  .plate-figure figcaption {
+    display: grid;
+    gap: 8px;
+    padding-top: 12px;
+  }
+
+  @media (min-width: 720px) {
+    .plate-figure figcaption {
+      grid-template-columns: 62px minmax(0, 1fr);
+      gap: 16px;
+    }
+  }
+
+  .figure-text {
+    max-width: 62ch;
+    font-size: 0.8125rem;
+    line-height: 1.85;
+    color: var(--fg-2);
+  }
+
+  .chrono {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .chrono-item {
+    display: grid;
+    gap: 12px;
+    padding-block: 28px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  @media (min-width: 820px) {
+    .chrono-item {
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 48px;
+    }
+  }
+
+  .chrono-spine {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  @media (min-width: 820px) {
+    .chrono-spine {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  .chrono-no {
+    font-family: var(--font-stamp);
+    font-size: 2.25rem;
+    line-height: 0.9;
+    color: #fff;
+  }
+
+  .chrono-year {
+    color: var(--fg-3);
+  }
+
+  .chrono-title {
+    margin: 0;
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+
+  .chrono-text {
+    max-width: 62ch;
+    margin: 12px 0 0;
+    color: var(--fg-2);
+  }
+
+  .appendix {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .appendix:first-of-type {
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .appendix > summary {
+    display: grid;
+    gap: 4px;
+    padding-block: 20px;
+    cursor: pointer;
+    list-style: none;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+  }
+
+  .appendix > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .appendix:hover > summary,
+  .appendix[open] > summary {
+    opacity: 1;
+  }
+
+  .appendix.is-redacted > summary {
+    opacity: 0.22;
+  }
+
+  .appendix-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--fg);
+  }
+
+  .appendix-note {
+    font-size: 0.75rem;
+    color: var(--fg-3);
+  }
+
+  .ledger {
+    margin: 0 0 24px;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .ledger li {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 16px;
+    padding-block: 10px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .ledger-no {
+    font-size: 0.6875rem;
+    color: var(--fg-3);
+  }
+
+  .ledger-text {
+    max-width: 68ch;
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    color: var(--fg-2);
+  }
+
+  .is-redacted .ledger-text {
+    color: var(--fg-3);
+  }
+</style>

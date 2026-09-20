@@ -1,0 +1,314 @@
+---
+import { servers } from '../data/servers';
+
+const statusConfig: Record<string, { label: string; tone: string }> = {
+  online: { label: '在线', tone: 'is-live' },
+  offline: { label: '离线', tone: 'is-dark' },
+  'in-development': { label: '开发中', tone: 'is-dev' },
+};
+
+/** Catalogue numbers are stable positions in the register, not rankings. */
+const records = servers.map((server, index) => ({
+  ...server,
+  no: String(index + 1).padStart(2, '0'),
+  slug: `srv-${String(index + 1).padStart(2, '0')}`,
+  state: server.status ? statusConfig[server.status] : null,
+}));
+
+const trackable = records.filter((record) => record.ip).length;
+
+const editionsOf = (record: (typeof records)[number]) =>
+  record.instances
+    ? Array.from(new Set(record.instances.flatMap((i) => i.addresses.map((a) => a.edition))))
+    : ['JE'];
+
+const tools = [
+  { href: '/lookup', code: 'L', name: '服务器查询', desc: '任意 Java 版服务器的状态、版本与在线人数' },
+  { href: '/records', code: 'R', name: '人数纪录', desc: '在线人数历史曲线、峰值与采样时间' },
+  { href: '/map', code: 'M', name: '存档合并', desc: 'CubeX Lite 一二周目合并后的领地可视化' },
+];
+---
+
+<article>
+  <header class="shell plate">
+    <div class="plate-head">
+      <p class="label">Register</p>
+      <p class="label-cn">共 {records.length} 条 · {trackable} 条可查询</p>
+    </div>
+
+    <h1 class="display">服务器档案</h1>
+
+    <p class="lede">
+      方块叉研究院持续运转的全部线路。最早的条目自 2021 年 11 月起采样至今，
+      状态与在线人数在页面载入时向 mcsrvstat.us 实时查询一次。
+    </p>
+  </header>
+
+  <section class="shell index-block" aria-labelledby="srv-index">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head">
+      <h2 id="srv-index" class="label">Index</h2>
+      <p class="label-cn" data-index-note>载入中</p>
+    </div>
+
+    <ol class="index index-srv">
+      {records.map((record) => (
+        <li data-probe={record.ip || ''}>
+          <a href={`#${record.slug}`} class="index-link">
+            <span class="index-no">{record.no}</span>
+            <span class="index-name">{record.name}</span>
+            <span class="index-sub">{record.subtitle}</span>
+            <span class="index-meta data">{record.ip || '暂未公开'}</span>
+            <span class={`state ${record.state?.tone ?? 'is-dark'}`} data-state>
+              {record.state?.label ?? '未知'}
+            </span>
+            <span class="index-tail data" data-count>—</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {records.map((record) => (
+    <section class="shell record" id={record.slug} data-probe={record.ip || ''}>
+      <div class="tick-rule" aria-hidden="true"></div>
+
+      <div class="record-body">
+        <aside class="spine">
+          <p class="spine-code">SRV</p>
+          <p class="spine-no">{record.no}</p>
+          <p class={`spine-state state ${record.state?.tone ?? 'is-dark'}`} data-state>
+            {record.state?.label ?? '未知'}
+          </p>
+          <p class="spine-count data" data-count>—</p>
+          <p class="spine-tag">{editionsOf(record).join(' · ')}</p>
+        </aside>
+
+        <div>
+          <h2 class="record-name">{record.name}</h2>
+          <p class="record-sub">{record.subtitle}</p>
+
+          <p class="prose">{record.description}</p>
+
+          <p class="quote" data-motd hidden><span data-motd-text></span></p>
+
+          {record.ip && (
+            <div class="field">
+              <p class="label">Address</p>
+              <div class="row">
+                <code class="row-value data">{record.ip}</code>
+                <button type="button" class="copy" data-copy={record.ip}>复制</button>
+              </div>
+            </div>
+          )}
+
+          {record.instances && record.instances.length > 0 && (
+            <div class="field">
+              <p class="label">Access</p>
+              {record.instances.map((instance) => (
+                <div class="instance">
+                  <p class="instance-name">{instance.name}</p>
+                  {instance.addresses.map((address) => {
+                    const text =
+                      address.edition === 'JE' && address.port
+                        ? `${address.host}:${address.port}`
+                        : address.host;
+                    return (
+                      <div class="row">
+                        <span class="row-key">{address.edition}</span>
+                        <code class="row-value data">{text}</code>
+                        {address.edition === 'BE' && address.port && (
+                          <span class="row-port data">端口 {address.port}</span>
+                        )}
+                        {address.versions && <span class="row-note">{address.versions}</span>}
+                        <button type="button" class="copy" data-copy={text}>复制</button>
+                      </div>
+                    );
+                  })}
+                  <dl class="spec">
+                    {instance.version && (
+                      <div><dt>服务端</dt><dd class="data">{instance.version}</dd></div>
+                    )}
+                    {instance.seed && (
+                      <div><dt>种子</dt><dd class="data">{instance.seed}</dd></div>
+                    )}
+                    {instance.mapUrl && (
+                      <div>
+                        <dt>网页地图</dt>
+                        <dd class="data">
+                          <a href={instance.mapUrl} target="_blank" rel="noopener">
+                            {instance.mapUrl.replace(/^https?:\/\//, '')} ↗
+                          </a>
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {record.contacts && record.contacts.length > 0 && (
+            <div class="field">
+              <p class="label">Contact</p>
+              {record.contacts.map((contact) => (
+                <div class="row">
+                  <span class="row-key wide">{contact.label}</span>
+                  <code class="row-value data">{contact.value}</code>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {record.notes && record.notes.length > 0 && (
+            <div class="field">
+              <p class="label">Notes</p>
+              <ol class="notes">
+                {record.notes.map((note, index) => (
+                  <li>
+                    <span class="note-no">{String(index + 1).padStart(2, '0')}</span>
+                    <span>{note}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          <footer class="record-foot">
+            <dl class="foot-meta">
+              {record.operators && record.operators.length > 0 && (
+                <div><dt>运营</dt><dd>{record.operators.join('、')}</dd></div>
+              )}
+              <div><dt>标签</dt><dd>{record.tags.join(' / ')}</dd></div>
+            </dl>
+
+            {record.links && record.links.length > 0 && (
+              <p class="foot-links">
+                {record.links.map((link) => (
+                  <a
+                    href={link.url}
+                    target={link.url.startsWith('/') ? undefined : '_blank'}
+                    rel={link.url.startsWith('/') ? undefined : 'noopener'}
+                  >{link.label} ↗</a>
+                ))}
+              </p>
+            )}
+          </footer>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head"><p class="label">Instruments</p></div>
+    <ul class="tools">
+      {tools.map((tool) => (
+        <li>
+          <a href={tool.href}>
+            <span class="tool-code">{tool.code}</span>
+            <span class="tool-name">{tool.name}</span>
+            <span class="tool-desc">{tool.desc}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</article>
+
+<style>
+  .index-srv .index-link {
+    grid-template-columns: 34px minmax(88px, 1fr) minmax(0, 1.4fr) minmax(0, 1.5fr) 62px 52px;
+  }
+
+  .instance + .instance {
+    margin-top: 22px;
+  }
+
+  .instance-name {
+    margin: 16px 0 2px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  @media (max-width: 860px) {
+    .index-srv .index-link {
+      grid-template-columns: 30px minmax(0, 1fr) 62px 46px;
+    }
+
+    .index-srv .index-sub,
+    .index-srv .index-meta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const text = button.getAttribute('data-copy');
+      if (!text) return;
+      const original = button.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        button.textContent = '已复制';
+        setTimeout(() => {
+          button.textContent = original;
+        }, 1600);
+      } catch {}
+    });
+  });
+
+  const probes = new Set(
+    Array.from(document.querySelectorAll('[data-probe]'))
+      .map((el) => el.getAttribute('data-probe'))
+      .filter((ip): ip is string => Boolean(ip)),
+  );
+
+  const note = document.querySelector('[data-index-note]');
+  if (note) note.textContent = probes.size > 0 ? '正在查询…' : '无可查询条目';
+
+  let settled = 0;
+  const finish = () => {
+    settled += 1;
+    if (note && settled === probes.size) {
+      const live = document.querySelectorAll('.index-link .state.is-live').length;
+      note.textContent = `${live} 条在线 · 已刷新`;
+    }
+  };
+
+  probes.forEach(async (ip) => {
+    const targets = Array.from(document.querySelectorAll(`[data-probe="${ip}"]`));
+    try {
+      const res = await fetch(`https://api.mcsrvstat.us/3/${ip}`);
+      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      const online = Boolean(data.online);
+      const motd = data.motd?.clean?.filter(Boolean).join(' ') || '';
+
+      for (const target of targets) {
+        target.querySelectorAll<HTMLElement>('[data-state]').forEach((el) => {
+          el.textContent = online ? '在线' : '离线';
+          el.classList.remove('is-live', 'is-dev', 'is-dark');
+          el.classList.add(online ? 'is-live' : 'is-dark');
+        });
+
+        target.querySelectorAll('[data-count]').forEach((el) => {
+          el.textContent = online ? `${data.players?.online ?? 0}/${data.players?.max ?? 0}` : '—';
+        });
+
+        const quote = target.querySelector<HTMLElement>('[data-motd]');
+        const quoteText = target.querySelector('[data-motd-text]');
+        if (online && motd && quote && quoteText) {
+          quoteText.textContent = motd;
+          quote.hidden = false;
+        }
+      }
+    } catch {
+      // Probe failed — leave the statically declared status in place.
+    } finally {
+      finish();
+    }
+  });
+</script>

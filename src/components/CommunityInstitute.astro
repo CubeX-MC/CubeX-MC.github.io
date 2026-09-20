@@ -1,0 +1,282 @@
+---
+import { people } from '../data/members';
+
+const coreLinks = [
+  { code: 'DC', name: '研究院 Discord', desc: '核心组织交流', url: 'https://discord.gg/7tJeSZPZgv' },
+  { code: 'GH', name: 'GitHub', desc: 'CubeX-MC 组织', url: 'https://github.com/CubeX-MC' },
+  { code: 'MR', name: 'Modrinth', desc: 'CubeX 组织页面', url: 'https://modrinth.com/organization/cubexmc' },
+  { code: 'DS', name: 'Discussions', desc: 'GitHub 讨论区', url: 'https://github.com/CubeX-MC/CubeX-MC.github.io/discussions' },
+  { code: 'LS', name: 'LetSeries', desc: 'LetMe 系列 GitHub', url: 'https://github.com/LetSeries' },
+  { code: 'LW', name: 'LetSeries 官网', desc: 'letseries.github.io', url: 'https://letseries.github.io/' },
+];
+
+const qqCategories = [
+  {
+    title: '服务器群',
+    groups: [
+      { name: 'CubeX 服务器群', value: '470579814', href: 'https://jq.qq.com/?_wv=1027&k=g38XNewm', note: '主入口' },
+      { name: 'CubeX ELite 内测群', value: '835031357', note: 'RPG 内测' },
+      { name: '清屿服交流群', value: '1102137231', note: '生电服 · 绑定后自动改名片' },
+    ],
+  },
+  {
+    title: '运营与反馈',
+    groups: [
+      { name: 'CubeX 开服群', value: '614479400', note: '运营讨论' },
+      { name: 'CubeX 玩家代表群', value: '261026870', note: '玩家反馈' },
+    ],
+  },
+  {
+    title: '社区与友邻',
+    groups: [
+      { name: 'CubeX 社区群', value: '296590378', note: '一周目 Commune 社区' },
+      { name: 'WolfX 社区群', value: '801731569', note: '起源社区' },
+      { name: '云湖边社区群', value: '766910766', note: '友邻社区' },
+      { name: 'Eutopia 社区', value: '894099870', note: '友邻社区' },
+      { name: 'CubeX 吵架群', value: '713832786', note: '慎入' },
+    ],
+  },
+];
+
+const platformLinks = [
+  { code: 'TG', name: 'Telegram', desc: 'CubeX 服务器频道', url: 'https://t.me/cbxmc' },
+  { code: 'DC', name: 'CubeX Discord', desc: '服务器社区', url: 'https://discord.gg/QWKcSZFert' },
+  { code: 'BL', name: 'Bilibili', desc: 'CubeX 官方', url: 'https://space.bilibili.com/3546921981446556' },
+];
+
+const groupCount = qqCategories.reduce((total, c) => total + c.groups.length, 0);
+
+/** One continuous run of catalogue numbers across the whole directory. */
+let cursor = 0;
+const sections = people.map((section) => ({
+  ...section,
+  members: section.members.map((member) => {
+    cursor += 1;
+    return { ...member, no: String(cursor).padStart(2, '0') };
+  }),
+}));
+
+const totalPeople = cursor;
+const coreCount = people.find((s) => s.variant === 'core')?.members.length ?? 0;
+---
+
+<article>
+  <header class="shell plate">
+    <div class="plate-head">
+      <p class="label">Directory</p>
+      <p class="label-cn">{coreCount} 位成员 · {totalPeople} 人收录 · {groupCount} 个群</p>
+    </div>
+
+    <h1 class="display">社区网络</h1>
+
+    <p class="lede">
+      CubeX 不只是一个服务器名，而是由服务器、项目、成员、历史和聊天入口交织成的研究院品牌。
+      这里合并了社区入口与成员索引，方便新玩家找组织，也方便老玩家回来看谁还在做事。
+    </p>
+  </header>
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="index-head"><p class="label">Network</p></div>
+    <ul class="tools">
+      {coreLinks.map((link) => (
+        <li>
+          <a href={link.url} target="_blank" rel="noopener">
+            <span class="tool-code">{link.code}</span>
+            <span class="tool-name">{link.name}</span>
+            <span class="tool-desc">{link.desc}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="shell block">
+    <div class="tick-rule" aria-hidden="true"></div>
+    <div class="block-head">
+      <div>
+        <p class="label">Chat</p>
+        <h2 class="block-title">聊天入口</h2>
+      </div>
+      <p class="block-note">按用途分类。没有加入链接的群请在 QQ 内搜索群号。</p>
+    </div>
+
+    <div class="qq">
+      {qqCategories.map((category) => (
+        <div class="qq-group">
+          <p class="label-cn qq-title">{category.title}</p>
+          <ul class="qq-list">
+            {category.groups.map((group) => (
+              <li class="row">
+                <span class="row-value plain qq-name">{group.name}</span>
+                <code class="data qq-no">{group.value}</code>
+                <span class="row-note">{group.note}</span>
+                {group.href && (
+                  <a href={group.href} target="_blank" rel="noopener" class="row-action">加入 ↗</a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="platforms">
+      <p class="label">Platforms</p>
+      <ul class="tools">
+        {platformLinks.map((link) => (
+          <li>
+            <a href={link.url} target="_blank" rel="noopener">
+              <span class="tool-code">{link.code}</span>
+              <span class="tool-name">{link.name}</span>
+              <span class="tool-desc">{link.desc}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {sections.map((section) => (
+    <section class="shell block">
+      <div class="tick-rule" aria-hidden="true"></div>
+      <div class="block-head">
+        <div>
+          <p class="label">{section.variant === 'core' ? 'Members' : 'Contributors'}</p>
+          <h2 class="block-title">{section.title}</h2>
+        </div>
+        <p class="block-note">{section.description}</p>
+      </div>
+
+      <div class="people">
+        {section.members.map((member) => (
+          <article class="person">
+            <span class="person-no data">{member.no}</span>
+            <div class="person-body">
+              <div class="person-head">
+                <h3 class="person-name">{member.name}</h3>
+                {member.badge && <span class="state is-mark">{member.badge}</span>}
+              </div>
+              <p class="person-role">{member.role}</p>
+              {member.aliases && member.aliases.length > 0 && (
+                <p class="person-alias">又称 {member.aliases.join(' · ')}</p>
+              )}
+              <p class="person-desc">{member.description}</p>
+              {member.links && member.links.length > 0 && (
+                <p class="foot-links">
+                  {member.links.map((link) => (
+                    <a href={link.url} target="_blank" rel="noopener">{link.label} ↗</a>
+                  ))}
+                </p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
+</article>
+
+<style>
+  .qq {
+    display: grid;
+    gap: 26px;
+  }
+
+  .qq-title {
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .qq-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .qq-name {
+    flex: 0 1 auto;
+    min-width: 132px;
+    font-size: 0.875rem;
+  }
+
+  .qq-no {
+    flex: 0 0 auto;
+    color: var(--fg);
+  }
+
+  .qq-list .row-note {
+    flex: 1 1 auto;
+  }
+
+  .platforms {
+    margin-top: 32px;
+  }
+
+  .platforms > .label {
+    padding-bottom: 8px;
+  }
+
+  .people {
+    display: grid;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  @media (min-width: 900px) {
+    .people {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 48px;
+    }
+  }
+
+  .person {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 16px;
+    padding-block: 18px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .person-no {
+    font-size: 0.6875rem;
+    color: var(--fg-3);
+  }
+
+  .person-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .person-name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .person-role {
+    margin: 3px 0 0;
+    font-size: 0.75rem;
+    color: var(--mark);
+    opacity: 0.85;
+  }
+
+  .person-alias {
+    margin: 4px 0 0;
+    font-size: 0.6875rem;
+    color: var(--fg-3);
+  }
+
+  .person-desc {
+    margin: 8px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    color: var(--fg-2);
+  }
+
+  .person .foot-links {
+    margin-top: 8px;
+  }
+</style>
