@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-23T10:21:51.252Z",
+  "updatedAt": "2026-09-23T15:39:47.824Z",
   "projects": [
     {
       "name": "LetMeAsk",
@@ -7,8 +7,8 @@
       "url": "https://github.com/LetSeries/LetMeAsk",
       "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
       "defaultBranch": "main",
-      "pushedAt": "2026-09-20T05:42:59Z",
-      "updatedAt": "2026-09-20T05:43:02Z"
+      "pushedAt": "2026-09-23T13:49:15Z",
+      "updatedAt": "2026-09-23T13:49:19Z"
     },
     {
       "name": "LetMeDo",
@@ -16,8 +16,8 @@
       "url": "https://github.com/LetSeries/LetMeDo",
       "description": "LetMeDo - A powerful multifunctional Minecraft plugin supporting almost all versions & server types | 多功能 Minecraft 插件，几乎支持所有版本与所有服务端 | By LetSeries Team",
       "defaultBranch": "main",
-      "pushedAt": "2026-09-19T04:12:39Z",
-      "updatedAt": "2026-09-19T04:12:42Z"
+      "pushedAt": "2026-09-23T13:25:19Z",
+      "updatedAt": "2026-09-23T13:25:23Z"
     },
     {
       "name": "Regions",
