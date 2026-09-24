@@ -6,7 +6,27 @@ export interface ServerAddress {
   port?: number;
   /** Supported client versions for this edition */
   versions?: string;
+  /** Optional tag shown before the edition, to tell apart addresses of one instance (e.g. 主服 / 测试服) */
+  label?: string;
 }
+
+/** Bedrock clients fall back to this port when an address omits one. */
+export const BEDROCK_DEFAULT_PORT = 19132;
+
+/** Address as players type it: `host:port` when a port is set, otherwise just `host`. */
+export const addressText = (address: ServerAddress) =>
+  address.port ? `${address.host}:${address.port}` : address.host;
+
+/**
+ * Bedrock "add external server" deep link, e.g.
+ * `minecraft://?addExternalServer=name|play.example.com:19132`.
+ * Any Bedrock address gets one — a missing port falls back to the Bedrock default,
+ * so new servers only need `{ edition: 'BE', host, port }` and the button shows up.
+ */
+export const bedrockAddUrl = (name: string, address: ServerAddress) =>
+  address.edition === 'BE'
+    ? `minecraft://?addExternalServer=${encodeURIComponent(name)}|${address.host}:${address.port ?? BEDROCK_DEFAULT_PORT}`
+    : undefined;
 
 /** A running instance of a server (main world, test world, ...) */
 export interface ServerInstance {
@@ -76,39 +96,26 @@ export const servers: Server[] = [
     name: '清屿服',
     subtitle: '生电服务器 · QingYu',
     description: '面向生电（技术向生存）玩法的服务器，同时开放 Java 版与基岩版入口。主服之外另设一个与主服同种子的测试服，方便在正式建造前验证机器与红石设计；两个服务器都提供网页地图。主服上 Java 与基岩版的同 ID 账号数据互通，测试服是否互通请留意后续公告。',
-    ip: '202.189.10.108:20577',
+    ip: 'mc.aqcraft.cn',
     links: [
+      { label: '官网', url: 'https://www.aqcraft.cn' },
+      { label: '封禁系统', url: 'https://ban.aqcraft.cn' },
+      { label: 'QQ 群', url: 'https://qm.qq.com/q/N5IwgRH8AM' },
       { label: '主服网页地图', url: 'http://202.189.10.108:20851' },
       { label: '测试服网页地图', url: 'http://202.189.10.109:30198/' },
     ],
-    tags: ['生电', '红石科技', 'JE/BE 互通', '主服 + 测试服'],
+    tags: ['生电', '红石科技', '技术向生存', 'JE/BE 数据互通', '主服 + 测试服'],
     status: 'online',
     instances: [
       {
-        name: '生电主服',
-        version: '26.2',
-        seed: '-3636732475308954',
-        mapUrl: 'http://202.189.10.108:20851',
+        name: '生电服',
         addresses: [
-          { edition: 'JE', host: '202.189.10.108', port: 20577, versions: '1.20 - 26.2' },
-          { edition: 'BE', host: '202.189.10.108', port: 20577, versions: '26.0 - 26.45' },
+          { label: '主服', edition: 'JE', host: 'mc.aqcraft.cn', versions: '1.20 – 26.3' },
+          { label: '主服', edition: 'BE', host: '202.189.10.108', port: 20577, versions: '26.0 – 26.51' },
+          { label: '测试服', edition: 'JE', host: 'test.aqcraft.cn', versions: '1.20 – 26.3' },
+          { label: '测试服', edition: 'BE', host: '202.189.10.109', port: 30187, versions: '26.0 – 26.51' },
         ],
       },
-      {
-        name: '测试服',
-        version: '26.2',
-        seed: '-3636732475308954',
-        mapUrl: 'http://202.189.10.109:30198/',
-        addresses: [
-          { edition: 'JE', host: '202.189.10.109', port: 30187, versions: '1.20 - 26.2' },
-          { edition: 'BE', host: '202.189.10.109', port: 30187, versions: '26.0 - 26.45' },
-        ],
-      },
-    ],
-    notes: [
-      '绑定后 QQ 群名片会自动改为你的游戏 ID；若没有自动更换，可以手动修改。',
-      '商店区域卡顿时建议安装 ImmediatelyFast Mod，通过批处理绘制调用大幅提升 FPS——实测 200 个带文本告示牌性能提升 2.7 倍，400 个箱子提升 1.3 倍。',
-      'Java 版与基岩版同 ID 账号数据互通（主服适用；测试服是否互通请留意后续公告）。',
     ],
     operators: ['ALingqing'],
   },

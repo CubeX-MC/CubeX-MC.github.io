@@ -37,12 +37,13 @@ export const people: PeopleSection[] = [
       },
       {
         name: 'ALingqing',
-        aliases: ['Alingqing'],
+        aliases: ['阿清'],
         role: 'CubeX 研究院成员 / 清屿服服主',
         description: 'Minecraft 服务端插件开发者。清屿生电服的服主，也是 Metro 与 Railway 两个铁路插件的贡献者。',
         links: [
           { label: 'GitHub', url: 'https://github.com/ALingqing' },
-          { label: '个人网站', url: 'https://www.chenray.top/' },
+          { label: 'Modrinth', url: 'https://modrinth.com/user/ZeroQing_' },
+          { label: '服务器网站', url: 'https://www.aqcraft.cn/' },
         ],
       },
       {

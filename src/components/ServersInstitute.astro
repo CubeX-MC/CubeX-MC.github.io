@@ -1,5 +1,5 @@
 ---
-import { servers } from '../data/servers';
+import { servers, bedrockAddUrl, addressText } from '../data/servers';
 
 const statusConfig: Record<string, { label: string; tone: string }> = {
   online: { label: '在线', tone: 'is-live' },
@@ -109,19 +109,23 @@ const tools = [
                 <div class="instance">
                   <p class="instance-name">{instance.name}</p>
                   {instance.addresses.map((address) => {
-                    const text =
-                      address.edition === 'JE' && address.port
-                        ? `${address.host}:${address.port}`
-                        : address.host;
+                    const text = addressText(address);
+                    const addUrl = bedrockAddUrl(
+                      [record.name, address.label].filter(Boolean).join(' '),
+                      address,
+                    );
                     return (
                       <div class="row">
+                        {address.label && <span class="row-key wide">{address.label}</span>}
                         <span class="row-key">{address.edition}</span>
                         <code class="row-value data">{text}</code>
-                        {address.edition === 'BE' && address.port && (
-                          <span class="row-port data">端口 {address.port}</span>
-                        )}
                         {address.versions && <span class="row-note">{address.versions}</span>}
-                        <button type="button" class="copy" data-copy={text}>复制</button>
+                        {addUrl && (
+                          <a class="row-add" href={addUrl}>立刻游玩</a>
+                        )}
+                        {address.edition !== 'BE' && (
+                          <button type="button" class="copy" data-copy={text}>复制</button>
+                        )}
                       </div>
                     );
                   })}
