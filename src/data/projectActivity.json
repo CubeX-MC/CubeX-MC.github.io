@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-09-24T10:37:39.416Z",
+  "updatedAt": "2026-09-24T16:00:18.902Z",
   "projects": [
+    {
+      "name": "LetMeSee",
+      "repository": "LetSeries/LetMeSee",
+      "url": "https://github.com/LetSeries/LetMeSee",
+      "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-24T12:35:52Z",
+      "updatedAt": "2026-09-24T12:35:56Z"
+    },
     {
       "name": "LetMeDo",
       "repository": "LetSeries/LetMeDo",
@@ -45,15 +54,6 @@
       "defaultBranch": "railway",
       "pushedAt": "2026-08-27T22:29:00Z",
       "updatedAt": "2026-06-01T01:03:56Z"
-    },
-    {
-      "name": "Metro",
-      "repository": "CubeX-MC/Metro",
-      "url": "https://github.com/CubeX-MC/Metro",
-      "description": "minecraft metro system",
-      "defaultBranch": "main",
-      "pushedAt": "2026-08-27T22:28:57Z",
-      "updatedAt": "2026-08-27T22:29:07Z"
     }
   ]
 }
