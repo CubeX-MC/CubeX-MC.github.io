@@ -1,50 +1,14 @@
 {
-  "updatedAt": "2026-09-26T15:13:04.054Z",
+  "updatedAt": "2026-09-26T20:16:14.402Z",
   "projects": [
-    {
-      "name": "LetMeAsk",
-      "repository": "LetSeries/LetMeAsk",
-      "url": "https://github.com/LetSeries/LetMeAsk",
-      "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
-      "defaultBranch": "main",
-      "pushedAt": "2026-09-24T23:44:22Z",
-      "updatedAt": "2026-09-24T23:44:25Z"
-    },
-    {
-      "name": "LetMeSee",
-      "repository": "LetSeries/LetMeSee",
-      "url": "https://github.com/LetSeries/LetMeSee",
-      "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
-      "defaultBranch": "main",
-      "pushedAt": "2026-09-24T12:35:52Z",
-      "updatedAt": "2026-09-24T12:35:56Z"
-    },
-    {
-      "name": "LetMeDo",
-      "repository": "LetSeries/LetMeDo",
-      "url": "https://github.com/LetSeries/LetMeDo",
-      "description": "LetMeDo - A powerful multifunctional Minecraft plugin supporting almost all versions & server types | 多功能 Minecraft 插件，几乎支持所有版本与所有服务端 | By LetSeries Team",
-      "defaultBranch": "main",
-      "pushedAt": "2026-09-24T05:16:42Z",
-      "updatedAt": "2026-09-24T05:16:46Z"
-    },
     {
       "name": "Regions",
       "repository": "CubeX-MC/Regions",
       "url": "https://github.com/CubeX-MC/Regions",
       "description": "CubeX Regions - 区域管理插件(模板、模式与裁判队)",
       "defaultBranch": "main",
-      "pushedAt": "2026-08-27T22:29:08Z",
-      "updatedAt": "2026-08-27T22:29:13Z"
-    },
-    {
-      "name": "Clarity",
-      "repository": "CubeX-MC/Clarity",
-      "url": "https://github.com/CubeX-MC/Clarity",
-      "description": "CubeX Clarity - 属性清理插件(清除 Adapt 遗留 modifier)",
-      "defaultBranch": "monorepo-sync",
-      "pushedAt": "2026-08-27T22:29:04Z",
-      "updatedAt": "2026-06-05T01:08:36Z"
+      "pushedAt": "2026-09-26T15:51:43Z",
+      "updatedAt": "2026-09-26T15:51:48Z"
     },
     {
       "name": "Railway",
@@ -52,8 +16,44 @@
       "url": "https://github.com/CubeX-MC/Railway",
       "description": "minecraft metro system",
       "defaultBranch": "railway",
-      "pushedAt": "2026-08-27T22:29:00Z",
+      "pushedAt": "2026-09-26T15:51:37Z",
       "updatedAt": "2026-06-01T01:03:56Z"
+    },
+    {
+      "name": "Metro",
+      "repository": "CubeX-MC/Metro",
+      "url": "https://github.com/CubeX-MC/Metro",
+      "description": "minecraft metro system",
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-26T15:51:33Z",
+      "updatedAt": "2026-09-26T15:51:38Z"
+    },
+    {
+      "name": "EcoBalancer",
+      "repository": "CubeX-MC/EcoBalancer",
+      "url": "https://github.com/CubeX-MC/EcoBalancer",
+      "description": "Brutal punishment toward inactive players of CubeX",
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-26T15:51:25Z",
+      "updatedAt": "2026-09-26T15:51:29Z"
+    },
+    {
+      "name": "Contract",
+      "repository": "CubeX-MC/Contract",
+      "url": "https://github.com/CubeX-MC/Contract",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-26T15:51:20Z",
+      "updatedAt": "2026-09-26T15:51:23Z"
+    },
+    {
+      "name": "MountLicense",
+      "repository": "CubeX-MC/MountLicense",
+      "url": "https://github.com/CubeX-MC/MountLicense",
+      "description": null,
+      "defaultBranch": "main",
+      "pushedAt": "2026-09-26T15:51:15Z",
+      "updatedAt": "2026-09-26T15:51:19Z"
     }
   ]
 }
