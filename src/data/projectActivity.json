@@ -1,14 +1,23 @@
 {
-  "updatedAt": "2026-10-02T02:48:31.273Z",
+  "updatedAt": "2026-10-02T11:27:53.282Z",
   "projects": [
+    {
+      "name": "LetMeSee",
+      "repository": "LetSeries/LetMeSee",
+      "url": "https://github.com/LetSeries/LetMeSee",
+      "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
+      "defaultBranch": "main",
+      "pushedAt": "2026-10-02T11:27:08Z",
+      "updatedAt": "2026-10-02T11:26:18Z"
+    },
     {
       "name": "LetMeAsk",
       "repository": "LetSeries/LetMeAsk",
       "url": "https://github.com/LetSeries/LetMeAsk",
       "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
       "defaultBranch": "main",
-      "pushedAt": "2026-10-02T02:22:06Z",
-      "updatedAt": "2026-10-02T02:22:10Z"
+      "pushedAt": "2026-10-02T11:24:33Z",
+      "updatedAt": "2026-10-02T11:24:36Z"
     },
     {
       "name": "Regions",
@@ -45,15 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-09-26T15:51:25Z",
       "updatedAt": "2026-09-26T15:51:29Z"
-    },
-    {
-      "name": "Contract",
-      "repository": "CubeX-MC/Contract",
-      "url": "https://github.com/CubeX-MC/Contract",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-09-26T15:51:20Z",
-      "updatedAt": "2026-09-26T15:51:23Z"
     }
   ]
 }
