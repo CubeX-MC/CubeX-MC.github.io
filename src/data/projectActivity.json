@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-03T15:18:39.083Z",
+  "updatedAt": "2026-10-03T20:17:00.200Z",
   "projects": [
     {
       "name": "LetMeSee",
@@ -7,8 +7,8 @@
       "url": "https://github.com/LetSeries/LetMeSee",
       "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
       "defaultBranch": "main",
-      "pushedAt": "2026-10-03T14:40:47Z",
-      "updatedAt": "2026-10-03T14:40:00Z"
+      "pushedAt": "2026-10-03T15:26:42Z",
+      "updatedAt": "2026-10-03T15:26:12Z"
     },
     {
       "name": "LetMeAsk",
