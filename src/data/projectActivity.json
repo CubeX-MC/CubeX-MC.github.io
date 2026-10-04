@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-10-04T03:06:00.690Z",
+  "updatedAt": "2026-10-04T11:25:11.929Z",
   "projects": [
+    {
+      "name": "LetMeAsk",
+      "repository": "LetSeries/LetMeAsk",
+      "url": "https://github.com/LetSeries/LetMeAsk",
+      "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
+      "defaultBranch": "main",
+      "pushedAt": "2026-10-04T03:35:30Z",
+      "updatedAt": "2026-10-04T03:35:34Z"
+    },
+    {
+      "name": "LetMeSee",
+      "repository": "LetSeries/LetMeSee",
+      "url": "https://github.com/LetSeries/LetMeSee",
+      "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
+      "defaultBranch": "main",
+      "pushedAt": "2026-10-04T03:34:40Z",
+      "updatedAt": "2026-10-04T03:33:51Z"
+    },
     {
       "name": "Regions",
       "repository": "CubeX-MC/Regions",
@@ -36,24 +54,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-10-04T01:18:22Z",
       "updatedAt": "2026-10-04T01:18:26Z"
-    },
-    {
-      "name": "EcoBalancer",
-      "repository": "CubeX-MC/EcoBalancer",
-      "url": "https://github.com/CubeX-MC/EcoBalancer",
-      "description": "Brutal punishment toward inactive players of CubeX",
-      "defaultBranch": "main",
-      "pushedAt": "2026-10-04T01:18:18Z",
-      "updatedAt": "2026-10-04T01:18:21Z"
-    },
-    {
-      "name": "Contract",
-      "repository": "CubeX-MC/Contract",
-      "url": "https://github.com/CubeX-MC/Contract",
-      "description": null,
-      "defaultBranch": "main",
-      "pushedAt": "2026-10-04T01:18:14Z",
-      "updatedAt": "2026-10-04T01:18:18Z"
     }
   ]
 }
