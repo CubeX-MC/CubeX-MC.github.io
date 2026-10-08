@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-08T12:20:43.024Z",
+  "updatedAt": "2026-10-08T22:33:29.355Z",
   "projects": [
     {
       "name": "LetMeAsk",
@@ -7,8 +7,8 @@
       "url": "https://github.com/LetSeries/LetMeAsk",
       "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
       "defaultBranch": "main",
-      "pushedAt": "2026-10-07T15:42:29Z",
-      "updatedAt": "2026-10-07T15:42:33Z"
+      "pushedAt": "2026-10-08T15:58:50Z",
+      "updatedAt": "2026-10-08T15:58:54Z"
     },
     {
       "name": "LetMeSee",
@@ -16,8 +16,8 @@
       "url": "https://github.com/LetSeries/LetMeSee",
       "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
       "defaultBranch": "main",
-      "pushedAt": "2026-10-07T15:36:36Z",
-      "updatedAt": "2026-10-07T15:36:06Z"
+      "pushedAt": "2026-10-08T15:56:53Z",
+      "updatedAt": "2026-10-08T15:55:38Z"
     },
     {
       "name": "Regions",
