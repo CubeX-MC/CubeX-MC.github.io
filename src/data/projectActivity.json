@@ -1,23 +1,23 @@
 {
-  "updatedAt": "2026-10-10T03:00:30.244Z",
+  "updatedAt": "2026-10-10T11:28:16.133Z",
   "projects": [
-    {
-      "name": "LetMeSee",
-      "repository": "LetSeries/LetMeSee",
-      "url": "https://github.com/LetSeries/LetMeSee",
-      "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
-      "defaultBranch": "main",
-      "pushedAt": "2026-10-09T15:09:34Z",
-      "updatedAt": "2026-10-09T15:08:32Z"
-    },
     {
       "name": "LetMeAsk",
       "repository": "LetSeries/LetMeAsk",
       "url": "https://github.com/LetSeries/LetMeAsk",
       "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
       "defaultBranch": "main",
-      "pushedAt": "2026-10-09T14:22:14Z",
-      "updatedAt": "2026-10-09T14:22:19Z"
+      "pushedAt": "2026-10-10T05:10:34Z",
+      "updatedAt": "2026-10-10T05:10:38Z"
+    },
+    {
+      "name": "LetMeSee",
+      "repository": "LetSeries/LetMeSee",
+      "url": "https://github.com/LetSeries/LetMeSee",
+      "description": "Minecraft服务器插件，使你可以用指令只读任意箱子，绕过Lands和QuickShop",
+      "defaultBranch": "main",
+      "pushedAt": "2026-10-10T04:20:48Z",
+      "updatedAt": "2026-10-10T04:20:05Z"
     },
     {
       "name": "Regions",
