@@ -1,6 +1,15 @@
 {
-  "updatedAt": "2026-10-18T19:46:16.294Z",
+  "updatedAt": "2026-10-19T02:04:33.258Z",
   "projects": [
+    {
+      "name": "LetMeAsk",
+      "repository": "LetSeries/LetMeAsk",
+      "url": "https://github.com/LetSeries/LetMeAsk",
+      "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
+      "defaultBranch": "main",
+      "pushedAt": "2026-10-18T23:00:36Z",
+      "updatedAt": "2026-10-18T23:00:39Z"
+    },
     {
       "name": "LetMeSee",
       "repository": "LetSeries/LetMeSee",
@@ -9,15 +18,6 @@
       "defaultBranch": "main",
       "pushedAt": "2026-10-18T14:50:33Z",
       "updatedAt": "2026-10-18T14:49:44Z"
-    },
-    {
-      "name": "LetMeAsk",
-      "repository": "LetSeries/LetMeAsk",
-      "url": "https://github.com/LetSeries/LetMeAsk",
-      "description": "This is a Minecraft quiz plugin. Players can earn money by answering questions.",
-      "defaultBranch": "main",
-      "pushedAt": "2026-10-17T23:22:26Z",
-      "updatedAt": "2026-10-17T23:22:30Z"
     },
     {
       "name": "Regions",
