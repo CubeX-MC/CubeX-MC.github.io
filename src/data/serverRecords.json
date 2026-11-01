@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-01T15:23:03.099Z",
+  "updatedAt": "2026-11-01T19:49:51.241Z",
   "source": "mcmod.cn + mcsrvstat.us",
   "servers": {
     "cubex-lite": {
@@ -2242,8 +2242,8 @@
         },
         {
           "date": "2026-11-01",
-          "peak": 0,
-          "at": "2026-11-01T01:43:15.573Z",
+          "peak": 1,
+          "at": "2026-11-01T19:49:51.241Z",
           "max": 2026,
           "version": "Leaf 26.2"
         }
